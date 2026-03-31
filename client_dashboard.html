@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard — Career Co-Pilots</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0e17;
+            --surface: #111827;
+            --surface2: #1f2937;
+            --border: rgba(255,255,255,0.06);
+            --cyan: #06b6d4;
+            --green: #22c55e;
+            --yellow: #f59e0b;
+            --red: #ef4444;
+            --purple: #a855f7;
+            --text: #e8eef5;
+            --muted: #8a9ab5;
+            --faint: #374151;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ── Sidebar ── */
+        .layout { display: flex; min-height: 100vh; }
+        .sidebar {
+            width: 240px; flex-shrink: 0;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex; flex-direction: column;
+            position: fixed; top: 0; left: 0; bottom: 0;
+            z-index: 100;
+            transition: transform 0.3s;
+        }
+        .sidebar-logo {
+            padding: 1.5rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 1.1rem; font-weight: 700; color: var(--cyan);
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .sidebar-user {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .user-name { font-weight: 600; font-size: 0.9rem; }
+        .user-plan {
+            display: inline-block; margin-top: 0.3rem;
+            background: rgba(6,182,212,0.15); color: var(--cyan);
+            font-size: 0.72rem; font-weight: 700; padding: 0.15rem 0.5rem;
+            border-radius: 4px; letter-spacing: 0.05em;
+        }
+        .nav { flex: 1; padding: 1rem 0; }
+        .nav-item {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.7rem 1.25rem; cursor: pointer;
+            color: var(--muted); font-size: 0.88rem; font-weight: 500;
+            border-left: 3px solid transparent;
+            transition: all 0.15s;
+        }
+        .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+        .nav-item.active { color: var(--cyan); border-left-color: var(--cyan); background: rgba(6,182,212,0.06); }
+        .nav-icon { font-size: 1.1rem; width: 20px; text-align: center; }
+        .sidebar-footer {
+            padding: 1rem 1.25rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.8rem; color: var(--muted);
+        }
+        .sidebar-footer a { color: var(--muted); text-decoration: none; }
+        .sidebar-footer a:hover { color: var(--cyan); }
+
+        /* ── Main content ── */
+        .main { margin-left: 240px; flex: 1; }
+        .topbar {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 50;
+        }
+        .topbar-title { font-size: 1.1rem; font-weight: 700; }
+        .topbar-right { display: flex; align-items: center; gap: 1rem; }
+        .status-badge {
+            display: flex; align-items: center; gap: 0.4rem;
+            font-size: 0.8rem; font-weight: 600;
+            padding: 0.3rem 0.75rem; border-radius: 20px;
+        }
+        .status-badge.running {
+            background: rgba(34,197,94,0.12); color: var(--green);
+            border: 1px solid rgba(34,197,94,0.2);
+        }
+        .status-badge.idle {
+            background: rgba(139,148,163,0.1); color: var(--muted);
+            border: 1px solid var(--faint);
+        }
+        .pulse { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+        .pulse.live { animation: blink 1.4s infinite; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+        .content { padding: 2rem; max-width: 1200px; }
+
+        /* ── KPI cards ── */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem; margin-bottom: 2rem;
+        }
+        .kpi {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px; padding: 1.25rem;
+            position: relative; overflow: hidden;
+        }
+        .kpi::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 3px;
+        }
+        .kpi.cyan::before { background: var(--cyan); }
+        .kpi.green::before { background: var(--green); }
+        .kpi.yellow::before { background: var(--yellow); }
+        .kpi.purple::before { background: var(--purple); }
+        .kpi.red::before { background: var(--red); }
+        .kpi-label { font-size: 0.78rem; font-weight: 600; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+        .kpi-value { font-size: 2rem; font-weight: 800; margin: 0.3rem 0; }
+        .kpi.cyan .kpi-value { color: var(--cyan); }
+        .kpi.green .kpi-value { color: var(--green); }
+        .kpi.yellow .kpi-value { color: var(--yellow); }
+        .kpi.purple .kpi-value { color: var(--purple); }
+        .kpi.red .kpi-value { color: var(--red); }
+        .kpi-sub { font-size: 0.78rem; color: var(--muted); }
+        .kpi-delta {
+            font-size: 0.75rem; font-weight: 600;
+            padding: 0.15rem 0.4rem; border-radius: 4px;
+            margin-left: 0.4rem;
+        }
+        .kpi-delta.up { background: rgba(34,197,94,0.15); color: var(--green); }
+        .kpi-delta.down { background: rgba(239,68,68,0.15); color: var(--red); }
+
+        /* ── Conversion funnel ── */
+        .funnel-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px; padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 0.85rem; font-weight: 700; color: var(--muted);
+            text-transform: uppercase; letter-spacing: 0.06em;
+            margin-bottom: 1.25rem;
+        }
+        .funnel {
+            display: flex; align-items: flex-end; gap: 0;
+        }
+        .funnel-stage {
+            flex: 1; display: flex; flex-direction: column; align-items: center;
+            position: relative;
+        }
+        .funnel-bar-wrap {
+            width: 100%; display: flex; flex-direction: column; align-items: center;
+            gap: 0.5rem; padding: 0 4px;
+        }
+        .funnel-bar {
+            width: 80%; border-radius: 6px 6px 0 0;
+            transition: height 0.6s ease;
+            position: relative;
+        }
+        .funnel-bar:hover { filter: brightness(1.2); }
+        .funnel-count {
+            font-size: 1.4rem; font-weight: 800;
+        }
+        .funnel-label {
+            font-size: 0.72rem; color: var(--muted); text-align: center; margin-top: 0.4rem;
+        }
+        .funnel-pct {
+            font-size: 0.7rem; font-weight: 600;
+            padding: 0.1rem 0.4rem; border-radius: 4px;
+            margin-top: 0.25rem;
+        }
+        .funnel-arrow {
+            flex-shrink: 0; color: var(--faint); font-size: 1.2rem;
+            align-self: flex-end; padding-bottom: 1.8rem;
+        }
+
+        /* ── Charts row ── */
+        .charts-row {
+            display: grid; grid-template-columns: 2fr 1fr;
+            gap: 1rem; margin-bottom: 2rem;
+        }
+        .chart-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px; padding: 1.5rem;
+        }
+        .chart-wrap { position: relative; height: 220px; }
+
+        /* ── Applications table ── */
+        .table-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px; overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        .table-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .table-search {
+            background: var(--surface2); border: 1px solid var(--faint);
+            border-radius: 8px; color: var(--text);
+            font-family: 'Inter', sans-serif; font-size: 0.85rem;
+            padding: 0.5rem 1rem; outline: none; width: 220px;
+        }
+        .table-search:focus { border-color: var(--cyan); }
+        table { width: 100%; border-collapse: collapse; }
+        thead th {
+            padding: 0.75rem 1.5rem; font-size: 0.75rem; font-weight: 700;
+            color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em;
+            text-align: left; background: rgba(0,0,0,0.2);
+            border-bottom: 1px solid var(--border);
+        }
+        tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+        tbody tr:last-child { border-bottom: none; }
+        tbody tr:hover { background: rgba(255,255,255,0.02); }
+        td { padding: 0.85rem 1.5rem; font-size: 0.85rem; }
+        .company-col { font-weight: 600; }
+        .title-col { color: var(--muted); }
+        .date-col { color: var(--muted); font-size: 0.78rem; }
+        .score-pill {
+            display: inline-block; padding: 0.15rem 0.5rem;
+            border-radius: 6px; font-size: 0.75rem; font-weight: 700;
+        }
+        .result-badge {
+            display: inline-flex; align-items: center; gap: 0.3rem;
+            padding: 0.2rem 0.6rem; border-radius: 20px;
+            font-size: 0.75rem; font-weight: 600;
+        }
+        .result-applied { background: rgba(6,182,212,0.12); color: var(--cyan); border: 1px solid rgba(6,182,212,0.2); }
+        .result-viewed { background: rgba(245,158,11,0.12); color: var(--yellow); border: 1px solid rgba(245,158,11,0.2); }
+        .result-responded { background: rgba(168,85,247,0.12); color: var(--purple); border: 1px solid rgba(168,85,247,0.2); }
+        .result-interview { background: rgba(34,197,94,0.12); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
+        .result-offer { background: rgba(34,197,94,0.2); color: #4ade80; border: 1px solid rgba(34,197,94,0.4); }
+        .result-skipped { background: rgba(139,148,163,0.1); color: var(--muted); border: 1px solid var(--faint); }
+        .load-more {
+            padding: 1rem; text-align: center;
+            border-top: 1px solid var(--border);
+        }
+        .load-more-btn {
+            background: transparent; border: 1px solid var(--faint);
+            color: var(--muted); padding: 0.5rem 1.5rem; border-radius: 8px;
+            cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .load-more-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+
+        /* ── Goal progress ── */
+        .goal-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px; padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .goal-item { margin-bottom: 1.25rem; }
+        .goal-item:last-child { margin-bottom: 0; }
+        .goal-row {
+            display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 0.5rem;
+        }
+        .goal-label { font-size: 0.85rem; font-weight: 500; }
+        .goal-pct { font-size: 0.85rem; font-weight: 700; }
+        .goal-bar-bg {
+            height: 8px; background: var(--surface2);
+            border-radius: 4px; overflow: hidden;
+        }
+        .goal-bar-fill {
+            height: 100%; border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        /* ── Mobile ── */
+        @media (max-width: 900px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main { margin-left: 0; }
+            .charts-row { grid-template-columns: 1fr; }
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+            .content { padding: 1rem; }
+            .topbar { padding: 0.75rem 1rem; }
+        }
+        @media (max-width: 600px) {
+            .kpi-grid { grid-template-columns: 1fr 1fr; }
+            .funnel { overflow-x: auto; }
+        }
+
+        /* ── Empty state ── */
+        .empty-state {
+            padding: 4rem 2rem; text-align: center;
+        }
+        .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+        .empty-title { font-size: 1.1rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
+        .empty-text { color: var(--muted); font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+<div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">🚀 Career Co-Pilots</div>
+        <div class="sidebar-user">
+            <div class="user-name" id="sidebar-name">Loading...</div>
+            <div class="user-plan" id="sidebar-plan">PRO</div>
+        </div>
+        <nav class="nav">
+            <div class="nav-item active" onclick="showPage('overview', this)">
+                <span class="nav-icon">📊</span> Overview
+            </div>
+            <div class="nav-item" onclick="showPage('applications', this)">
+                <span class="nav-icon">📋</span> Applications
+            </div>
+            <div class="nav-item" onclick="showPage('pipeline', this)">
+                <span class="nav-icon">🎯</span> Pipeline
+            </div>
+            <div class="nav-item" onclick="showPage('report', this)">
+                <span class="nav-icon">📈</span> Weekly Report
+            </div>
+            <div class="nav-item" onclick="showPage('preferences', this)">
+                <span class="nav-icon">🎛️</span> Preferences
+            </div>
+            <div class="nav-item" onclick="showPage('settings', this)">
+                <span class="nav-icon">⚙️</span> Account
+            </div>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="/landing">← Back to site</a><br><br>
+            <a href="/client/logout">Sign out</a>
+        </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="main">
+        <div class="topbar">
+            <div class="topbar-title" id="page-title">Overview</div>
+            <div class="topbar-right">
+                <div class="status-badge idle" id="bot-status">
+                    <span class="pulse"></span>
+                    <span id="bot-status-text">Bot Idle</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+
+            <!-- ── Overview page ── -->
+            <div id="page-overview">
+                <!-- KPI cards -->
+                <div class="kpi-grid" id="kpi-grid">
+                    <div class="kpi cyan">
+                        <div class="kpi-label">Total Applied</div>
+                        <div class="kpi-value" id="kpi-applied">—</div>
+                        <div class="kpi-sub">all time</div>
+                    </div>
+                    <div class="kpi green">
+                        <div class="kpi-label">Responses</div>
+                        <div class="kpi-value" id="kpi-responses">—</div>
+                        <div class="kpi-sub" id="kpi-response-rate">response rate</div>
+                    </div>
+                    <div class="kpi yellow">
+                        <div class="kpi-label">Interviews</div>
+                        <div class="kpi-value" id="kpi-interviews">—</div>
+                        <div class="kpi-sub">scheduled or pending</div>
+                    </div>
+                    <div class="kpi purple">
+                        <div class="kpi-label">This Week</div>
+                        <div class="kpi-value" id="kpi-week">—</div>
+                        <div class="kpi-sub">applications sent</div>
+                    </div>
+                    <div class="kpi red">
+                        <div class="kpi-label">Avg Score</div>
+                        <div class="kpi-value" id="kpi-score">—</div>
+                        <div class="kpi-sub">job fit (0–120)</div>
+                    </div>
+                </div>
+
+                <!-- Conversion Funnel -->
+                <div class="funnel-section">
+                    <div class="section-title">Application Funnel</div>
+                    <div class="funnel" id="funnel-chart">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- Charts row -->
+                <div class="charts-row">
+                    <div class="chart-card">
+                        <div class="section-title">Applications Per Day (Last 14 Days)</div>
+                        <div class="chart-wrap">
+                            <canvas id="daily-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="section-title">Results Breakdown</div>
+                        <div class="chart-wrap">
+                            <canvas id="donut-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goal progress -->
+                <div class="goal-section">
+                    <div class="section-title">Weekly Goals</div>
+                    <div id="goals-list">
+                        <div class="goal-item">
+                            <div class="goal-row">
+                                <span class="goal-label">Applications Sent</span>
+                                <span class="goal-pct" id="goal-apps-pct">—</span>
+                            </div>
+                            <div class="goal-bar-bg">
+                                <div class="goal-bar-fill" id="goal-apps-bar" style="background:var(--cyan);width:0%"></div>
+                            </div>
+                        </div>
+                        <div class="goal-item">
+                            <div class="goal-row">
+                                <span class="goal-label">Response Rate Target (15%+)</span>
+                                <span class="goal-pct" id="goal-rate-pct">—</span>
+                            </div>
+                            <div class="goal-bar-bg">
+                                <div class="goal-bar-fill" id="goal-rate-bar" style="background:var(--green);width:0%"></div>
+                            </div>
+                        </div>
+                        <div class="goal-item">
+                            <div class="goal-row">
+                                <span class="goal-label">Avg Job Score Target (70+)</span>
+                                <span class="goal-pct" id="goal-score-pct">—</span>
+                            </div>
+                            <div class="goal-bar-bg">
+                                <div class="goal-bar-fill" id="goal-score-bar" style="background:var(--yellow);width:0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Applications page ── -->
+            <div id="page-applications" style="display:none;">
+                <div class="table-section">
+                    <div class="table-header">
+                        <div class="section-title" style="margin:0;">Recent Applications</div>
+                        <input class="table-search" id="app-search" placeholder="Search company or title…" oninput="filterApps()">
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Company</th>
+                                <th>Role</th>
+                                <th>Score</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="apps-tbody">
+                            <tr><td colspan="5"><div class="empty-state">
+                                <div class="empty-icon">📋</div>
+                                <div class="empty-title">Loading applications…</div>
+                            </div></td></tr>
+                        </tbody>
+                    </table>
+                    <div class="load-more" id="load-more-wrap" style="display:none;">
+                        <button class="load-more-btn" onclick="loadMoreApps()">Load More</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Pipeline page ── -->
+            <div id="page-pipeline" style="display:none;">
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+                    <div id="pipeline-responded" class="table-section" style="margin:0;border-radius:12px;">
+                        <div class="table-header" style="border-color:rgba(168,85,247,0.2);">
+                            <div class="section-title" style="margin:0;color:var(--purple);">💬 Responded</div>
+                            <span id="pipe-responded-count" style="font-weight:700;color:var(--purple);">0</span>
+                        </div>
+                        <div id="pipe-responded-list" style="min-height:80px;padding:0.5rem;"></div>
+                    </div>
+                    <div id="pipeline-interview" class="table-section" style="margin:0;border-radius:12px;">
+                        <div class="table-header" style="border-color:rgba(34,197,94,0.2);">
+                            <div class="section-title" style="margin:0;color:var(--green);">📅 Interviews</div>
+                            <span id="pipe-interview-count" style="font-weight:700;color:var(--green);">0</span>
+                        </div>
+                        <div id="pipe-interview-list" style="min-height:80px;padding:0.5rem;"></div>
+                    </div>
+                    <div id="pipeline-offer" class="table-section" style="margin:0;border-radius:12px;">
+                        <div class="table-header" style="border-color:rgba(34,197,94,0.4);">
+                            <div class="section-title" style="margin:0;color:#4ade80;">🎉 Offers</div>
+                            <span id="pipe-offer-count" style="font-weight:700;color:#4ade80;">0</span>
+                        </div>
+                        <div id="pipe-offer-list" style="min-height:80px;padding:0.5rem;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Weekly Report page ── -->
+            <div id="page-report" style="display:none;">
+                <div class="table-section" style="margin-bottom:1.5rem;">
+                    <div class="table-header">
+                        <div class="section-title" style="margin:0;">Latest Weekly Report</div>
+                        <div id="report-date" style="font-size:0.8rem;color:var(--muted);"></div>
+                    </div>
+                    <div id="report-body" style="padding:1.5rem;">
+                        <div class="empty-state">
+                            <div class="empty-icon">📬</div>
+                            <div class="empty-title">Loading report…</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Preferences page ── -->
+            <div id="page-preferences" style="display:none;">
+                <div class="funnel-section" style="max-width:640px;">
+                    <div class="section-title">Job Search Preferences</div>
+                    <div id="prefs-status" style="display:none;margin-bottom:1rem;padding:.6rem 1rem;border-radius:8px;font-size:.85rem;"></div>
+
+                    <div style="display:grid;gap:1.25rem;">
+                        <div>
+                            <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:block;margin-bottom:.4rem;">Target Job Titles <span style="color:#6b7280;font-weight:400;text-transform:none;letter-spacing:0">(comma-separated)</span></label>
+                            <input id="pref-titles" type="text" style="width:100%;background:var(--surface2);border:1px solid var(--faint);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;padding:.65rem 1rem;outline:none;" placeholder="Project Manager, Senior PM, Program Manager">
+                        </div>
+                        <div>
+                            <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:block;margin-bottom:.4rem;">Target Companies <span style="color:#6b7280;font-weight:400;text-transform:none;letter-spacing:0">(leave blank for all)</span></label>
+                            <input id="pref-companies" type="text" style="width:100%;background:var(--surface2);border:1px solid var(--faint);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;padding:.65rem 1rem;outline:none;" placeholder="Tesla, Google, Nextera Energy">
+                        </div>
+                        <div>
+                            <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:block;margin-bottom:.4rem;">Companies to Skip</label>
+                            <input id="pref-skip-companies" type="text" style="width:100%;background:var(--surface2);border:1px solid var(--faint);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;padding:.65rem 1rem;outline:none;" placeholder="Insight Global, Aerotek, Robert Half">
+                        </div>
+                        <div>
+                            <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:block;margin-bottom:.4rem;">Target Location(s)</label>
+                            <input id="pref-locations" type="text" style="width:100%;background:var(--surface2);border:1px solid var(--faint);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;padding:.65rem 1rem;outline:none;" placeholder="United States">
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                            <div>
+                                <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:block;margin-bottom:.4rem;">Min Salary (USD)</label>
+                                <input id="pref-sal-min" type="number" style="width:100%;background:var(--surface2);border:1px solid var(--faint);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;padding:.65rem 1rem;outline:none;" placeholder="80000" step="5000">
+                            </div>
+                            <div>
+                                <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:block;margin-bottom:.4rem;">Max Salary (USD)</label>
+                                <input id="pref-sal-max" type="number" style="width:100%;background:var(--surface2);border:1px solid var(--faint);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;padding:.65rem 1rem;outline:none;" placeholder="200000" step="5000">
+                            </div>
+                        </div>
+                        <div>
+                            <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:block;margin-bottom:.6rem;">Work Arrangement</label>
+                            <div style="display:flex;gap:.75rem;flex-wrap:wrap;">
+                                <label id="wt-remote-lbl" style="display:flex;align-items:center;gap:.4rem;padding:.5rem 1rem;background:var(--surface2);border:2px solid var(--faint);border-radius:8px;cursor:pointer;font-size:.85rem;transition:all .15s;">
+                                    <input type="radio" name="pref-work-type" value="remote" style="accent-color:var(--cyan)"> 🏠 Remote
+                                </label>
+                                <label id="wt-hybrid-lbl" style="display:flex;align-items:center;gap:.4rem;padding:.5rem 1rem;background:var(--surface2);border:2px solid var(--faint);border-radius:8px;cursor:pointer;font-size:.85rem;transition:all .15s;">
+                                    <input type="radio" name="pref-work-type" value="hybrid" style="accent-color:var(--cyan)"> 🔀 Hybrid
+                                </label>
+                                <label id="wt-any-lbl" style="display:flex;align-items:center;gap:.4rem;padding:.5rem 1rem;background:var(--surface2);border:2px solid var(--faint);border-radius:8px;cursor:pointer;font-size:.85rem;transition:all .15s;">
+                                    <input type="radio" name="pref-work-type" value="any" style="accent-color:var(--cyan)"> 🌐 Any
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:block;margin-bottom:.4rem;">Special Instructions</label>
+                            <textarea id="pref-notes" style="width:100%;background:var(--surface2);border:1px solid var(--faint);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;padding:.65rem 1rem;outline:none;min-height:80px;resize:vertical;" placeholder="Any notes for your co-pilot…"></textarea>
+                        </div>
+
+                        <button onclick="savePreferences()" style="background:var(--cyan);color:#0a0e17;border:none;border-radius:8px;font-family:'Inter',sans-serif;font-size:.9rem;font-weight:700;padding:.8rem 2rem;cursor:pointer;width:fit-content;">
+                            Save Preferences
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Account / Settings page ── -->
+            <div id="page-settings" style="display:none;">
+                <div class="funnel-section">
+                    <div class="section-title">Account</div>
+                    <div id="settings-content" style="color:var(--muted);font-size:0.9rem;">Loading…</div>
+                </div>
+            </div>
+
+        </div><!-- /content -->
+    </div><!-- /main -->
+</div><!-- /layout -->
+
+<script>
+// ── Helpers ──
+const $ = id => document.getElementById(id);
+const fmt = n => n == null ? '—' : Number(n).toLocaleString();
+
+function resultBadge(r) {
+    const map = {
+        applied:   ['result-applied','📤 Applied'],
+        viewed:    ['result-viewed','👁 Viewed'],
+        responded: ['result-responded','💬 Replied'],
+        interview: ['result-interview','📅 Interview'],
+        offer:     ['result-offer','🎉 Offer'],
+        skipped:   ['result-skipped','⏭ Skipped'],
+    };
+    const [cls, label] = map[r] || ['result-skipped', r || 'Unknown'];
+    return `<span class="result-badge ${cls}">${label}</span>`;
+}
+
+function scorePill(s) {
+    s = parseFloat(s) || 0;
+    const color = s >= 80 ? '#22c55e' : s >= 60 ? '#f59e0b' : '#ef4444';
+    return `<span class="score-pill" style="background:${color}22;color:${color}">${s.toFixed(0)}</span>`;
+}
+
+// ── Page routing ──
+let currentPage = 'overview';
+const PAGE_TITLES = {
+    overview:'Overview', applications:'Applications', pipeline:'Pipeline',
+    report:'Weekly Report', preferences:'Preferences', settings:'Account',
+};
+function showPage(name, navEl) {
+    document.querySelectorAll('[id^="page-"]').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    $(`page-${name}`).style.display = 'block';
+    if (navEl) navEl.classList.add('active');
+    $('page-title').textContent = PAGE_TITLES[name] || name;
+    currentPage = name;
+    if (name === 'applications') renderAppsTable();
+    if (name === 'pipeline') renderPipeline();
+    if (name === 'settings') renderSettings();
+    if (name === 'report') loadReport();
+    if (name === 'preferences') loadPreferences();
+}
+
+// ── Data ──
+let allJobs = [];
+let stats = {};
+let displayedApps = 25;
+
+async function loadData() {
+    try {
+        const [s, j] = await Promise.all([
+            fetch('/api/stats').then(r => r.json()),
+            fetch('/api/jobs?per_page=all').then(r => r.json()),
+        ]);
+        stats = s;
+        allJobs = j.jobs || [];
+    } catch (e) {
+        // Demo fallback
+        stats = { total_applied:127, total_week:47, avg_score:74, responses:19, interviews:4 };
+        allJobs = generateDemoJobs();
+    }
+    renderOverview();
+}
+
+function generateDemoJobs() {
+    const titles = ['Project Manager','Senior PM','Project Engineer','Program Manager','Construction Manager'];
+    const companies = ['Nexera Energy','GridWorks','SunBridge','Arcadian Power','Vortex Grid','Meridian EPC'];
+    const results = ['applied','applied','applied','viewed','viewed','responded','interview','skipped'];
+    return Array.from({length:60}, (_,i) => ({
+        title: titles[i % titles.length],
+        company: companies[i % companies.length],
+        score: 55 + Math.floor(Math.random() * 55),
+        result: results[Math.floor(Math.random() * results.length)],
+        date: new Date(Date.now() - i * 86400000 * Math.random() * 2).toISOString().slice(0,10),
+        link: '#',
+    }));
+}
+
+// ── Overview ──
+function renderOverview() {
+    const total = stats.total_applied || allJobs.filter(j => j.result !== 'skipped').length;
+    const responses = stats.responses || allJobs.filter(j => ['responded','interview','offer'].includes(j.result)).length;
+    const interviews = stats.interviews || allJobs.filter(j => ['interview','offer'].includes(j.result)).length;
+    const weekApps = stats.total_week || allJobs.filter(j => {
+        const d = new Date(j.date); const now = new Date();
+        return (now - d) < 7 * 86400000 && j.result !== 'skipped';
+    }).length;
+    const scores = allJobs.map(j => j.score).filter(Boolean);
+    const avgScore = scores.length ? (scores.reduce((a,b) => a+b,0)/scores.length).toFixed(0) : '—';
+    const rateRaw = total ? ((responses/total)*100) : 0;
+    const rate = rateRaw.toFixed(1) + '%';
+
+    $('kpi-applied').textContent = fmt(total);
+    $('kpi-responses').textContent = fmt(responses);
+    $('kpi-response-rate').textContent = rate + ' response rate';
+    $('kpi-interviews').textContent = fmt(interviews);
+    $('kpi-week').textContent = fmt(weekApps);
+    $('kpi-score').textContent = avgScore;
+
+    // sidebar user
+    $('sidebar-name').textContent = stats.client_name || 'My Dashboard';
+    $('sidebar-plan').textContent = (stats.plan || 'PRO').toUpperCase();
+
+    // Bot status
+    if (stats.bot_running) {
+        $('bot-status').className = 'status-badge running';
+        $('bot-status').querySelector('.pulse').classList.add('live');
+        $('bot-status-text').textContent = 'Bot Running';
+    }
+
+    renderFunnel(total, responses, interviews, allJobs.filter(j=>j.result==='offer').length);
+    renderDailyChart();
+    renderDonut();
+    renderGoals(weekApps, rateRaw, parseFloat(avgScore));
+}
+
+function renderFunnel(applied, responded, interview, offer) {
+    const stages = [
+        { label:'Applied', count: applied, color:'var(--cyan)', pct: null },
+        { label:'Responded', count: responded, color:'var(--purple)', pct: applied ? ((responded/applied)*100).toFixed(0)+'%' : '—' },
+        { label:'Interview', count: interview, color:'var(--green)', pct: responded ? ((interview/responded)*100).toFixed(0)+'%' : '—' },
+        { label:'Offer', count: offer, color:'#4ade80', pct: interview ? ((offer/interview)*100).toFixed(0)+'%' : '—' },
+    ];
+    const maxH = 140;
+    const html = stages.map((s, i) => {
+        const h = applied > 0 ? Math.max(20, Math.round((s.count / applied) * maxH)) : maxH/(i+1.5);
+        return `
+            ${i > 0 ? '<div class="funnel-arrow">›</div>' : ''}
+            <div class="funnel-stage">
+                <div class="funnel-bar-wrap">
+                    <div class="funnel-count" style="color:${s.color}">${fmt(s.count)}</div>
+                    <div class="funnel-bar" style="background:${s.color}22;border:2px solid ${s.color}44;height:${h}px;width:85%"></div>
+                </div>
+                <div class="funnel-label">${s.label}</div>
+                ${s.pct ? `<div class="funnel-pct" style="background:${s.color}15;color:${s.color}">${s.pct} conv.</div>` : ''}
+            </div>`;
+    }).join('');
+    $('funnel-chart').innerHTML = html;
+}
+
+function renderDailyChart() {
+    const labels = [], data = [];
+    for (let i = 13; i >= 0; i--) {
+        const d = new Date(); d.setDate(d.getDate() - i);
+        const ds = d.toISOString().slice(0,10);
+        labels.push(ds.slice(5));
+        data.push(allJobs.filter(j => j.date === ds && j.result !== 'skipped').length);
+    }
+    new Chart($('daily-chart'), {
+        type: 'bar',
+        data: { labels, datasets: [{ label: 'Applications', data, backgroundColor: 'rgba(6,182,212,0.4)', borderColor: '#06b6d4', borderWidth: 1, borderRadius: 4 }] },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { ticks: { color: '#6b7280', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' } },
+                y: { ticks: { color: '#6b7280', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' }, beginAtZero: true },
+            },
+        },
+    });
+}
+
+function renderDonut() {
+    const counts = { applied:0, viewed:0, responded:0, interview:0, offer:0, skipped:0 };
+    allJobs.forEach(j => { if (counts[j.result] !== undefined) counts[j.result]++; else counts.skipped++; });
+    new Chart($('donut-chart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Applied','Viewed','Responded','Interview','Offer','Skipped'],
+            datasets: [{ data: Object.values(counts), backgroundColor: ['#06b6d4','#f59e0b','#a855f7','#22c55e','#4ade80','#374151'], borderWidth: 0 }],
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'right', labels: { color: '#8a9ab5', font: { size: 11 }, boxWidth: 12 } },
+            },
+            cutout: '65%',
+        },
+    });
+}
+
+function renderGoals(weekApps, rateRaw, avgScore) {
+    const weekGoal = 100;
+    const rateGoal = 15;
+    const scoreGoal = 70;
+
+    const appsPct = Math.min(100, Math.round((weekApps/weekGoal)*100));
+    const ratePct = Math.min(100, Math.round((rateRaw/rateGoal)*100));
+    const scorePctVal = Math.min(100, Math.round((avgScore/scoreGoal)*100));
+
+    $('goal-apps-pct').textContent = `${weekApps}/${weekGoal}`;
+    $('goal-rate-pct').textContent = `${rateRaw.toFixed(1)}% / ${rateGoal}%`;
+    $('goal-score-pct').textContent = `${avgScore || 0} / ${scoreGoal}`;
+
+    setTimeout(() => {
+        $('goal-apps-bar').style.width = appsPct + '%';
+        $('goal-rate-bar').style.width = ratePct + '%';
+        $('goal-score-bar').style.width = scorePctVal + '%';
+    }, 100);
+}
+
+// ── Applications table ──
+function renderAppsTable(filter = '') {
+    const jobs = filter
+        ? allJobs.filter(j => j.title.toLowerCase().includes(filter) || j.company.toLowerCase().includes(filter))
+        : allJobs;
+
+    const slice = jobs.slice(0, displayedApps);
+    const tbody = $('apps-tbody');
+
+    if (!slice.length) {
+        tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">No applications found</div><div class="empty-text">Try a different search term</div></div></td></tr>`;
+        return;
+    }
+
+    tbody.innerHTML = slice.map(j => `
+        <tr>
+            <td class="company-col">${j.company || '—'}</td>
+            <td class="title-col">${j.title || '—'}</td>
+            <td>${scorePill(j.score)}</td>
+            <td>${resultBadge(j.result)}</td>
+            <td class="date-col">${j.date || '—'}</td>
+        </tr>`).join('');
+
+    $('load-more-wrap').style.display = jobs.length > displayedApps ? 'block' : 'none';
+}
+
+function filterApps() {
+    displayedApps = 25;
+    renderAppsTable($('app-search').value.toLowerCase());
+}
+
+function loadMoreApps() {
+    displayedApps += 25;
+    renderAppsTable($('app-search').value.toLowerCase());
+}
+
+// ── Pipeline ──
+function renderPipeline() {
+    ['responded','interview','offer'].forEach(stage => {
+        const jobs = allJobs.filter(j => j.result === stage);
+        $(`pipe-${stage}-count`).textContent = jobs.length;
+        const listEl = $(`pipe-${stage}-list`);
+        if (!jobs.length) {
+            listEl.innerHTML = `<div class="empty-state" style="padding:1.5rem;"><div class="empty-icon" style="font-size:1.5rem;">📭</div><div class="empty-text">None yet</div></div>`;
+            return;
+        }
+        listEl.innerHTML = jobs.map(j => `
+            <div style="padding:0.75rem;border-bottom:1px solid var(--border);font-size:0.85rem;">
+                <div style="font-weight:600;">${j.company}</div>
+                <div style="color:var(--muted);font-size:0.78rem;">${j.title} · ${j.date}</div>
+            </div>`).join('');
+    });
+}
+
+// ── Settings / Account ──
+function renderSettings() {
+    $('settings-content').innerHTML = `
+        <div style="display:grid;gap:1.5rem;max-width:480px;">
+            <div>
+                <div style="font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.4rem;">Email</div>
+                <div style="color:var(--text);font-size:.9rem;">${stats.client_email || '—'}</div>
+            </div>
+            <div>
+                <div style="font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.4rem;">Plan</div>
+                <div style="color:var(--cyan);font-weight:700;font-size:1rem;">${stats.plan || 'Pro'}</div>
+            </div>
+            <div>
+                <div style="font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.4rem;">Member Since</div>
+                <div style="color:var(--text);font-size:.9rem;">${stats.joined || '—'}</div>
+            </div>
+            <div style="border-top:1px solid var(--border);padding-top:1.25rem;display:grid;gap:.75rem;">
+                <a href="#" onclick="showPage('preferences',null)" style="display:flex;align-items:center;gap:.5rem;color:var(--cyan);font-size:.9rem;text-decoration:none;">
+                    🎛️ Update job preferences →
+                </a>
+                <a href="mailto:support@careercoplilots.io?subject=Support%20Request" style="display:flex;align-items:center;gap:.5rem;color:var(--muted);font-size:.9rem;text-decoration:none;">
+                    ✉️ Contact support
+                </a>
+                <a href="/client/logout" style="display:flex;align-items:center;gap:.5rem;color:var(--muted);font-size:.9rem;text-decoration:none;">
+                    🚪 Sign out
+                </a>
+            </div>
+        </div>`;
+}
+
+// ── Weekly Report ──
+async function loadReport() {
+    const body = $('report-body');
+    const dateEl = $('report-date');
+    body.innerHTML = `<div class="empty-state"><div class="empty-icon">⏳</div><div class="empty-title">Loading report…</div></div>`;
+    try {
+        const data = await fetch('/api/client/report').then(r => r.json());
+        if (data.html) {
+            dateEl.textContent = 'Report date: ' + (data.date || '');
+            // Render the report HTML inside a sandboxed container
+            const wrapper = document.createElement('div');
+            wrapper.style.cssText = 'transform-origin:top left;max-width:100%;overflow:auto;';
+            wrapper.innerHTML = data.html;
+            // Strip any <script> tags for safety
+            wrapper.querySelectorAll('script').forEach(s => s.remove());
+            body.innerHTML = '';
+            body.appendChild(wrapper);
+        } else {
+            body.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">📬</div>
+                    <div class="empty-title">No report yet</div>
+                    <div class="empty-text">Your first weekly report will be sent after your campaign runs for a week.</div>
+                </div>`;
+        }
+    } catch(e) {
+        body.innerHTML = `<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">Could not load report</div></div>`;
+    }
+}
+
+// ── Preferences ──
+let clientProfile = {};
+
+async function loadPreferences() {
+    try {
+        clientProfile = await fetch('/api/client/profile').then(r => r.json());
+        // Populate fields
+        $('pref-titles').value = (clientProfile.target_titles || []).join(', ');
+        $('pref-companies').value = (clientProfile.target_companies || []).join(', ');
+        $('pref-skip-companies').value = (clientProfile.skip_companies || []).join(', ');
+        $('pref-locations').value = (clientProfile.target_locations || []).join(', ');
+        $('pref-sal-min').value = clientProfile.salary_min || '';
+        $('pref-sal-max').value = clientProfile.salary_max || '';
+        $('pref-notes').value = clientProfile.special_instructions || '';
+        const wt = clientProfile.work_type || 'remote';
+        const radio = document.querySelector(`input[name="pref-work-type"][value="${wt}"]`);
+        if (radio) radio.checked = true;
+    } catch(e) { /* silently ignore if not authenticated */ }
+}
+
+async function savePreferences() {
+    const split = str => str.split(',').map(s => s.trim()).filter(Boolean);
+    const updates = {
+        target_titles: split($('pref-titles').value),
+        target_companies: split($('pref-companies').value),
+        skip_companies: split($('pref-skip-companies').value),
+        target_locations: split($('pref-locations').value) || ['United States'],
+        salary_min: parseInt($('pref-sal-min').value) || 0,
+        salary_max: parseInt($('pref-sal-max').value) || 0,
+        work_type: document.querySelector('input[name="pref-work-type"]:checked')?.value || 'remote',
+        special_instructions: $('pref-notes').value.trim(),
+    };
+
+    const statusEl = $('prefs-status');
+    statusEl.style.display = 'block';
+    statusEl.style.background = 'rgba(6,182,212,.1)';
+    statusEl.style.border = '1px solid rgba(6,182,212,.2)';
+    statusEl.style.color = 'var(--cyan)';
+    statusEl.textContent = 'Saving…';
+
+    try {
+        const res = await fetch('/api/client/profile', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(updates),
+        });
+        const data = await res.json();
+        if (data.success) {
+            statusEl.style.background = 'rgba(34,197,94,.1)';
+            statusEl.style.border = '1px solid rgba(34,197,94,.2)';
+            statusEl.style.color = 'var(--green)';
+            statusEl.textContent = '✓ Preferences saved — your config will be updated for the next run.';
+        } else {
+            throw new Error(data.error || 'Save failed');
+        }
+    } catch(e) {
+        statusEl.style.background = 'rgba(239,68,68,.1)';
+        statusEl.style.border = '1px solid rgba(239,68,68,.2)';
+        statusEl.style.color = 'var(--red)';
+        statusEl.textContent = 'Failed to save: ' + e.message;
+    }
+    setTimeout(() => { statusEl.style.display = 'none'; }, 4000);
+}
+
+// ── Init ──
+loadData();
+setInterval(loadData, 60000); // refresh every minute
+</script>
+</body>
+</html>

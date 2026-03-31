@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Started — Career Co-Pilots</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0e17;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: rgba(10,14,23,0.95);
+            border-bottom: 1px solid rgba(6,182,212,0.15);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo { font-size: 1.3rem; font-weight: 700; color: #06b6d4; text-decoration: none; }
+        .back-link { color: #8a9ab5; font-size: 0.9rem; text-decoration: none; }
+        .back-link:hover { color: #06b6d4; }
+
+        /* Progress bar */
+        .progress-bar {
+            background: #111827;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #1f2937;
+        }
+        .progress-steps {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+        .step-dot {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: #1f2937;
+            border: 2px solid #374151;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; font-weight: 600; color: #6b7280;
+            position: relative; z-index: 1; flex-shrink: 0;
+            transition: all 0.3s;
+        }
+        .step-dot.active { background: #06b6d4; border-color: #06b6d4; color: #0a0e17; }
+        .step-dot.done { background: #22c55e; border-color: #22c55e; color: #0a0e17; }
+        .step-line {
+            flex: 1; height: 2px; background: #1f2937;
+            transition: background 0.3s;
+        }
+        .step-line.done { background: #22c55e; }
+        .step-labels {
+            max-width: 600px;
+            margin: 0.5rem auto 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        .step-label { font-size: 0.72rem; color: #6b7280; text-align: center; flex: 1; }
+        .step-label.active { color: #06b6d4; }
+        .step-label.done { color: #22c55e; }
+
+        /* Main layout */
+        main {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 6rem;
+        }
+
+        .form-panel {
+            background: #111827;
+            border: 1px solid rgba(6,182,212,0.15);
+            border-radius: 16px;
+            padding: 2.5rem;
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+        .panel-subtitle {
+            font-size: 0.95rem;
+            color: #8a9ab5;
+            margin-bottom: 2rem;
+        }
+
+        /* Form fields */
+        .field-group { margin-bottom: 1.5rem; }
+        .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #c0cce0;
+            margin-bottom: 0.4rem;
+        }
+        label .required { color: #f87171; margin-left: 2px; }
+        label .hint { font-weight: 400; color: #6b7280; font-size: 0.8rem; margin-left: 4px; }
+
+        input[type="text"], input[type="email"], input[type="tel"],
+        input[type="number"], input[type="url"], select, textarea {
+            width: 100%;
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            padding: 0.7rem 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #06b6d4;
+            box-shadow: 0 0 0 3px rgba(6,182,212,0.1);
+        }
+        input::placeholder, textarea::placeholder { color: #4b5563; }
+        textarea { resize: vertical; min-height: 90px; }
+        select { cursor: pointer; }
+        select option { background: #1f2937; }
+
+        /* Tag input */
+        .tag-container {
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            min-height: 48px;
+            cursor: text;
+            transition: border-color 0.2s;
+        }
+        .tag-container:focus-within { border-color: #06b6d4; box-shadow: 0 0 0 3px rgba(6,182,212,0.1); }
+        .tag {
+            background: rgba(6,182,212,0.15);
+            border: 1px solid rgba(6,182,212,0.3);
+            color: #06b6d4;
+            border-radius: 6px;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.82rem;
+            display: flex; align-items: center; gap: 0.3rem;
+        }
+        .tag-remove { cursor: pointer; opacity: 0.6; font-size: 1rem; line-height: 1; }
+        .tag-remove:hover { opacity: 1; }
+        .tag-input {
+            border: none; background: transparent; color: #e0e0e0;
+            font-size: 0.9rem; outline: none; padding: 0.2rem 0.3rem;
+            font-family: 'Inter', sans-serif; min-width: 120px; flex: 1;
+        }
+        .tag-hint { font-size: 0.78rem; color: #4b5563; margin-top: 0.3rem; }
+
+        /* Salary range */
+        .salary-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0.75rem; }
+        .salary-sep { color: #6b7280; text-align: center; font-size: 0.9rem; }
+
+        /* Radio cards */
+        .radio-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.75rem; }
+        .radio-card input { display: none; }
+        .radio-card label {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 0.4rem; padding: 1rem 0.5rem;
+            background: #1f2937; border: 2px solid #374151; border-radius: 10px;
+            cursor: pointer; font-size: 0.85rem; font-weight: 500; color: #8a9ab5;
+            transition: all 0.2s; text-align: center;
+        }
+        .radio-card label .icon { font-size: 1.4rem; }
+        .radio-card input:checked + label {
+            border-color: #06b6d4; background: rgba(6,182,212,0.08); color: #06b6d4;
+        }
+
+        /* Checkbox cards */
+        .checkbox-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; }
+        .checkbox-card input { display: none; }
+        .checkbox-card label {
+            display: flex; align-items: center; gap: 0.6rem; padding: 0.75rem 1rem;
+            background: #1f2937; border: 2px solid #374151; border-radius: 10px;
+            cursor: pointer; font-size: 0.85rem; font-weight: 500; color: #8a9ab5;
+            transition: all 0.2s;
+        }
+        .checkbox-card input:checked + label {
+            border-color: #22c55e; background: rgba(34,197,94,0.08); color: #22c55e;
+        }
+
+        /* Plan selector */
+        .plan-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .plan-card input { display: none; }
+        .plan-card label {
+            display: block; padding: 1.25rem;
+            background: #1f2937; border: 2px solid #374151; border-radius: 12px;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .plan-card input:checked + label {
+            border-color: #06b6d4; background: rgba(6,182,212,0.08);
+        }
+        .plan-name { font-weight: 700; color: #e0e0e0; margin-bottom: 0.25rem; }
+        .plan-price { font-size: 1.4rem; font-weight: 800; color: #06b6d4; }
+        .plan-price span { font-size: 0.85rem; font-weight: 400; color: #6b7280; }
+        .plan-features { margin-top: 0.75rem; font-size: 0.8rem; color: #8a9ab5; }
+        .plan-features li { list-style: none; padding: 0.15rem 0; }
+        .plan-features li::before { content: "✓  "; color: #22c55e; }
+        .plan-badge {
+            display: inline-block; background: #06b6d4; color: #0a0e17;
+            font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem;
+            border-radius: 4px; margin-left: 0.5rem; vertical-align: middle;
+        }
+
+        /* Section divider */
+        .section-divider {
+            border: none; border-top: 1px solid #1f2937; margin: 2rem 0;
+        }
+        .section-heading {
+            font-size: 1rem; font-weight: 700; color: #06b6d4;
+            margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem;
+        }
+
+        /* File upload */
+        .file-upload {
+            border: 2px dashed #374151; border-radius: 10px;
+            padding: 2rem; text-align: center; cursor: pointer;
+            transition: all 0.2s; position: relative;
+        }
+        .file-upload:hover, .file-upload.drag-over {
+            border-color: #06b6d4; background: rgba(6,182,212,0.05);
+        }
+        .file-upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+        .file-upload-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .file-upload-text { color: #8a9ab5; font-size: 0.9rem; }
+        .file-upload-text strong { color: #06b6d4; }
+        .file-name { color: #22c55e; font-size: 0.85rem; margin-top: 0.5rem; font-weight: 600; }
+
+        /* Buttons */
+        .btn-row { display: flex; gap: 1rem; margin-top: 2rem; }
+        .btn {
+            padding: 0.85rem 2rem; border-radius: 8px; border: none;
+            font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .btn-primary { background: #06b6d4; color: #0a0e17; flex: 1; }
+        .btn-primary:hover { background: #22d3ee; box-shadow: 0 4px 20px rgba(6,182,212,0.3); }
+        .btn-back { background: transparent; color: #8a9ab5; border: 2px solid #374151; padding: 0.85rem 1.5rem; }
+        .btn-back:hover { border-color: #6b7280; color: #e0e0e0; }
+        .btn-submit { background: #22c55e; color: #0a0e17; flex: 1; font-size: 1rem; }
+        .btn-submit:hover { background: #16a34a; box-shadow: 0 4px 20px rgba(34,197,94,0.3); }
+
+        /* Success state */
+        .success-panel {
+            display: none; text-align: center; padding: 3rem 2rem;
+        }
+        .success-icon { font-size: 4rem; margin-bottom: 1rem; }
+        .success-title { font-size: 1.8rem; font-weight: 800; color: #22c55e; margin-bottom: 0.75rem; }
+        .success-text { color: #8a9ab5; font-size: 1rem; line-height: 1.7; margin-bottom: 2rem; }
+        .success-next {
+            background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2);
+            border-radius: 12px; padding: 1.5rem;
+            text-align: left; margin-bottom: 1.5rem;
+        }
+        .success-next h4 { color: #22c55e; font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 600; }
+        .success-next ol { padding-left: 1.5rem; color: #8a9ab5; font-size: 0.9rem; line-height: 2; }
+
+        /* Error message */
+        .field-error { color: #f87171; font-size: 0.8rem; margin-top: 0.3rem; display: none; }
+        input.error, select.error, textarea.error { border-color: #f87171; }
+
+        @media (max-width: 600px) {
+            .field-row { grid-template-columns: 1fr; }
+            .plan-cards { grid-template-columns: 1fr; }
+            .form-panel { padding: 1.5rem; }
+            main { padding: 1.5rem 1rem 4rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/landing" class="logo">🚀 Career Co-Pilots</a>
+        <a href="/landing" class="back-link">← Back to Home</a>
+    </header>
+
+    <!-- Progress -->
+    <div class="progress-bar">
+        <div class="progress-steps">
+            <div class="step-dot active" id="dot-1">1</div>
+            <div class="step-line" id="line-1"></div>
+            <div class="step-dot" id="dot-2">2</div>
+            <div class="step-line" id="line-2"></div>
+            <div class="step-dot" id="dot-3">3</div>
+            <div class="step-line" id="line-3"></div>
+            <div class="step-dot" id="dot-4">4</div>
+        </div>
+        <div class="step-labels">
+            <span class="step-label active" id="label-1">Your Info</span>
+            <span class="step-label" id="label-2">Job Targets</span>
+            <span class="step-label" id="label-3">Preferences</span>
+            <span class="step-label" id="label-4">Plan &amp; Launch</span>
+        </div>
+    </div>
+
+    <main>
+        <div class="form-panel">
+
+            <!-- ═══ STEP 1: Personal Info ═══ -->
+            <div id="step-1">
+                <div class="panel-title">Welcome! Let's set you up.</div>
+                <div class="panel-subtitle">Tell us about yourself so we can build your profile.</div>
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label for="first_name">First Name <span class="required">*</span></label>
+                        <input type="text" id="first_name" name="first_name" placeholder="Brady" required>
+                        <div class="field-error" id="err-first_name">Required</div>
+                    </div>
+                    <div class="field-group">
+                        <label for="last_name">Last Name <span class="required">*</span></label>
+                        <input type="text" id="last_name" name="last_name" placeholder="Gay" required>
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label for="email">Email Address <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                    <div class="field-error" id="err-email">Enter a valid email address</div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="(716) 555-0100">
+                    </div>
+                    <div class="field-group">
+                        <label for="linkedin_url">LinkedIn Profile URL</label>
+                        <input type="url" id="linkedin_url" name="linkedin_url" placeholder="linkedin.com/in/yourname">
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label for="current_title">Current Job Title <span class="required">*</span></label>
+                        <input type="text" id="current_title" name="current_title" placeholder="e.g. Senior Project Manager">
+                    </div>
+                    <div class="field-group">
+                        <label for="years_exp">Years of Experience <span class="required">*</span></label>
+                        <select id="years_exp" name="years_exp">
+                            <option value="">Select...</option>
+                            <option>0–2 years</option>
+                            <option>3–5 years</option>
+                            <option>6–9 years</option>
+                            <option>10–15 years</option>
+                            <option>15+ years</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-primary" onclick="goStep(2)">Continue →</button>
+                </div>
+            </div>
+
+            <!-- ═══ STEP 2: Job Targets ═══ -->
+            <div id="step-2" style="display:none;">
+                <div class="panel-title">What roles are you targeting?</div>
+                <div class="panel-subtitle">We'll build custom LinkedIn searches around these.</div>
+
+                <div class="field-group">
+                    <label>Target Job Titles <span class="required">*</span> <span class="hint">(press Enter to add each)</span></label>
+                    <div class="tag-container" id="titles-container" onclick="document.getElementById('titles-input').focus()">
+                        <input type="text" class="tag-input" id="titles-input" placeholder="e.g. Project Manager">
+                    </div>
+                    <div class="tag-hint">Add up to 8 titles. Press Enter or comma to add.</div>
+                </div>
+
+                <div class="field-group">
+                    <label>Target Industries / Domains <span class="hint">(press Enter to add each)</span></label>
+                    <div class="tag-container" id="industries-container" onclick="document.getElementById('industries-input').focus()">
+                        <input type="text" class="tag-input" id="industries-input" placeholder="e.g. Renewable Energy">
+                    </div>
+                    <div class="tag-hint">Examples: Power Utilities, EPC Construction, FinTech, Healthcare IT</div>
+                </div>
+
+                <div class="field-group">
+                    <label>Target Companies <span class="hint">(optional — we'll prioritize these)</span></label>
+                    <div class="tag-container" id="target-co-container" onclick="document.getElementById('target-co-input').focus()">
+                        <input type="text" class="tag-input" id="target-co-input" placeholder="e.g. Tesla">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Companies to Avoid <span class="hint">(staffing agencies, bad actors, etc.)</span></label>
+                    <div class="tag-container" id="skip-co-container" onclick="document.getElementById('skip-co-input').focus()">
+                        <input type="text" class="tag-input" id="skip-co-input" placeholder="e.g. Insight Global">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Job Keywords to Skip <span class="hint">(if JD contains any of these, skip it)</span></label>
+                    <div class="tag-container" id="skip-kw-container" onclick="document.getElementById('skip-kw-input').focus()">
+                        <input type="text" class="tag-input" id="skip-kw-input" placeholder="e.g. security clearance">
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-back" onclick="goStep(1)">← Back</button>
+                    <button class="btn btn-primary" onclick="goStep(3)">Continue →</button>
+                </div>
+            </div>
+
+            <!-- ═══ STEP 3: Preferences ═══ -->
+            <div id="step-3" style="display:none;">
+                <div class="panel-title">Location &amp; compensation</div>
+                <div class="panel-subtitle">We'll filter out jobs that don't match your criteria.</div>
+
+                <div class="field-group">
+                    <label>Work Arrangement <span class="required">*</span></label>
+                    <div class="radio-cards">
+                        <div class="radio-card">
+                            <input type="radio" name="work_type" id="wt-remote" value="remote" checked>
+                            <label for="wt-remote"><span class="icon">🏠</span>Remote Only</label>
+                        </div>
+                        <div class="radio-card">
+                            <input type="radio" name="work_type" id="wt-hybrid" value="hybrid">
+                            <label for="wt-hybrid"><span class="icon">🔀</span>Hybrid OK</label>
+                        </div>
+                        <div class="radio-card">
+                            <input type="radio" name="work_type" id="wt-onsite" value="onsite">
+                            <label for="wt-onsite"><span class="icon">🏢</span>On-Site</label>
+                        </div>
+                        <div class="radio-card">
+                            <input type="radio" name="work_type" id="wt-any" value="any">
+                            <label for="wt-any"><span class="icon">🌐</span>Any</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Target Location(s) <span class="hint">(city/state or "United States")</span></label>
+                    <div class="tag-container" id="locations-container" onclick="document.getElementById('locations-input').focus()">
+                        <input type="text" class="tag-input" id="locations-input" placeholder="e.g. United States">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Your Current Location <span class="required">*</span></label>
+                    <div class="field-row">
+                        <input type="text" id="city" name="city" placeholder="City">
+                        <input type="text" id="state" name="state" placeholder="State">
+                    </div>
+                </div>
+
+                <hr class="section-divider">
+
+                <div class="field-group">
+                    <label>Target Salary Range (USD / year) <span class="required">*</span></label>
+                    <div class="salary-row">
+                        <div>
+                            <input type="number" id="salary_min" name="salary_min" placeholder="80,000" step="5000" min="0">
+                        </div>
+                        <div class="salary-sep">to</div>
+                        <div>
+                            <input type="number" id="salary_max" name="salary_max" placeholder="200,000" step="5000" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="section-divider">
+
+                <div class="field-group">
+                    <label>Upload Your Resume <span class="required">*</span></label>
+                    <div class="file-upload" id="resume-drop">
+                        <input type="file" id="resume_file" name="resume_file" accept=".pdf,.doc,.docx" onchange="handleFile(this)">
+                        <div class="file-upload-icon">📄</div>
+                        <div class="file-upload-text">
+                            <strong>Click to upload</strong> or drag &amp; drop<br>
+                            PDF, DOC, or DOCX — max 5MB
+                        </div>
+                        <div class="file-name" id="resume-file-name"></div>
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label for="special_instructions">Special Instructions <span class="hint">(optional)</span></label>
+                    <textarea id="special_instructions" name="special_instructions"
+                        placeholder="Any notes for your co-pilot: e.g. 'Prioritize Series B startups', 'I have PMP certification', 'Skip roles requiring TS/SCI clearance'"></textarea>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-back" onclick="goStep(2)">← Back</button>
+                    <button class="btn btn-primary" onclick="goStep(4)">Continue →</button>
+                </div>
+            </div>
+
+            <!-- ═══ STEP 4: Plan & Submit ═══ -->
+            <div id="step-4" style="display:none;">
+                <div class="panel-title">Choose your plan &amp; launch</div>
+                <div class="panel-subtitle">Start with a 7-day free trial. Cancel anytime.</div>
+
+                <div class="field-group">
+                    <div class="plan-cards">
+                        <div class="plan-card">
+                            <input type="radio" name="plan" id="plan-basic" value="basic">
+                            <label for="plan-basic">
+                                <div class="plan-name">Basic</div>
+                                <div class="plan-price">$149<span>/mo</span></div>
+                                <ul class="plan-features">
+                                    <li>120 applications/day</li>
+                                    <li>5 job searches</li>
+                                    <li>Smart scoring</li>
+                                    <li>Weekly email report</li>
+                                </ul>
+                            </label>
+                        </div>
+                        <div class="plan-card">
+                            <input type="radio" name="plan" id="plan-pro" value="pro" checked>
+                            <label for="plan-pro">
+                                <div class="plan-name">Pro <span class="plan-badge">POPULAR</span></div>
+                                <div class="plan-price">$249<span>/mo</span></div>
+                                <ul class="plan-features">
+                                    <li>Unlimited applications</li>
+                                    <li>Unlimited searches</li>
+                                    <li>Resume routing</li>
+                                    <li>Interview tracker</li>
+                                    <li>Monthly strategy call</li>
+                                </ul>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label for="hear_about">How did you hear about us?</label>
+                    <select id="hear_about" name="hear_about">
+                        <option value="">Select...</option>
+                        <option>LinkedIn</option>
+                        <option>Google Search</option>
+                        <option>Friend / Colleague</option>
+                        <option>Reddit</option>
+                        <option>Twitter / X</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div style="background:rgba(6,182,212,0.05);border:1px solid rgba(6,182,212,0.15);border-radius:10px;padding:1.25rem;margin-bottom:1.5rem;">
+                    <div style="font-size:0.82rem;color:#8a9ab5;line-height:1.7;">
+                        By submitting this form you agree to our
+                        <a href="#" style="color:#06b6d4;">Terms of Service</a> and
+                        <a href="#" style="color:#06b6d4;">Privacy Policy</a>.
+                        Your 7-day free trial begins immediately. You will not be charged until day 8.
+                        Cancel anytime from your client dashboard.
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-back" onclick="goStep(3)">← Back</button>
+                    <button class="btn btn-submit" onclick="submitForm()">🚀 Launch My Co-Pilot</button>
+                </div>
+            </div>
+
+            <!-- ═══ SUCCESS ═══ -->
+            <div class="success-panel" id="step-success">
+                <div class="success-icon">🎉</div>
+                <div class="success-title">You're all set!</div>
+                <div class="success-text">
+                    Your Career Co-Pilot is being configured. You'll receive a confirmation email within 5 minutes
+                    with your login credentials and next steps.
+                </div>
+                <div class="success-next">
+                    <h4>WHAT HAPPENS NEXT</h4>
+                    <ol>
+                        <li>Check your email for your client portal login link</li>
+                        <li>We configure your bot using the profile you just submitted</li>
+                        <li>Your first run launches within 24 hours</li>
+                        <li>You start seeing applications in your dashboard in real time</li>
+                    </ol>
+                </div>
+                <a href="/client/dashboard" class="btn btn-primary" style="text-decoration:none;display:inline-block;">
+                    Open My Dashboard →
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+    // ── State ──
+    let currentStep = 1;
+    const tagData = {
+        'titles': [],
+        'industries': [],
+        'target-co': [],
+        'skip-co': [],
+        'skip-kw': [],
+        'locations': [],
+    };
+
+    // ── Step navigation ──
+    function goStep(n) {
+        if (n > currentStep && !validateStep(currentStep)) return;
+        document.getElementById(`step-${currentStep}`).style.display = 'none';
+        document.getElementById(`step-${n}`).style.display = 'block';
+
+        // Update progress dots
+        for (let i = 1; i <= 4; i++) {
+            const dot = document.getElementById(`dot-${i}`);
+            const label = document.getElementById(`label-${i}`);
+            dot.classList.remove('active', 'done');
+            label.classList.remove('active', 'done');
+            if (i < n) { dot.classList.add('done'); dot.textContent = '✓'; label.classList.add('done'); }
+            else if (i === n) { dot.classList.add('active'); dot.textContent = i; label.classList.add('active'); }
+            else { dot.textContent = i; }
+        }
+        for (let i = 1; i <= 3; i++) {
+            const line = document.getElementById(`line-${i}`);
+            line.classList.toggle('done', i < n);
+        }
+
+        currentStep = n;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ── Validation ──
+    function validateStep(step) {
+        if (step === 1) {
+            const fn = document.getElementById('first_name').value.trim();
+            const ln = document.getElementById('last_name').value.trim();
+            const em = document.getElementById('email').value.trim();
+            if (!fn || !ln) { alert('Please enter your first and last name.'); return false; }
+            if (!em || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { alert('Please enter a valid email address.'); return false; }
+        }
+        if (step === 2) {
+            if (tagData['titles'].length === 0) { alert('Please add at least one target job title.'); return false; }
+        }
+        return true;
+    }
+
+    // ── Tag input ──
+    function setupTagInput(prefix) {
+        const input = document.getElementById(`${prefix}-input`);
+        const container = document.getElementById(`${prefix}-container`);
+        if (!input) return;
+
+        function addTag(val) {
+            val = val.trim().replace(/,$/, '').trim();
+            if (!val || tagData[prefix].includes(val)) return;
+            tagData[prefix].push(val);
+            const tag = document.createElement('div');
+            tag.className = 'tag';
+            tag.innerHTML = `<span>${val}</span><span class="tag-remove" onclick="removeTag('${prefix}','${val}')">×</span>`;
+            container.insertBefore(tag, input);
+        }
+
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ',') {
+                e.preventDefault();
+                addTag(this.value);
+                this.value = '';
+            } else if (e.key === 'Backspace' && !this.value && tagData[prefix].length) {
+                const last = tagData[prefix][tagData[prefix].length - 1];
+                removeTag(prefix, last);
+            }
+        });
+        input.addEventListener('blur', function() {
+            if (this.value.trim()) { addTag(this.value); this.value = ''; }
+        });
+    }
+
+    function removeTag(prefix, val) {
+        tagData[prefix] = tagData[prefix].filter(t => t !== val);
+        const container = document.getElementById(`${prefix}-container`);
+        container.querySelectorAll('.tag').forEach(el => {
+            if (el.querySelector('span').textContent === val) el.remove();
+        });
+    }
+
+    // ── File upload ──
+    function handleFile(input) {
+        const nameEl = document.getElementById('resume-file-name');
+        if (input.files && input.files[0]) {
+            nameEl.textContent = '✓ ' + input.files[0].name;
+        }
+    }
+
+    // Drag-and-drop
+    const dropZone = document.getElementById('resume-drop');
+    ['dragenter','dragover'].forEach(e => dropZone.addEventListener(e, ev => { ev.preventDefault(); dropZone.classList.add('drag-over'); }));
+    ['dragleave','drop'].forEach(e => dropZone.addEventListener(e, ev => { ev.preventDefault(); dropZone.classList.remove('drag-over'); }));
+    dropZone.addEventListener('drop', ev => {
+        const file = ev.dataTransfer.files[0];
+        if (file) {
+            document.getElementById('resume_file').files = ev.dataTransfer.files;
+            document.getElementById('resume-file-name').textContent = '✓ ' + file.name;
+        }
+    });
+
+    // ── Submit ──
+    async function submitForm() {
+        const plan = document.querySelector('input[name="plan"]:checked')?.value || 'pro';
+
+        const payload = {
+            first_name: document.getElementById('first_name').value.trim(),
+            last_name: document.getElementById('last_name').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            linkedin_url: document.getElementById('linkedin_url').value.trim(),
+            current_title: document.getElementById('current_title').value.trim(),
+            years_exp: document.getElementById('years_exp').value,
+            target_titles: tagData['titles'],
+            target_industries: tagData['industries'],
+            target_companies: tagData['target-co'],
+            skip_companies: tagData['skip-co'],
+            skip_keywords: tagData['skip-kw'],
+            target_locations: tagData['locations'],
+            work_type: document.querySelector('input[name="work_type"]:checked')?.value || 'remote',
+            city: document.getElementById('city').value.trim(),
+            state: document.getElementById('state').value.trim(),
+            salary_min: document.getElementById('salary_min').value,
+            salary_max: document.getElementById('salary_max').value,
+            special_instructions: document.getElementById('special_instructions').value.trim(),
+            plan: plan,
+            hear_about: document.getElementById('hear_about').value,
+        };
+
+        try {
+            const res = await fetch('/api/onboarding', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+
+            if (res.ok) {
+                // Show success, then redirect to Stripe checkout
+                document.getElementById('step-4').style.display = 'none';
+                document.getElementById('step-success').style.display = 'block';
+                // After 2s redirect to Stripe
+                setTimeout(() => { window.location.href = `/subscribe/${plan}`; }, 2500);
+            } else {
+                alert('Something went wrong. Please try again or contact support.');
+            }
+        } catch (err) {
+            // If server not available, just show success and redirect
+            document.getElementById('step-4').style.display = 'none';
+            document.getElementById('step-success').style.display = 'block';
+            setTimeout(() => { window.location.href = `/subscribe/${plan}`; }, 2500);
+        }
+    }
+
+    // ── Init ──
+    ['titles','industries','target-co','skip-co','skip-kw','locations'].forEach(setupTagInput);
+
+    // Pre-fill plan from URL param
+    const urlPlan = new URLSearchParams(window.location.search).get('plan');
+    if (urlPlan === 'basic') document.getElementById('plan-basic').checked = true;
+    if (urlPlan === 'pro') document.getElementById('plan-pro').checked = true;
+    </script>
+</body>
+</html>

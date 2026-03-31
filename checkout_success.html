@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You're In — Career Co-Pilots</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #07090f;
+      --surface: #0d1117;
+      --border: rgba(6,182,212,.15);
+      --primary: #06b6d4;
+      --primary-dark: #0891b2;
+      --text1: #f0f4ff;
+      --text2: #b8c4d8;
+      --text3: #7a8da8;
+      --green: #22c55e;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text1);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3rem 2.5rem;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+    }
+    .check-circle {
+      width: 80px; height: 80px;
+      background: rgba(34,197,94,.12);
+      border: 2px solid rgba(34,197,94,.4);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem;
+      margin: 0 auto 1.75rem;
+    }
+    h1 { font-size: 1.9rem; font-weight: 800; margin-bottom: .6rem; }
+    .subtitle { font-size: 1.05rem; color: var(--text2); margin-bottom: 2rem; line-height: 1.6; }
+    .steps {
+      background: rgba(6,182,212,.05);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: left;
+      margin-bottom: 2rem;
+    }
+    .steps-title { font-size: .8rem; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 1rem; }
+    .step { display: flex; gap: .75rem; margin-bottom: .9rem; }
+    .step:last-child { margin-bottom: 0; }
+    .step-num {
+      width: 24px; height: 24px; flex-shrink: 0;
+      background: var(--primary); color: var(--bg);
+      border-radius: 50%; font-size: .75rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: .1rem;
+    }
+    .step-text { font-size: .9rem; color: var(--text2); line-height: 1.5; }
+    .step-text strong { color: var(--text1); }
+    .btn {
+      display: inline-block;
+      padding: .85rem 2rem;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: opacity .15s;
+    }
+    .btn:hover { opacity: .88; }
+    .btn-primary { background: var(--primary); color: var(--bg); }
+    .logo { font-size: 1.2rem; font-weight: 700; color: var(--primary); margin-bottom: 2.5rem; }
+    .guarantee { margin-top: 1.25rem; font-size: .8rem; color: var(--text3); }
+  </style>
+</head>
+<body>
+  <div class="logo">Career Co-Pilots</div>
+  <div class="card">
+    <div class="check-circle">✓</div>
+    <h1>You're all set!</h1>
+    <p class="subtitle">
+      Payment confirmed. Your Co-Pilot is being configured and will start
+      working for you within 24 hours.
+    </p>
+
+    <div class="steps">
+      <div class="steps-title">What happens next</div>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>Check your email</strong> — a welcome message with your onboarding link is on its way.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><strong>Complete your profile</strong> — tell us your target roles, salary range, and work preferences so we can tune your search.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><strong>Your Co-Pilot launches</strong> — we start applying to matched roles automatically, typically within one business day.</div>
+      </div>
+    </div>
+
+    <a href="/onboarding" class="btn btn-primary">Complete My Profile →</a>
+    <p class="guarantee">7-day money-back guarantee &middot; Cancel anytime &middot; No contracts</p>
+  </div>
+</body>
+</html>
