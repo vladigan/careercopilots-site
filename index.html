@@ -548,6 +548,325 @@
       transition: opacity .55s ease, transform .55s ease;
     }
     .reveal.visible { opacity: 1; transform: none; }
+    .reveal-left  { opacity: 0; transform: translateX(-48px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal-right { opacity: 0; transform: translateX(48px);  transition: opacity .6s ease, transform .6s ease; }
+    .reveal-left.visible, .reveal-right.visible { opacity: 1; transform: none; }
+
+    /* ── FLOATING JOB TITLE BUBBLES ── */
+    .bubble-field {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+      border-radius: var(--radius-xl);
+    }
+    .job-bubble {
+      position: absolute;
+      background: rgba(15,23,42,0.82);
+      border: 1px solid rgba(245,158,11,0.3);
+      color: var(--amber-l);
+      font-size: .68rem; font-weight: 700;
+      padding: .3rem .75rem; border-radius: 999px;
+      white-space: nowrap;
+      animation: floatBubble var(--dur, 8s) ease-in-out infinite var(--delay, 0s);
+      opacity: 0;
+    }
+    @keyframes floatBubble {
+      0%   { opacity: 0; transform: translateY(20px); }
+      15%  { opacity: 1; }
+      80%  { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-30px) translateX(var(--drift, 0px)); }
+    }
+
+    /* ── PROGRESS RINGS ── */
+    .stat-ring-wrap {
+      position: relative; display: inline-flex;
+      align-items: center; justify-content: center;
+      width: 110px; height: 110px; margin: 0 auto .75rem;
+    }
+    .stat-ring-svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+    .stat-ring-bg  { fill: none; stroke: rgba(245,158,11,0.08); stroke-width: 6; }
+    .stat-ring-fg  {
+      fill: none; stroke: url(#ringGrad); stroke-width: 6;
+      stroke-linecap: round;
+      stroke-dasharray: 283;
+      stroke-dashoffset: 283;
+      transition: stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1);
+    }
+    .stat-ring-fg.animated { stroke-dashoffset: var(--offset, 0); }
+    .stat-ring-inner { position: relative; z-index: 1; text-align: center; }
+
+    /* ── APPLICATION PIPELINE ── */
+    .pipeline-section { padding: 5rem 0; background: var(--bg); }
+    .pipeline-funnel {
+      display: flex; flex-direction: column; align-items: center;
+      gap: .5rem; margin-top: 3rem;
+    }
+    .pipe-row {
+      display: flex; align-items: center; gap: 1.25rem;
+      width: 100%; max-width: 680px;
+    }
+    .pipe-label {
+      width: 110px; text-align: right;
+      font-size: .8rem; font-weight: 700; color: var(--text3);
+      flex-shrink: 0;
+    }
+    .pipe-bar-wrap {
+      flex: 1; background: rgba(255,255,255,0.04);
+      border-radius: 999px; height: 36px;
+      overflow: hidden; position: relative;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .pipe-bar {
+      height: 100%; border-radius: 999px;
+      width: 0; transition: width 1.4s cubic-bezier(.4,0,.2,1);
+      display: flex; align-items: center; justify-content: flex-end;
+      padding-right: .75rem;
+      background: linear-gradient(90deg, var(--amber-d), var(--amber-l));
+      position: relative; overflow: hidden;
+    }
+    .pipe-bar::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent 60%, rgba(255,255,255,0.12));
+    }
+    .pipe-bar.teal-bar { background: linear-gradient(90deg, var(--teal-d), var(--teal-l)); }
+    .pipe-count {
+      font-size: .8rem; font-weight: 800; color: var(--bg);
+      position: relative; z-index: 1; white-space: nowrap;
+    }
+    .pipe-arrow {
+      color: var(--amber); font-size: 1.1rem; margin-left: auto;
+      width: 24px; text-align: center; flex-shrink: 0;
+    }
+    .pipe-connector {
+      width: 2px; height: 18px;
+      background: linear-gradient(180deg, var(--amber), var(--teal));
+      opacity: 0.25; margin-left: calc(110px + 1.25rem + 18px);
+    }
+    @media (max-width: 600px) {
+      .pipe-label { width: 76px; font-size: .72rem; }
+      .pipe-connector { margin-left: calc(76px + 1.25rem + 18px); }
+    }
+
+    /* ── DAY IN YOUR LIFE TIMELINE ── */
+    .daylife-section { padding: 5rem 0; background: var(--bg2); }
+    .daylife-track {
+      position: relative; margin-top: 3rem;
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .daylife-track::before {
+      content: ''; position: absolute;
+      left: 60px; top: 24px; bottom: 24px; width: 2px;
+      background: linear-gradient(180deg, var(--amber), var(--teal));
+      opacity: .25;
+    }
+    @media (max-width: 600px) { .daylife-track::before { left: 36px; } }
+    .dl-item {
+      display: flex; align-items: flex-start; gap: 1.25rem;
+      padding: .9rem 0; opacity: 0; transform: translateX(-20px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .dl-item.fired { opacity: 1; transform: none; }
+    .dl-time {
+      width: 52px; text-align: right; flex-shrink: 0;
+      font-size: .72rem; font-weight: 700; color: var(--amber);
+      padding-top: .3rem; letter-spacing: .04em;
+    }
+    @media (max-width: 600px) { .dl-time { width: 32px; font-size: .65rem; } }
+    .dl-dot-wrap {
+      display: flex; flex-direction: column; align-items: center;
+      flex-shrink: 0; padding-top: .2rem;
+    }
+    .dl-dot {
+      width: 16px; height: 16px; border-radius: 50%;
+      border: 2px solid var(--amber);
+      background: var(--bg2);
+      position: relative; z-index: 1; flex-shrink: 0;
+      box-shadow: 0 0 10px rgba(245,158,11,0.35);
+      transition: background .3s, box-shadow .3s;
+    }
+    .dl-item.fired .dl-dot { background: var(--amber); box-shadow: 0 0 18px rgba(245,158,11,0.6); }
+    .dl-body { flex: 1; padding-bottom: .25rem; }
+    .dl-action { font-size: .93rem; font-weight: 700; color: var(--text); margin-bottom: .2rem; }
+    .dl-detail { font-size: .82rem; color: var(--text3); line-height: 1.55; }
+    .dl-badge {
+      display: inline-flex; align-items: center; gap: .3rem;
+      background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2);
+      color: var(--amber); font-size: .68rem; font-weight: 700;
+      padding: .18rem .6rem; border-radius: 999px; margin-top: .4rem;
+    }
+    .dl-badge.teal {
+      background: rgba(20,184,166,0.08); border-color: rgba(20,184,166,0.2);
+      color: var(--teal-l);
+    }
+
+    /* ── EASY APPLY MOCKUP ── */
+    .easyapply-section { padding: 5rem 0; background: var(--bg); }
+    .easyapply-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3.5rem; align-items: center;
+    }
+    @media (max-width: 860px) {
+      .easyapply-inner { grid-template-columns: 1fr; }
+    }
+    .li-card-mockup {
+      background: #1b2a3e;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px; padding: 1.25rem;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+      position: relative; overflow: hidden;
+    }
+    .li-card-mockup::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 40% at 80% 20%, rgba(245,158,11,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .li-top-bar {
+      display: flex; align-items: center; gap: .5rem;
+      margin-bottom: 1rem; opacity: .45;
+    }
+    .li-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .li-company-row { display: flex; align-items: center; gap: .75rem; margin-bottom: .85rem; }
+    .li-logo {
+      width: 46px; height: 46px; border-radius: 10px; flex-shrink: 0;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; font-weight: 900; color: #fff; letter-spacing: -.03em;
+    }
+    .li-job-title { font-size: .97rem; font-weight: 700; color: #e2e8f0; line-height: 1.3; }
+    .li-company   { font-size: .82rem; color: #94a3b8; }
+    .li-meta { display: flex; gap: .65rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .li-tag {
+      font-size: .7rem; font-weight: 600; color: #64748b;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+      padding: .2rem .6rem; border-radius: 6px;
+    }
+    .li-btn-row { display: flex; gap: .65rem; align-items: center; }
+    .li-easy-btn {
+      background: #0a66c2; color: #fff;
+      font-size: .82rem; font-weight: 700;
+      padding: .5rem 1.1rem; border-radius: 999px;
+      border: none; cursor: pointer; position: relative;
+      overflow: hidden; transition: background .2s;
+    }
+    .li-easy-btn.clicking {
+      animation: btnClick .35s ease;
+    }
+    @keyframes btnClick {
+      0%  { transform: scale(1); }
+      40% { transform: scale(.93); background: #004182; }
+      100%{ transform: scale(1); background: #0a66c2; }
+    }
+    .li-save-btn {
+      background: transparent; color: #94a3b8;
+      font-size: .82rem; font-weight: 600;
+      padding: .5rem 1rem; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12); cursor: pointer;
+    }
+    .li-applied-overlay {
+      position: absolute; inset: 0;
+      background: rgba(14,24,39,0.88);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: .5rem;
+      border-radius: 14px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .4s ease;
+    }
+    .li-applied-overlay.show { opacity: 1; }
+    .li-check-circle {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(20,184,166,0.15); border: 2px solid var(--teal);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; animation: popIn .4s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes popIn {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    .li-applied-text { font-size: .95rem; font-weight: 700; color: var(--teal-l); }
+    .li-applied-sub  { font-size: .78rem; color: var(--text3); }
+    .li-counter {
+      font-size: .78rem; color: var(--text4);
+      text-align: center; margin-top: 1rem;
+    }
+    .li-counter strong { color: var(--amber); }
+    /* cursor animation */
+    .cursor-dot {
+      position: absolute; width: 14px; height: 14px;
+      background: var(--amber-l); border-radius: 50%;
+      pointer-events: none; z-index: 10;
+      box-shadow: 0 0 10px rgba(251,191,36,.7);
+      transition: left .5s cubic-bezier(.4,0,.2,1), top .5s cubic-bezier(.4,0,.2,1);
+      opacity: 0;
+    }
+
+    /* ── SUCCESS MAP ── */
+    .map-section { padding: 5rem 0; background: var(--bg2); }
+    .map-wrapper {
+      position: relative; margin-top: 3rem;
+      background: var(--bg-card); border: 1px solid var(--border-sub);
+      border-radius: var(--radius-xl); overflow: hidden;
+      padding: 2rem;
+    }
+    .map-svg { width: 100%; height: auto; display: block; max-height: 380px; }
+    .map-pin {
+      cursor: default;
+      opacity: 0; transform-origin: center bottom;
+      transition: opacity .4s, transform .4s;
+    }
+    .map-pin.visible { opacity: 1; }
+    .map-pin circle.pulse {
+      animation: mapPulse 2.2s ease-out infinite;
+    }
+    @keyframes mapPulse {
+      0%   { r: 6; opacity: .7; }
+      100% { r: 18; opacity: 0; }
+    }
+    .map-legend {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: .75rem; margin-top: 1.5rem;
+    }
+    .map-leg-item {
+      display: flex; align-items: center; gap: .4rem;
+      font-size: .78rem; color: var(--text3); font-weight: 500;
+    }
+    .map-leg-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    /* ── COMP CARD ENHANCED ICONS ── */
+    .comp-icon-animated {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; position: relative;
+    }
+    .comp-icon-animated.bad  {
+      background: rgba(239,68,68,0.1);
+      animation: stressWobble 2.5s ease-in-out infinite;
+    }
+    .comp-icon-animated.good {
+      background: rgba(20,184,166,0.1);
+      animation: calmPulse 3s ease-in-out infinite;
+    }
+    @keyframes stressWobble {
+      0%,100% { transform: rotate(0deg); }
+      20%  { transform: rotate(-6deg); }
+      40%  { transform: rotate(6deg); }
+      60%  { transform: rotate(-4deg); }
+      80%  { transform: rotate(4deg); }
+    }
+    @keyframes calmPulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(20,184,166,0); }
+      50%  { box-shadow: 0 0 16px 4px rgba(20,184,166,0.22); }
+    }
+    .inbox-anim {
+      position: absolute; top: -6px; right: -6px;
+      width: 18px; height: 18px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .55rem; font-weight: 800; color: var(--bg);
+    }
+    .inbox-anim.empty { background: #ef4444; }
+    .inbox-anim.full  { background: var(--teal); animation: badgePop 2s ease-in-out infinite; }
+    @keyframes badgePop {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.25); }
+    }
   </style>
 </head>
 <body>
@@ -607,6 +926,14 @@
 
       <div class="hero-vis">
         <div class="trajectory-wrapper">
+          <div class="bubble-field" aria-hidden="true">
+            <div class="job-bubble" style="left:8%;bottom:18%;--dur:9s;--delay:0s;--drift:12px">💼 Software Engineer</div>
+            <div class="job-bubble" style="left:52%;bottom:12%;--dur:11s;--delay:2.5s;--drift:-8px">📊 Data Scientist</div>
+            <div class="job-bubble" style="left:28%;bottom:22%;--dur:8s;--delay:5s;--drift:18px">🚀 Product Manager</div>
+            <div class="job-bubble" style="left:68%;bottom:30%;--dur:10s;--delay:1.2s;--drift:-15px">🎨 UX Designer</div>
+            <div class="job-bubble" style="left:14%;bottom:40%;--dur:12s;--delay:3.8s;--drift:6px">⚙️ DevOps Engineer</div>
+            <div class="job-bubble" style="left:74%;bottom:8%;--dur:9.5s;--delay:6.5s;--drift:-10px">📈 Growth Lead</div>
+          </div>
           <div class="traj-label">Your career trajectory ↗</div>
 
           <!-- ANIMATED CAREER PATH SVG -->
@@ -709,21 +1036,54 @@
 <!-- ════════════════════ STATS BAND ════════════════════ -->
 <div class="stats-band">
   <div class="container">
+    <svg width="0" height="0" style="position:absolute">
+      <defs>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#fbbf24"/>
+          <stop offset="100%" stop-color="#ea580c"/>
+        </linearGradient>
+      </defs>
+    </svg>
     <div class="stats-grid">
       <div class="stat">
-        <div class="stat-val">12 Days</div>
+        <div class="stat-ring-wrap" data-offset="42">
+          <svg class="stat-ring-svg" viewBox="0 0 100 100">
+            <circle class="stat-ring-bg" cx="50" cy="50" r="45"/>
+            <circle class="stat-ring-fg" cx="50" cy="50" r="45" data-offset="42"/>
+          </svg>
+          <div class="stat-ring-inner">
+            <div class="stat-val" style="font-size:1.5rem">12</div>
+            <div style="font-size:.6rem;color:var(--text4);font-weight:700">DAYS</div>
+          </div>
+        </div>
         <div class="stat-lbl">To First Interview</div>
         <div class="stat-sub">Average across all clients in 2026</div>
       </div>
       <div class="stat-divider"></div>
       <div class="stat">
-        <div class="stat-val">17.8%</div>
+        <div class="stat-ring-wrap" data-offset="83">
+          <svg class="stat-ring-svg" viewBox="0 0 100 100">
+            <circle class="stat-ring-bg" cx="50" cy="50" r="45"/>
+            <circle class="stat-ring-fg" cx="50" cy="50" r="45" data-offset="83"/>
+          </svg>
+          <div class="stat-ring-inner">
+            <div class="stat-val" style="font-size:1.5rem">17.8%</div>
+          </div>
+        </div>
         <div class="stat-lbl">Response Rate</div>
         <div class="stat-sub">vs. 2–4% industry average</div>
       </div>
       <div class="stat-divider"></div>
       <div class="stat">
-        <div class="stat-val">2,000+</div>
+        <div class="stat-ring-wrap" data-offset="95">
+          <svg class="stat-ring-svg" viewBox="0 0 100 100">
+            <circle class="stat-ring-bg" cx="50" cy="50" r="45"/>
+            <circle class="stat-ring-fg" cx="50" cy="50" r="45" data-offset="95"/>
+          </svg>
+          <div class="stat-ring-inner">
+            <div class="stat-val" style="font-size:1.35rem">2,000+</div>
+          </div>
+        </div>
         <div class="stat-lbl">Applications Sent</div>
         <div class="stat-sub">This month alone</div>
       </div>
@@ -741,9 +1101,12 @@
     </div>
     <div class="comparison-grid">
 
-      <div class="comp-card without reveal">
+      <div class="comp-card without reveal-left">
         <div class="comp-header">
-          <div class="comp-icon bad">😓</div>
+          <div class="comp-icon-animated bad" style="position:relative">
+            😓
+            <div class="inbox-anim empty">0</div>
+          </div>
           <div>
             <div class="comp-title bad">Without Career Co-Pilots</div>
             <div class="comp-subtitle">Doing it alone</div>
@@ -783,9 +1146,12 @@
         </div>
       </div>
 
-      <div class="comp-card with reveal">
+      <div class="comp-card with reveal-right">
         <div class="comp-header">
-          <div class="comp-icon good">✈</div>
+          <div class="comp-icon-animated good" style="position:relative">
+            😌
+            <div class="inbox-anim full">47</div>
+          </div>
           <div>
             <div class="comp-title good">With Career Co-Pilots</div>
             <div class="comp-subtitle">Your AI working overnight</div>
@@ -967,12 +1333,12 @@
     </div>
     <div class="testimonials-grid">
 
-      <div class="t-card reveal">
+      <div class="t-card reveal-left">
         <div class="stars">★★★★★</div>
         <p class="t-quote">"I got 3 interview requests in my first week. My previous record was one per month — and that was after hours of applying every single day."</p>
         <div class="t-result">🏆 Offer accepted in 31 days</div>
         <div class="t-author">
-          <img class="t-avatar" src="https://i.pravatar.cc/150?img=11" alt="Marcus T.">
+          <img class="t-avatar" src="https://i.pravatar.cc/150?img=18" alt="Marcus T.">
           <div>
             <div class="t-name">Marcus T.</div>
             <div class="t-role">Software Engineer → Staff Engineer, $34k raise</div>
@@ -980,12 +1346,12 @@
         </div>
       </div>
 
-      <div class="t-card reveal">
+      <div class="t-card reveal-right">
         <div class="stars">★★★★★</div>
         <p class="t-quote">"I was completely burned out from the job search. Career Co-Pilots gave me my evenings back. I finally had the headspace to actually prepare for interviews."</p>
         <div class="t-result">🏆 Offer accepted in 24 days</div>
         <div class="t-author">
-          <img class="t-avatar" src="https://i.pravatar.cc/150?img=32" alt="Priya L.">
+          <img class="t-avatar" src="https://i.pravatar.cc/150?img=36" alt="Priya L.">
           <div>
             <div class="t-name">Priya L.</div>
             <div class="t-role">Product Manager → Senior PM, 40% salary bump</div>
@@ -993,12 +1359,12 @@
         </div>
       </div>
 
-      <div class="t-card reveal">
+      <div class="t-card reveal-left">
         <div class="stars">★★★★★</div>
         <p class="t-quote">"17 applications in a single week turned into 2 competing final-round offers. I had negotiating leverage I never would've had searching on my own."</p>
         <div class="t-result">🏆 2 competing offers, chose best fit</div>
         <div class="t-author">
-          <img class="t-avatar" src="https://i.pravatar.cc/150?img=48" alt="Jordan S.">
+          <img class="t-avatar" src="https://i.pravatar.cc/150?img=55" alt="Jordan S.">
           <div>
             <div class="t-name">Jordan S.</div>
             <div class="t-role">Data Analyst → Senior Analyst, $18k raise</div>
