@@ -211,10 +211,10 @@
       background: rgba(30,41,59,0.65);
       border: 1px solid var(--border-md);
       border-radius: var(--radius-xl);
-      padding: 1.75rem;
+      padding: 2rem 2rem 1.5rem;
       backdrop-filter: blur(10px);
       box-shadow: var(--shadow-lg), var(--glow-amber);
-      position: relative; overflow: hidden;
+      position: relative; overflow: visible;
     }
     .trajectory-wrapper::after {
       content: '';
@@ -227,7 +227,7 @@
       font-size: .72rem; font-weight: 700; letter-spacing: .1em;
       text-transform: uppercase; color: var(--text4); margin-bottom: 1rem;
     }
-    .traj-svg { width: 100%; height: auto; display: block; }
+    .traj-svg { width: 100%; height: auto; display: block; margin-top: .5rem; }
     .metric-chips {
       display: flex; gap: .6rem; flex-wrap: wrap;
       margin-top: 1.25rem; justify-content: center;
@@ -244,6 +244,15 @@
       background-clip: text;
     }
     .metric-chip-lbl { font-size: .68rem; color: var(--text4); font-weight: 500; }
+    .traj-foot {
+      display: flex; gap: 1.25rem; flex-wrap: wrap;
+      margin-top: 1.25rem; padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .traj-foot-item {
+      font-size: .78rem; color: var(--text4); line-height: 1.5;
+    }
+    .traj-foot-item strong { color: var(--text2); font-weight: 700; }
 
     /* ── STATS BAND ── */
     .stats-band {
@@ -554,25 +563,25 @@
 
     /* ── FLOATING JOB TITLE BUBBLES ── */
     .bubble-field {
-      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+      position: absolute; inset: 0; pointer-events: none; overflow: visible;
       border-radius: var(--radius-xl);
     }
     .job-bubble {
       position: absolute;
-      background: rgba(15,23,42,0.82);
-      border: 1px solid rgba(245,158,11,0.3);
+      background: rgba(15,23,42,0.75);
+      border: 1px solid rgba(245,158,11,0.22);
       color: var(--amber-l);
-      font-size: .68rem; font-weight: 700;
-      padding: .3rem .75rem; border-radius: 999px;
+      font-size: .65rem; font-weight: 600;
+      padding: .28rem .7rem; border-radius: 999px;
       white-space: nowrap;
-      animation: floatBubble var(--dur, 8s) ease-in-out infinite var(--delay, 0s);
+      animation: floatBubble var(--dur, 14s) ease-in-out infinite var(--delay, 0s);
       opacity: 0;
     }
     @keyframes floatBubble {
-      0%   { opacity: 0; transform: translateY(20px); }
-      15%  { opacity: 1; }
-      80%  { opacity: 1; }
-      100% { opacity: 0; transform: translateY(-30px) translateX(var(--drift, 0px)); }
+      0%   { opacity: 0; transform: translateY(8px); }
+      10%  { opacity: 0.75; }
+      75%  { opacity: 0.75; }
+      100% { opacity: 0; transform: translateY(-22px) translateX(var(--drift, 0px)); }
     }
 
     /* ── PROGRESS RINGS ── */
@@ -927,17 +936,13 @@
       <div class="hero-vis">
         <div class="trajectory-wrapper">
           <div class="bubble-field" aria-hidden="true">
-            <div class="job-bubble" style="left:8%;bottom:18%;--dur:9s;--delay:0s;--drift:12px">💼 Software Engineer</div>
-            <div class="job-bubble" style="left:52%;bottom:12%;--dur:11s;--delay:2.5s;--drift:-8px">📊 Data Scientist</div>
-            <div class="job-bubble" style="left:28%;bottom:22%;--dur:8s;--delay:5s;--drift:18px">🚀 Product Manager</div>
-            <div class="job-bubble" style="left:68%;bottom:30%;--dur:10s;--delay:1.2s;--drift:-15px">🎨 UX Designer</div>
-            <div class="job-bubble" style="left:14%;bottom:40%;--dur:12s;--delay:3.8s;--drift:6px">⚙️ DevOps Engineer</div>
-            <div class="job-bubble" style="left:74%;bottom:8%;--dur:9.5s;--delay:6.5s;--drift:-10px">📈 Growth Lead</div>
+            <div class="job-bubble" style="left:6%;top:12%;--dur:14s;--delay:2s;--drift:10px">💼 Software Engineer</div>
+            <div class="job-bubble" style="right:8%;top:18%;--dur:14s;--delay:9s;--drift:-8px">🚀 Product Manager</div>
           </div>
           <div class="traj-label">Your career trajectory ↗</div>
 
           <!-- ANIMATED CAREER PATH SVG -->
-          <svg class="traj-svg" viewBox="0 0 540 240" xmlns="http://www.w3.org/2000/svg">
+          <svg class="traj-svg" viewBox="0 0 540 260" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="pg" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%"   stop-color="#64748b" stop-opacity="0.5"/>
@@ -1012,19 +1017,9 @@
             </circle>
           </svg>
 
-          <div class="metric-chips">
-            <div class="metric-chip">
-              <div class="metric-chip-val">12 days</div>
-              <div class="metric-chip-lbl">Avg. to 1st interview</div>
-            </div>
-            <div class="metric-chip">
-              <div class="metric-chip-val">17.8%</div>
-              <div class="metric-chip-lbl">Response rate</div>
-            </div>
-            <div class="metric-chip">
-              <div class="metric-chip-val">50+</div>
-              <div class="metric-chip-lbl">Apps/day</div>
-            </div>
+          <div class="traj-foot">
+            <span class="traj-foot-item">📅 Avg. first interview: <strong>12 days</strong></span>
+            <span class="traj-foot-item">📨 Up to <strong>50+ apps/day</strong></span>
           </div>
         </div>
       </div>
@@ -1376,6 +1371,269 @@
   </div>
 </section>
 
+<!-- ════════════════════ APPLICATION PIPELINE ════════════════════ -->
+<section class="pipeline-section" id="pipeline">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label">The Numbers</div>
+      <h2 class="section-title">Your application funnel</h2>
+      <p class="section-subtitle">See exactly how volume converts to offers — this is what 30 days of Career Co-Pilots looks like.</p>
+    </div>
+    <div class="pipeline-funnel" id="pipelineFunnel">
+      <div class="pipe-row">
+        <div class="pipe-label">Applied</div>
+        <div class="pipe-bar-wrap">
+          <div class="pipe-bar" data-width="100" style="width:0%">
+            <span class="pipe-count">50 jobs</span>
+          </div>
+        </div>
+        <div class="pipe-arrow">→</div>
+      </div>
+      <div class="pipe-connector"></div>
+      <div class="pipe-row">
+        <div class="pipe-label">Viewed</div>
+        <div class="pipe-bar-wrap">
+          <div class="pipe-bar" data-width="60" style="width:0%">
+            <span class="pipe-count">15 viewed</span>
+          </div>
+        </div>
+        <div class="pipe-arrow">→</div>
+      </div>
+      <div class="pipe-connector"></div>
+      <div class="pipe-row">
+        <div class="pipe-label">Responded</div>
+        <div class="pipe-bar-wrap">
+          <div class="pipe-bar teal-bar" data-width="30" style="width:0%">
+            <span class="pipe-count">5 replied</span>
+          </div>
+        </div>
+        <div class="pipe-arrow">→</div>
+      </div>
+      <div class="pipe-connector"></div>
+      <div class="pipe-row">
+        <div class="pipe-label">Interviews</div>
+        <div class="pipe-bar-wrap">
+          <div class="pipe-bar teal-bar" data-width="16" style="width:0%">
+            <span class="pipe-count">2 scheduled</span>
+          </div>
+        </div>
+        <div class="pipe-arrow">→</div>
+      </div>
+      <div class="pipe-connector"></div>
+      <div class="pipe-row">
+        <div class="pipe-label">🏆 Offer</div>
+        <div class="pipe-bar-wrap">
+          <div class="pipe-bar teal-bar" data-width="8" style="width:0%;background:linear-gradient(90deg,#0d9488,#2dd4bf)">
+            <span class="pipe-count">1 offer ✓</span>
+          </div>
+        </div>
+        <div class="pipe-arrow" style="color:var(--teal-l)">🎉</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ DAY IN YOUR LIFE ════════════════════ -->
+<section class="daylife-section" id="daylife">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label">Behind the Scenes</div>
+      <h2 class="section-title">What your co-pilot does all day</h2>
+      <p class="section-subtitle">While you live your life, here's what's running in the background.</p>
+    </div>
+    <div class="daylife-track" id="daylifeTrack" style="max-width:620px;margin:3rem auto 0">
+      <div class="dl-item">
+        <div class="dl-time">8 AM</div>
+        <div class="dl-dot-wrap"><div class="dl-dot"></div></div>
+        <div class="dl-body">
+          <div class="dl-action">🔍 Scans new job listings</div>
+          <div class="dl-detail">Pulls fresh Easy Apply postings matching your filters. Scores each one against your profile.</div>
+          <div class="dl-badge">~200 jobs reviewed</div>
+        </div>
+      </div>
+      <div class="dl-item">
+        <div class="dl-time">9 AM</div>
+        <div class="dl-dot-wrap"><div class="dl-dot"></div></div>
+        <div class="dl-body">
+          <div class="dl-action">📨 First application batch fires</div>
+          <div class="dl-detail">Fills forms, tailors answers, submits with human-paced timing. Zero copy-paste energy from you.</div>
+          <div class="dl-badge">18 applications sent</div>
+        </div>
+      </div>
+      <div class="dl-item">
+        <div class="dl-time">12 PM</div>
+        <div class="dl-dot-wrap"><div class="dl-dot"></div></div>
+        <div class="dl-body">
+          <div class="dl-action">📬 Checks for recruiter responses</div>
+          <div class="dl-detail">Surfaces any replies, flags hot leads, and queues up your interview prep brief.</div>
+          <div class="dl-badge teal">2 new responses</div>
+        </div>
+      </div>
+      <div class="dl-item">
+        <div class="dl-time">3 PM</div>
+        <div class="dl-dot-wrap"><div class="dl-dot"></div></div>
+        <div class="dl-body">
+          <div class="dl-action">📞 Follow-up wave sent</div>
+          <div class="dl-detail">Politely follows up on applications from 3–5 days ago. Keeps your name top of mind.</div>
+          <div class="dl-badge">12 follow-ups queued</div>
+        </div>
+      </div>
+      <div class="dl-item">
+        <div class="dl-time">6 PM</div>
+        <div class="dl-dot-wrap"><div class="dl-dot"></div></div>
+        <div class="dl-body">
+          <div class="dl-action">📊 Daily summary sent to you</div>
+          <div class="dl-detail">You get a clean report: applications sent, companies that viewed you, interviews booked.</div>
+          <div class="dl-badge teal">47 apps today · 3 responses</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ EASY APPLY MOCKUP ════════════════════ -->
+<section class="easyapply-section" id="easyapply">
+  <div class="container">
+    <div class="easyapply-inner">
+      <div class="reveal">
+        <div class="section-label">In Action</div>
+        <h2 class="section-title">Watch the bot work</h2>
+        <p style="font-size:1rem;color:var(--text2);line-height:1.75;margin-bottom:1.5rem">
+          Your Career Co-Pilots bot browses real LinkedIn listings, identifies Easy Apply jobs that match your criteria, and submits — all with natural human timing so it looks just like you.
+        </p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.75rem">
+          <li style="display:flex;gap:.65rem;align-items:center;font-size:.92rem;color:var(--text2)">
+            <span style="color:var(--teal);font-size:1rem">✓</span> Reads every job description before applying
+          </li>
+          <li style="display:flex;gap:.65rem;align-items:center;font-size:.92rem;color:var(--text2)">
+            <span style="color:var(--teal);font-size:1rem">✓</span> Fills custom fields in your own words
+          </li>
+          <li style="display:flex;gap:.65rem;align-items:center;font-size:.92rem;color:var(--text2)">
+            <span style="color:var(--teal);font-size:1rem">✓</span> Skips roles below your salary floor
+          </li>
+          <li style="display:flex;gap:.65rem;align-items:center;font-size:.92rem;color:var(--text2)">
+            <span style="color:var(--teal);font-size:1rem">✓</span> Logs every application to your dashboard
+          </li>
+        </ul>
+      </div>
+      <div class="reveal" style="position:relative">
+        <div class="li-card-mockup" id="liMockup">
+          <div class="cursor-dot" id="cursorDot"></div>
+          <div class="li-top-bar">
+            <div class="li-dot" style="background:#ef4444"></div>
+            <div class="li-dot" style="background:#f59e0b"></div>
+            <div class="li-dot" style="background:#22c55e"></div>
+            <span style="margin-left:.5rem;font-size:.68rem;color:#475569">linkedin.com/jobs</span>
+          </div>
+          <div class="li-company-row">
+            <div class="li-logo">S</div>
+            <div>
+              <div class="li-job-title">Senior Software Engineer</div>
+              <div class="li-company">Stripe · Remote · $160k–$200k</div>
+            </div>
+          </div>
+          <div class="li-meta">
+            <span class="li-tag">🟢 Actively hiring</span>
+            <span class="li-tag">Easy Apply</span>
+            <span class="li-tag">⏱ Posted 2h ago</span>
+          </div>
+          <div class="li-btn-row">
+            <button class="li-easy-btn" id="liEasyBtn">Easy Apply</button>
+            <button class="li-save-btn">Save</button>
+          </div>
+          <div class="li-counter">Co-Pilot has applied to <strong id="applyCount">0</strong> jobs today</div>
+          <div class="li-applied-overlay" id="liOverlay">
+            <div class="li-check-circle">✓</div>
+            <div class="li-applied-text">Applied!</div>
+            <div class="li-applied-sub">Moving to next match…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ SUCCESS MAP ════════════════════ -->
+<section class="map-section" id="successmap">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label">Client Wins</div>
+      <h2 class="section-title">Where clients are landing jobs</h2>
+      <p class="section-subtitle">Career Co-Pilots clients are getting hired across every major US market.</p>
+    </div>
+    <div class="map-wrapper">
+      <!-- Simplified US outline SVG with job pins -->
+      <svg class="map-svg" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="mapGlow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <!-- US map outline (simplified) -->
+        <path d="M120,180 L95,220 L80,280 L85,340 L100,390 L140,420 L200,440 L260,450 L310,460 L360,460 L400,450 L440,460 L480,455 L520,460 L560,450 L600,445 L640,450 L680,440 L720,430 L760,420 L800,410 L830,380 L850,340 L840,290 L820,240 L800,200 L760,175 L720,165 L680,160 L640,155 L600,150 L560,145 L520,140 L480,138 L440,140 L400,145 L360,148 L320,155 L280,162 L240,168 L200,172 L160,175 Z" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1.5"/>
+        <!-- State grid lines suggestion -->
+        <line x1="120" y1="180" x2="120" y2="440" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+        <line x1="280" y1="162" x2="280" y2="450" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+        <line x1="440" y1="140" x2="440" y2="460" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+        <line x1="600" y1="150" x2="600" y2="445" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+        <line x1="760" y1="175" x2="760" y2="420" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+        <!-- City pins: each group has pulse circle + solid dot + label -->
+        <!-- New York -->
+        <g class="map-pin" data-delay="200">
+          <circle class="pulse" cx="810" cy="210" r="6" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+          <circle cx="810" cy="210" r="6" fill="#f59e0b" filter="url(#mapGlow)"/>
+          <text x="818" y="207" fill="#f59e0b" font-size="11" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">New York</text>
+        </g>
+        <!-- San Francisco -->
+        <g class="map-pin" data-delay="600">
+          <circle class="pulse" cx="130" cy="270" r="6" fill="none" stroke="#14b8a6" stroke-width="1.5"/>
+          <circle cx="130" cy="270" r="6" fill="#14b8a6" filter="url(#mapGlow)"/>
+          <text x="142" y="267" fill="#14b8a6" font-size="11" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">San Francisco</text>
+        </g>
+        <!-- Austin -->
+        <g class="map-pin" data-delay="1000">
+          <circle class="pulse" cx="480" cy="420" r="6" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+          <circle cx="480" cy="420" r="6" fill="#f59e0b" filter="url(#mapGlow)"/>
+          <text x="490" y="417" fill="#f59e0b" font-size="11" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">Austin</text>
+        </g>
+        <!-- Chicago -->
+        <g class="map-pin" data-delay="1400">
+          <circle class="pulse" cx="620" cy="230" r="6" fill="none" stroke="#fbbf24" stroke-width="1.5"/>
+          <circle cx="620" cy="230" r="6" fill="#fbbf24" filter="url(#mapGlow)"/>
+          <text x="630" y="227" fill="#fbbf24" font-size="11" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">Chicago</text>
+        </g>
+        <!-- Seattle -->
+        <g class="map-pin" data-delay="1800">
+          <circle class="pulse" cx="155" cy="165" r="6" fill="none" stroke="#2dd4bf" stroke-width="1.5"/>
+          <circle cx="155" cy="165" r="6" fill="#2dd4bf" filter="url(#mapGlow)"/>
+          <text x="167" y="162" fill="#2dd4bf" font-size="11" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">Seattle</text>
+        </g>
+        <!-- Miami -->
+        <g class="map-pin" data-delay="2200">
+          <circle class="pulse" cx="750" cy="430" r="6" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+          <circle cx="750" cy="430" r="6" fill="#f59e0b" filter="url(#mapGlow)"/>
+          <text x="760" y="427" fill="#f59e0b" font-size="11" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">Miami</text>
+        </g>
+        <!-- Denver -->
+        <g class="map-pin" data-delay="2600">
+          <circle class="pulse" cx="360" cy="280" r="6" fill="none" stroke="#14b8a6" stroke-width="1.5"/>
+          <circle cx="360" cy="280" r="6" fill="#14b8a6" filter="url(#mapGlow)"/>
+          <text x="372" y="277" fill="#14b8a6" font-size="11" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">Denver</text>
+        </g>
+        <!-- Boston -->
+        <g class="map-pin" data-delay="3000">
+          <circle class="pulse" cx="845" cy="190" r="6" fill="none" stroke="#fbbf24" stroke-width="1.5"/>
+          <circle cx="845" cy="190" r="6" fill="#fbbf24" filter="url(#mapGlow)"/>
+          <text x="855" y="187" fill="#fbbf24" font-size="11" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">Boston</text>
+        </g>
+      </svg>
+      <div class="map-legend">
+        <div class="map-leg-item"><div class="map-leg-dot" style="background:var(--amber)"></div> Tech roles</div>
+        <div class="map-leg-item"><div class="map-leg-dot" style="background:var(--teal)"></div> Remote-first</div>
+        <div class="map-leg-item"><div class="map-leg-dot" style="background:var(--amber-l)"></div> Finance &amp; ops</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ════════════════════ TRUST ════════════════════ -->
 <section class="section" id="trust">
   <div class="container text-center">
@@ -1568,13 +1826,13 @@
 </footer>
 
 <script>
-  // Nav scroll
+  // ── Nav scroll
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 40);
   }, { passive: true });
 
-  // FAQ accordion
+  // ── FAQ accordion
   function toggleFaq(btn) {
     const item = btn.closest('.faq-item');
     const isOpen = item.classList.contains('open');
@@ -1582,11 +1840,129 @@
     if (!isOpen) item.classList.add('open');
   }
 
-  // Scroll reveal
+  // ── Generic scroll reveal (reveal, reveal-left, reveal-right)
   const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => io.observe(el));
+
+  // ── Progress rings
+  const ringObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const fg = e.target.querySelector('.stat-ring-fg');
+      if (!fg) return;
+      const pct = parseFloat(fg.dataset.offset) / 100;
+      const circ = 2 * Math.PI * 45; // r=45
+      const offset = circ * (1 - pct);
+      fg.style.setProperty('--offset', offset);
+      fg.classList.add('animated');
+      fg.style.strokeDashoffset = offset;
+      ringObs.unobserve(e.target);
+    });
+  }, { threshold: 0.4 });
+  document.querySelectorAll('.stat-ring-wrap').forEach(el => ringObs.observe(el));
+
+  // ── Pipeline bars
+  const pipeObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.querySelectorAll('.pipe-bar').forEach((bar, i) => {
+        setTimeout(() => { bar.style.width = bar.dataset.width + '%'; }, i * 220);
+      });
+      pipeObs.unobserve(e.target);
+    });
+  }, { threshold: 0.3 });
+  const pipeEl = document.getElementById('pipelineFunnel');
+  if (pipeEl) pipeObs.observe(pipeEl);
+
+  // ── Day-in-life timeline fire
+  const dlObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const items = e.target.querySelectorAll('.dl-item');
+      items.forEach((item, i) => {
+        setTimeout(() => item.classList.add('fired'), i * 350);
+      });
+      dlObs.unobserve(e.target);
+    });
+  }, { threshold: 0.15 });
+  const dlEl = document.getElementById('daylifeTrack');
+  if (dlEl) dlObs.observe(dlEl);
+
+  // ── Easy Apply mockup cursor animation
+  let applyCount = 0;
+  let easyApplyRunning = false;
+  function runEasyApplyAnim() {
+    const mockup  = document.getElementById('liMockup');
+    const btn     = document.getElementById('liEasyBtn');
+    const overlay = document.getElementById('liOverlay');
+    const cursor  = document.getElementById('cursorDot');
+    const counter = document.getElementById('applyCount');
+    if (!mockup || easyApplyRunning) return;
+    easyApplyRunning = true;
+
+    function cycle() {
+      // show cursor at center-right
+      const btnRect = btn.getBoundingClientRect();
+      const wrapRect = mockup.getBoundingClientRect();
+      const cx = btnRect.left - wrapRect.left + btnRect.width / 2;
+      const cy = btnRect.top  - wrapRect.top  + btnRect.height / 2;
+
+      cursor.style.opacity = '1';
+      cursor.style.left = (cx + 60) + 'px';
+      cursor.style.top  = (cy + 40) + 'px';
+
+      // move toward button
+      setTimeout(() => {
+        cursor.style.left = cx + 'px';
+        cursor.style.top  = cy + 'px';
+      }, 600);
+
+      // click
+      setTimeout(() => {
+        btn.classList.add('clicking');
+        overlay.classList.add('show');
+        applyCount++;
+        counter.textContent = applyCount;
+        cursor.style.opacity = '0';
+      }, 1200);
+
+      // reset
+      setTimeout(() => {
+        btn.classList.remove('clicking');
+        overlay.classList.remove('show');
+      }, 2600);
+
+      // loop
+      setTimeout(cycle, 4200);
+    }
+    cycle();
+  }
+
+  const eaObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { runEasyApplyAnim(); eaObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.4 });
+  const eaEl = document.getElementById('liMockup');
+  if (eaEl) eaObs.observe(eaEl);
+
+  // ── Success map pins
+  const mapObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.querySelectorAll('.map-pin').forEach(pin => {
+        const delay = parseInt(pin.dataset.delay) || 0;
+        setTimeout(() => pin.classList.add('visible'), delay);
+      });
+      mapObs.unobserve(e.target);
+    });
+  }, { threshold: 0.2 });
+  const mapEl = document.querySelector('.map-svg');
+  if (mapEl) mapObs.observe(mapEl);
 </script>
 </body>
 </html>

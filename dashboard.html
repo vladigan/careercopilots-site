@@ -1000,7 +1000,7 @@ const VIEW_TITLES = {
   overview:'Dashboard', clients:'All Clients', 'client-detail':'Client Detail',
   'add-client':'New Client', controls:'Launch & Control', activity:'Live Activity',
   log:'Application Log', analytics:'Analytics', screener:'Screener Memory',
-  revenue:'Revenue', settings:'Settings', config:'Config Editor',
+  campaigns:'Campaign Manager', revenue:'Revenue', settings:'Settings', config:'Config Editor',
 };
 
 // ── Navigation ───────────────────────────────────────────
@@ -1499,15 +1499,15 @@ async function testTelegram() {
   try {
     const res = await api('/api/telegram/test', { method: 'POST' });
     if (res && res.success) {
-      toast('✅ Telegram test sent! Check your phone.');
-      appendLog('[Telegram] Test message sent successfully', 'success');
+      toast('✅ Telegram test sent! Check your phone.', 'ok');
+      appendLog('[Telegram] Test message sent successfully', 'ok');
     } else {
       const err = (res && res.error) || 'Unknown error';
-      toast('⚠ Telegram failed: ' + err, 'error');
+      toast('⚠ Telegram failed: ' + err, 'err');
       appendLog('[Telegram] Test failed: ' + err, 'warn');
     }
   } catch(e) {
-    toast('⚠ Telegram error: ' + e, 'error');
+    toast('⚠ Telegram error: ' + e, 'err');
   } finally {
     if (btn) { btn.disabled = false; btn.textContent = '✈ Test Telegram'; }
   }
