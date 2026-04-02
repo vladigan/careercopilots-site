@@ -254,13 +254,7 @@
     }
     .traj-foot-item strong { color: var(--text2); font-weight: 700; }
 
-    /* ── STATS BAND ── */
-    .stats-band {
-      padding: 3.5rem 0;
-      background: var(--bg2);
-      border-top: 1px solid var(--border-sub);
-      border-bottom: 1px solid var(--border-sub);
-    }
+    /* ── STATS ── */
     .stats-grid {
       display: grid; grid-template-columns: 1fr 1px 1fr 1px 1fr;
       gap: 2rem; text-align: center; align-items: center;
@@ -278,42 +272,6 @@
     }
     .stat-lbl { font-size: .95rem; font-weight: 700; color: var(--text2); margin-bottom: .2rem; }
     .stat-sub { font-size: .78rem; color: var(--text4); }
-
-    /* ── COMPARISON ── */
-    .comparison-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 1.5rem; margin-top: 3rem;
-    }
-    @media (max-width: 768px) { .comparison-grid { grid-template-columns: 1fr; } }
-    .comp-card { border-radius: var(--radius-xl); padding: 2rem; border: 1px solid; }
-    .comp-card.without { background: rgba(127,29,29,0.07); border-color: rgba(239,68,68,0.15); }
-    .comp-card.with    { background: rgba(20,184,166,0.04); border-color: rgba(20,184,166,0.2); }
-    .comp-header { display: flex; align-items: center; gap: .75rem; margin-bottom: 1.5rem; }
-    .comp-icon {
-      width: 44px; height: 44px; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
-    }
-    .comp-icon.bad  { background: rgba(239,68,68,0.1); }
-    .comp-icon.good { background: rgba(20,184,166,0.1); }
-    .comp-title { font-size: 1.05rem; font-weight: 700; }
-    .comp-title.bad  { color: #fca5a5; }
-    .comp-title.good { color: var(--teal-l); }
-    .comp-subtitle { font-size: .78rem; color: var(--text4); }
-    .comp-items { display: flex; flex-direction: column; gap: .9rem; }
-    .comp-item { display: flex; gap: .7rem; align-items: flex-start; }
-    .comp-time {
-      font-size: .7rem; font-weight: 700; letter-spacing: .05em;
-      color: var(--text4); white-space: nowrap; min-width: 58px; padding-top: .15rem;
-    }
-    .comp-dot {
-      width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: .65rem; margin-top: .1rem;
-    }
-    .comp-dot.bad  { background: rgba(239,68,68,0.15); color: #f87171; }
-    .comp-dot.good { background: rgba(20,184,166,0.15); color: var(--teal-l); }
-    .comp-text { font-size: .9rem; color: var(--text2); line-height: 1.5; }
-    .comp-text strong { color: var(--text); }
 
     /* ── JOURNEY MAP ── */
     .journey-map { position: relative; margin-top: 3.5rem; }
@@ -364,7 +322,8 @@
       display: grid; grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem; margin-top: 3rem;
     }
-    @media (max-width: 900px) { .features-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 900px) { .features-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+    @media (max-width: 600px) { .features-grid { grid-template-columns: 1fr !important; } }
     .feature-card {
       background: var(--bg-card);
       border: 1px solid var(--border-sub);
@@ -428,19 +387,6 @@
     }
     .t-name { font-size: .9rem; font-weight: 700; color: var(--text); }
     .t-role { font-size: .78rem; color: var(--text3); }
-
-    /* ── TRUST ── */
-    .trust-badges {
-      display: flex; flex-wrap: wrap; justify-content: center;
-      gap: 1rem; margin-top: 2.5rem;
-    }
-    .trust-badge {
-      display: flex; align-items: center; gap: .65rem;
-      background: var(--bg2); border: 1px solid var(--border-sub);
-      border-radius: var(--radius); padding: .85rem 1.4rem;
-      font-size: .88rem; font-weight: 600; color: var(--text2);
-    }
-    .trust-badge span { font-size: 1.2rem; }
 
     /* ── PRICING ── */
     .pricing-grid {
@@ -602,280 +548,6 @@
     .stat-ring-fg.animated { stroke-dashoffset: var(--offset, 0); }
     .stat-ring-inner { position: relative; z-index: 1; text-align: center; }
 
-    /* ── APPLICATION PIPELINE ── */
-    .pipeline-section { padding: 5rem 0; background: var(--bg); }
-    .pipeline-funnel {
-      display: flex; flex-direction: column; align-items: center;
-      gap: .5rem; margin-top: 3rem;
-    }
-    .pipe-row {
-      display: flex; align-items: center; gap: 1.25rem;
-      width: 100%; max-width: 680px;
-    }
-    .pipe-label {
-      width: 110px; text-align: right;
-      font-size: .8rem; font-weight: 700; color: var(--text3);
-      flex-shrink: 0;
-    }
-    .pipe-bar-wrap {
-      flex: 1; background: rgba(255,255,255,0.04);
-      border-radius: 999px; height: 36px;
-      overflow: hidden; position: relative;
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-    .pipe-bar {
-      height: 100%; border-radius: 999px;
-      width: 0; transition: width 1.4s cubic-bezier(.4,0,.2,1);
-      display: flex; align-items: center; justify-content: flex-end;
-      padding-right: .75rem;
-      background: linear-gradient(90deg, var(--amber-d), var(--amber-l));
-      position: relative; overflow: hidden;
-    }
-    .pipe-bar::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(90deg, transparent 60%, rgba(255,255,255,0.12));
-    }
-    .pipe-bar.teal-bar { background: linear-gradient(90deg, var(--teal-d), var(--teal-l)); }
-    .pipe-count {
-      font-size: .8rem; font-weight: 800; color: var(--bg);
-      position: relative; z-index: 1; white-space: nowrap;
-    }
-    .pipe-arrow {
-      color: var(--amber); font-size: 1.1rem; margin-left: auto;
-      width: 24px; text-align: center; flex-shrink: 0;
-    }
-    .pipe-connector {
-      width: 2px; height: 18px;
-      background: linear-gradient(180deg, var(--amber), var(--teal));
-      opacity: 0.25; margin-left: calc(110px + 1.25rem + 18px);
-    }
-    @media (max-width: 600px) {
-      .pipe-label { width: 76px; font-size: .72rem; }
-      .pipe-connector { margin-left: calc(76px + 1.25rem + 18px); }
-    }
-
-    /* ── DAY IN YOUR LIFE TIMELINE ── */
-    .daylife-section { padding: 5rem 0; background: var(--bg2); }
-    .daylife-track {
-      position: relative; margin-top: 3rem;
-      display: flex; flex-direction: column; gap: 0;
-    }
-    .daylife-track::before {
-      content: ''; position: absolute;
-      left: 60px; top: 24px; bottom: 24px; width: 2px;
-      background: linear-gradient(180deg, var(--amber), var(--teal));
-      opacity: .25;
-    }
-    @media (max-width: 600px) { .daylife-track::before { left: 36px; } }
-    .dl-item {
-      display: flex; align-items: flex-start; gap: 1.25rem;
-      padding: .9rem 0; opacity: 0; transform: translateX(-20px);
-      transition: opacity .5s ease, transform .5s ease;
-    }
-    .dl-item.fired { opacity: 1; transform: none; }
-    .dl-time {
-      width: 52px; text-align: right; flex-shrink: 0;
-      font-size: .72rem; font-weight: 700; color: var(--amber);
-      padding-top: .3rem; letter-spacing: .04em;
-    }
-    @media (max-width: 600px) { .dl-time { width: 32px; font-size: .65rem; } }
-    .dl-dot-wrap {
-      display: flex; flex-direction: column; align-items: center;
-      flex-shrink: 0; padding-top: .2rem;
-    }
-    .dl-dot {
-      width: 16px; height: 16px; border-radius: 50%;
-      border: 2px solid var(--amber);
-      background: var(--bg2);
-      position: relative; z-index: 1; flex-shrink: 0;
-      box-shadow: 0 0 10px rgba(245,158,11,0.35);
-      transition: background .3s, box-shadow .3s;
-    }
-    .dl-item.fired .dl-dot { background: var(--amber); box-shadow: 0 0 18px rgba(245,158,11,0.6); }
-    .dl-body { flex: 1; padding-bottom: .25rem; }
-    .dl-action { font-size: .93rem; font-weight: 700; color: var(--text); margin-bottom: .2rem; }
-    .dl-detail { font-size: .82rem; color: var(--text3); line-height: 1.55; }
-    .dl-badge {
-      display: inline-flex; align-items: center; gap: .3rem;
-      background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2);
-      color: var(--amber); font-size: .68rem; font-weight: 700;
-      padding: .18rem .6rem; border-radius: 999px; margin-top: .4rem;
-    }
-    .dl-badge.teal {
-      background: rgba(20,184,166,0.08); border-color: rgba(20,184,166,0.2);
-      color: var(--teal-l);
-    }
-
-    /* ── EASY APPLY MOCKUP ── */
-    .easyapply-section { padding: 5rem 0; background: var(--bg); }
-    .easyapply-inner {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 3.5rem; align-items: center;
-    }
-    @media (max-width: 860px) {
-      .easyapply-inner { grid-template-columns: 1fr; }
-    }
-    .li-card-mockup {
-      background: #1b2a3e;
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 14px; padding: 1.25rem;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
-      position: relative; overflow: hidden;
-    }
-    .li-card-mockup::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse 60% 40% at 80% 20%, rgba(245,158,11,0.06) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .li-top-bar {
-      display: flex; align-items: center; gap: .5rem;
-      margin-bottom: 1rem; opacity: .45;
-    }
-    .li-dot { width: 10px; height: 10px; border-radius: 50%; }
-    .li-company-row { display: flex; align-items: center; gap: .75rem; margin-bottom: .85rem; }
-    .li-logo {
-      width: 46px; height: 46px; border-radius: 10px; flex-shrink: 0;
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem; font-weight: 900; color: #fff; letter-spacing: -.03em;
-    }
-    .li-job-title { font-size: .97rem; font-weight: 700; color: #e2e8f0; line-height: 1.3; }
-    .li-company   { font-size: .82rem; color: #94a3b8; }
-    .li-meta { display: flex; gap: .65rem; flex-wrap: wrap; margin-bottom: 1rem; }
-    .li-tag {
-      font-size: .7rem; font-weight: 600; color: #64748b;
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
-      padding: .2rem .6rem; border-radius: 6px;
-    }
-    .li-btn-row { display: flex; gap: .65rem; align-items: center; }
-    .li-easy-btn {
-      background: #0a66c2; color: #fff;
-      font-size: .82rem; font-weight: 700;
-      padding: .5rem 1.1rem; border-radius: 999px;
-      border: none; cursor: pointer; position: relative;
-      overflow: hidden; transition: background .2s;
-    }
-    .li-easy-btn.clicking {
-      animation: btnClick .35s ease;
-    }
-    @keyframes btnClick {
-      0%  { transform: scale(1); }
-      40% { transform: scale(.93); background: #004182; }
-      100%{ transform: scale(1); background: #0a66c2; }
-    }
-    .li-save-btn {
-      background: transparent; color: #94a3b8;
-      font-size: .82rem; font-weight: 600;
-      padding: .5rem 1rem; border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.12); cursor: pointer;
-    }
-    .li-applied-overlay {
-      position: absolute; inset: 0;
-      background: rgba(14,24,39,0.88);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: .5rem;
-      border-radius: 14px;
-      opacity: 0; pointer-events: none;
-      transition: opacity .4s ease;
-    }
-    .li-applied-overlay.show { opacity: 1; }
-    .li-check-circle {
-      width: 52px; height: 52px; border-radius: 50%;
-      background: rgba(20,184,166,0.15); border: 2px solid var(--teal);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem; animation: popIn .4s cubic-bezier(.34,1.56,.64,1);
-    }
-    @keyframes popIn {
-      from { transform: scale(0); opacity: 0; }
-      to   { transform: scale(1); opacity: 1; }
-    }
-    .li-applied-text { font-size: .95rem; font-weight: 700; color: var(--teal-l); }
-    .li-applied-sub  { font-size: .78rem; color: var(--text3); }
-    .li-counter {
-      font-size: .78rem; color: var(--text4);
-      text-align: center; margin-top: 1rem;
-    }
-    .li-counter strong { color: var(--amber); }
-    /* cursor animation */
-    .cursor-dot {
-      position: absolute; width: 14px; height: 14px;
-      background: var(--amber-l); border-radius: 50%;
-      pointer-events: none; z-index: 10;
-      box-shadow: 0 0 10px rgba(251,191,36,.7);
-      transition: left .5s cubic-bezier(.4,0,.2,1), top .5s cubic-bezier(.4,0,.2,1);
-      opacity: 0;
-    }
-
-    /* ── SUCCESS MAP ── */
-    .map-section { padding: 5rem 0; background: var(--bg2); }
-    .map-wrapper {
-      position: relative; margin-top: 3rem;
-      background: var(--bg-card); border: 1px solid var(--border-sub);
-      border-radius: var(--radius-xl); overflow: hidden;
-      padding: 2rem;
-    }
-    .map-svg { width: 100%; height: auto; display: block; max-height: 380px; }
-    .map-pin {
-      cursor: default;
-      opacity: 0; transform-origin: center bottom;
-      transition: opacity .4s, transform .4s;
-    }
-    .map-pin.visible { opacity: 1; }
-    .map-pin circle.pulse {
-      animation: mapPulse 2.2s ease-out infinite;
-    }
-    @keyframes mapPulse {
-      0%   { r: 6; opacity: .7; }
-      100% { r: 18; opacity: 0; }
-    }
-    .map-legend {
-      display: flex; flex-wrap: wrap; justify-content: center;
-      gap: .75rem; margin-top: 1.5rem;
-    }
-    .map-leg-item {
-      display: flex; align-items: center; gap: .4rem;
-      font-size: .78rem; color: var(--text3); font-weight: 500;
-    }
-    .map-leg-dot { width: 10px; height: 10px; border-radius: 50%; }
-
-    /* ── COMP CARD ENHANCED ICONS ── */
-    .comp-icon-animated {
-      width: 52px; height: 52px; border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.6rem; position: relative;
-    }
-    .comp-icon-animated.bad  {
-      background: rgba(239,68,68,0.1);
-      animation: stressWobble 2.5s ease-in-out infinite;
-    }
-    .comp-icon-animated.good {
-      background: rgba(20,184,166,0.1);
-      animation: calmPulse 3s ease-in-out infinite;
-    }
-    @keyframes stressWobble {
-      0%,100% { transform: rotate(0deg); }
-      20%  { transform: rotate(-6deg); }
-      40%  { transform: rotate(6deg); }
-      60%  { transform: rotate(-4deg); }
-      80%  { transform: rotate(4deg); }
-    }
-    @keyframes calmPulse {
-      0%,100% { box-shadow: 0 0 0 0 rgba(20,184,166,0); }
-      50%  { box-shadow: 0 0 16px 4px rgba(20,184,166,0.22); }
-    }
-    .inbox-anim {
-      position: absolute; top: -6px; right: -6px;
-      width: 18px; height: 18px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: .55rem; font-weight: 800; color: var(--bg);
-    }
-    .inbox-anim.empty { background: #ef4444; }
-    .inbox-anim.full  { background: var(--teal); animation: badgePop 2s ease-in-out infinite; }
-    @keyframes badgePop {
-      0%,100% { transform: scale(1); }
-      50% { transform: scale(1.25); }
-    }
   </style>
 </head>
 <body>
@@ -890,7 +562,7 @@
       </a>
       <ul class="nav-links">
         <li><a href="#how-it-works">How It Works</a></li>
-        <li><a href="#features">Features</a></li>
+        <li><a href="#testimonials">Results</a></li>
         <li><a href="#pricing">Pricing</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ul>
@@ -1025,12 +697,8 @@
       </div>
 
     </div>
-  </div>
-</section>
 
-<!-- ════════════════════ STATS BAND ════════════════════ -->
-<div class="stats-band">
-  <div class="container">
+    <!-- Stats (folded into hero) -->
     <svg width="0" height="0" style="position:absolute">
       <defs>
         <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -1039,7 +707,7 @@
         </linearGradient>
       </defs>
     </svg>
-    <div class="stats-grid">
+    <div class="stats-grid" style="margin-top:3.5rem; padding-top:2.5rem; border-top:1px solid var(--border-sub);">
       <div class="stat">
         <div class="stat-ring-wrap" data-offset="42">
           <svg class="stat-ring-svg" viewBox="0 0 100 100">
@@ -1066,7 +734,7 @@
           </div>
         </div>
         <div class="stat-lbl">Response Rate</div>
-        <div class="stat-sub">vs. 2–4% industry average</div>
+        <div class="stat-sub">vs. 2-4% industry average</div>
       </div>
       <div class="stat-divider"></div>
       <div class="stat">
@@ -1083,110 +751,7 @@
         <div class="stat-sub">This month alone</div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- ════════════════════ COMPARISON ════════════════════ -->
-<section class="section" id="comparison">
-  <div class="container">
-    <div class="text-center">
-      <div class="section-label">The Difference</div>
-      <h2 class="section-title">A day in the life</h2>
-      <p class="section-subtitle">See what changes when you stop doing this alone.</p>
-    </div>
-    <div class="comparison-grid">
-
-      <div class="comp-card without reveal-left">
-        <div class="comp-header">
-          <div class="comp-icon-animated bad" style="position:relative">
-            😓
-            <div class="inbox-anim empty">0</div>
-          </div>
-          <div>
-            <div class="comp-title bad">Without Career Co-Pilots</div>
-            <div class="comp-subtitle">Doing it alone</div>
-          </div>
-        </div>
-        <div class="comp-items">
-          <div class="comp-item">
-            <span class="comp-time">6:00 AM</span>
-            <div class="comp-dot bad">✗</div>
-            <div class="comp-text">Wake up anxious. Open job boards immediately. Scroll for 45 minutes.</div>
-          </div>
-          <div class="comp-item">
-            <span class="comp-time">8:00 AM</span>
-            <div class="comp-dot bad">✗</div>
-            <div class="comp-text">Start filling out application #7. <strong>Same 15 fields. Again.</strong> Copy-paste cover letter.</div>
-          </div>
-          <div class="comp-item">
-            <span class="comp-time">12:00 PM</span>
-            <div class="comp-dot bad">✗</div>
-            <div class="comp-text">Refresh inbox. Nothing. Check LinkedIn. Also nothing.</div>
-          </div>
-          <div class="comp-item">
-            <span class="comp-time">3:00 PM</span>
-            <div class="comp-dot bad">✗</div>
-            <div class="comp-text">Rewrite resume for the 4th time this week. Still unsure if it's good enough.</div>
-          </div>
-          <div class="comp-item">
-            <span class="comp-time">7:00 PM</span>
-            <div class="comp-dot bad">✗</div>
-            <div class="comp-text"><strong>2 applications submitted.</strong> Exhausted. Family dinner missed again.</div>
-          </div>
-          <div class="comp-item">
-            <span class="comp-time">10:00 PM</span>
-            <div class="comp-dot bad">✗</div>
-            <div class="comp-text">Read "how to job search" articles instead of sleeping. Set alarm for 6am.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="comp-card with reveal-right">
-        <div class="comp-header">
-          <div class="comp-icon-animated good" style="position:relative">
-            😌
-            <div class="inbox-anim full">47</div>
-          </div>
-          <div>
-            <div class="comp-title good">With Career Co-Pilots</div>
-            <div class="comp-subtitle">Your AI working overnight</div>
-          </div>
-        </div>
-        <div class="comp-items">
-          <div class="comp-item">
-            <span class="comp-time">6:00 AM</span>
-            <div class="comp-dot good">✓</div>
-            <div class="comp-text">Wake up. <strong>47 applications sent overnight.</strong> 2 interview requests already in inbox.</div>
-          </div>
-          <div class="comp-item">
-            <span class="comp-time">8:00 AM</span>
-            <div class="comp-dot good">✓</div>
-            <div class="comp-text">Reply to recruiters. Schedule two calls. Co-Pilot sends 18 more while you shower.</div>
-          </div>
-          <div class="comp-item">
-            <span class="comp-time">12:00 PM</span>
-            <div class="comp-dot good">✓</div>
-            <div class="comp-text">Lunch without a laptop. <strong>23 more applications go out</strong> while you eat.</div>
-          </div>
-          <div class="comp-item">
-            <span class="comp-time">3:00 PM</span>
-            <div class="comp-dot good">✓</div>
-            <div class="comp-text">Interview prep for tomorrow's call. Research the company. Feel prepared.</div>
-          </div>
-          <div class="comp-item">
-            <span class="comp-time">7:00 PM</span>
-            <div class="comp-dot good">✓</div>
-            <div class="comp-text">Dinner with family. <strong>No laptop at the table.</strong> Co-Pilot keeps working.</div>
-          </div>
-          <div class="comp-item">
-            <span class="comp-time">10:00 PM</span>
-            <div class="comp-dot good">✓</div>
-            <div class="comp-text">Sleep knowing 60+ applications go out tonight. Wake up to more interview invites.</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
   </div>
 </section>
 
@@ -1259,62 +824,42 @@
 
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ════════════════════ FEATURES ════════════════════ -->
-<section class="section" id="features">
-  <div class="container">
-    <div class="text-center">
-      <div class="section-label">What We Do</div>
-      <h2 class="section-title">Built for humans, not job hunters</h2>
-      <p class="section-subtitle">Every feature was designed around one question: how do we take this completely off your plate?</p>
+    <!-- Key Features (merged into How It Works) -->
+    <div style="margin-top:4rem; padding-top:3rem; border-top:1px solid var(--border-sub);">
+      <div class="text-center" style="margin-bottom:2rem;">
+        <div class="section-label">What Powers It</div>
+        <h3 class="section-title" style="font-size:clamp(1.5rem,3vw,2.1rem)">Built for humans, not job hunters</h3>
+      </div>
+      <div class="features-grid" style="grid-template-columns: repeat(4, 1fr);">
+
+        <div class="feature-card reveal">
+          <div class="feature-illus">🔍</div>
+          <div class="feature-title">Smart Job Matching</div>
+          <div class="feature-desc">AI reads every job description against your profile. No irrelevant roles — only positions where you genuinely fit.</div>
+        </div>
+
+        <div class="feature-card reveal">
+          <div class="feature-illus">📨</div>
+          <div class="feature-title">Auto-Apply Engine</div>
+          <div class="feature-desc">Fills forms, tailors responses, and submits with natural timing patterns. Up to 50+ per day, around the clock.</div>
+        </div>
+
+        <div class="feature-card reveal">
+          <div class="feature-illus">🔔</div>
+          <div class="feature-title">Real-Time Alerts</div>
+          <div class="feature-desc">Get notified the moment a recruiter responds. We surface the most promising opportunities first.</div>
+        </div>
+
+        <div class="feature-card reveal">
+          <div class="feature-illus">📊</div>
+          <div class="feature-title">Live Dashboard</div>
+          <div class="feature-desc">See exactly what your co-pilot applied to, which companies responded, and where you stand — always up to date.</div>
+        </div>
+
+      </div>
     </div>
-    <div class="features-grid">
 
-      <div class="feature-card reveal">
-        <div class="feature-illus">🔍</div>
-        <div class="feature-title">Smart Job Matching</div>
-        <div class="feature-desc">Our AI reads every job description against your profile, experience, and preferences. No irrelevant roles — only positions where you genuinely fit and would thrive.</div>
-        <div class="feature-tag">⚡ Match score per role</div>
-      </div>
-
-      <div class="feature-card reveal">
-        <div class="feature-illus">📨</div>
-        <div class="feature-title">Auto-Apply Engine</div>
-        <div class="feature-desc">Fills forms, tailors responses, and submits with natural timing patterns — so it looks exactly like you applied. Up to 50+ per day, around the clock.</div>
-        <div class="feature-tag">⏱ Human-paced sending</div>
-      </div>
-
-      <div class="feature-card reveal">
-        <div class="feature-illus">🔔</div>
-        <div class="feature-title">Real-Time Alerts</div>
-        <div class="feature-desc">Get notified the moment a recruiter responds. We surface the most promising opportunities first so you never miss a hot lead buried in your inbox.</div>
-        <div class="feature-tag">📲 Instant notifications</div>
-      </div>
-
-      <div class="feature-card reveal">
-        <div class="feature-illus">📊</div>
-        <div class="feature-title">Live Dashboard</div>
-        <div class="feature-desc">See exactly what your co-pilot applied to, which companies responded, and where you stand in each process — clean, clear, and always up to date.</div>
-        <div class="feature-tag">👁 Full transparency</div>
-      </div>
-
-      <div class="feature-card reveal">
-        <div class="feature-illus">🎯</div>
-        <div class="feature-title">Profile Optimization</div>
-        <div class="feature-desc">We analyze your LinkedIn and resume for keyword gaps and missed opportunities. Our strategists give you specific recommendations before you go live.</div>
-        <div class="feature-tag">✏️ Expert review included</div>
-      </div>
-
-      <div class="feature-card reveal">
-        <div class="feature-illus">🤝</div>
-        <div class="feature-title">Dedicated Strategist</div>
-        <div class="feature-desc">Pro plan includes a human career strategist — available for weekly check-ins, interview coaching, and helping you negotiate the best possible offer.</div>
-        <div class="feature-tag">👤 Pro plan only</div>
-      </div>
-
-    </div>
   </div>
 </section>
 
@@ -1371,284 +916,6 @@
   </div>
 </section>
 
-<!-- ════════════════════ APPLICATION PIPELINE ════════════════════ -->
-<section class="pipeline-section" id="pipeline">
-  <div class="container">
-    <div class="text-center">
-      <div class="section-label">The Numbers</div>
-      <h2 class="section-title">Your application funnel</h2>
-      <p class="section-subtitle">See exactly how volume converts to offers — this is what 30 days of Career Co-Pilots looks like.</p>
-    </div>
-    <div class="pipeline-funnel" id="pipelineFunnel">
-      <div class="pipe-row">
-        <div class="pipe-label">Applied</div>
-        <div class="pipe-bar-wrap">
-          <div class="pipe-bar" data-width="100" style="width:0%">
-            <span class="pipe-count">50 jobs</span>
-          </div>
-        </div>
-        <div class="pipe-arrow">→</div>
-      </div>
-      <div class="pipe-connector"></div>
-      <div class="pipe-row">
-        <div class="pipe-label">Viewed</div>
-        <div class="pipe-bar-wrap">
-          <div class="pipe-bar" data-width="60" style="width:0%">
-            <span class="pipe-count">15 viewed</span>
-          </div>
-        </div>
-        <div class="pipe-arrow">→</div>
-      </div>
-      <div class="pipe-connector"></div>
-      <div class="pipe-row">
-        <div class="pipe-label">Responded</div>
-        <div class="pipe-bar-wrap">
-          <div class="pipe-bar teal-bar" data-width="30" style="width:0%">
-            <span class="pipe-count">5 replied</span>
-          </div>
-        </div>
-        <div class="pipe-arrow">→</div>
-      </div>
-      <div class="pipe-connector"></div>
-      <div class="pipe-row">
-        <div class="pipe-label">Interviews</div>
-        <div class="pipe-bar-wrap">
-          <div class="pipe-bar teal-bar" data-width="16" style="width:0%">
-            <span class="pipe-count">2 scheduled</span>
-          </div>
-        </div>
-        <div class="pipe-arrow">→</div>
-      </div>
-      <div class="pipe-connector"></div>
-      <div class="pipe-row">
-        <div class="pipe-label">🏆 Offer</div>
-        <div class="pipe-bar-wrap">
-          <div class="pipe-bar teal-bar" data-width="8" style="width:0%;background:linear-gradient(90deg,#0d9488,#2dd4bf)">
-            <span class="pipe-count">1 offer ✓</span>
-          </div>
-        </div>
-        <div class="pipe-arrow" style="color:var(--teal-l)">🎉</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════ DAY IN YOUR LIFE ════════════════════ -->
-<section class="daylife-section" id="daylife">
-  <div class="container">
-    <div class="text-center">
-      <div class="section-label">Behind the Scenes</div>
-      <h2 class="section-title">What your co-pilot does all day</h2>
-      <p class="section-subtitle">While you live your life, here's what's running in the background.</p>
-    </div>
-    <div class="daylife-track" id="daylifeTrack" style="max-width:620px;margin:3rem auto 0">
-      <div class="dl-item">
-        <div class="dl-time">8 AM</div>
-        <div class="dl-dot-wrap"><div class="dl-dot"></div></div>
-        <div class="dl-body">
-          <div class="dl-action">🔍 Scans new job listings</div>
-          <div class="dl-detail">Pulls fresh Easy Apply postings matching your filters. Scores each one against your profile.</div>
-          <div class="dl-badge">~200 jobs reviewed</div>
-        </div>
-      </div>
-      <div class="dl-item">
-        <div class="dl-time">9 AM</div>
-        <div class="dl-dot-wrap"><div class="dl-dot"></div></div>
-        <div class="dl-body">
-          <div class="dl-action">📨 First application batch fires</div>
-          <div class="dl-detail">Fills forms, tailors answers, submits with human-paced timing. Zero copy-paste energy from you.</div>
-          <div class="dl-badge">18 applications sent</div>
-        </div>
-      </div>
-      <div class="dl-item">
-        <div class="dl-time">12 PM</div>
-        <div class="dl-dot-wrap"><div class="dl-dot"></div></div>
-        <div class="dl-body">
-          <div class="dl-action">📬 Checks for recruiter responses</div>
-          <div class="dl-detail">Surfaces any replies, flags hot leads, and queues up your interview prep brief.</div>
-          <div class="dl-badge teal">2 new responses</div>
-        </div>
-      </div>
-      <div class="dl-item">
-        <div class="dl-time">3 PM</div>
-        <div class="dl-dot-wrap"><div class="dl-dot"></div></div>
-        <div class="dl-body">
-          <div class="dl-action">📞 Follow-up wave sent</div>
-          <div class="dl-detail">Politely follows up on applications from 3–5 days ago. Keeps your name top of mind.</div>
-          <div class="dl-badge">12 follow-ups queued</div>
-        </div>
-      </div>
-      <div class="dl-item">
-        <div class="dl-time">6 PM</div>
-        <div class="dl-dot-wrap"><div class="dl-dot"></div></div>
-        <div class="dl-body">
-          <div class="dl-action">📊 Daily summary sent to you</div>
-          <div class="dl-detail">You get a clean report: applications sent, companies that viewed you, interviews booked.</div>
-          <div class="dl-badge teal">47 apps today · 3 responses</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════ EASY APPLY MOCKUP ════════════════════ -->
-<section class="easyapply-section" id="easyapply">
-  <div class="container">
-    <div class="easyapply-inner">
-      <div class="reveal">
-        <div class="section-label">In Action</div>
-        <h2 class="section-title">Watch the bot work</h2>
-        <p style="font-size:1rem;color:var(--text2);line-height:1.75;margin-bottom:1.5rem">
-          Your Career Co-Pilots bot browses real LinkedIn listings, identifies Easy Apply jobs that match your criteria, and submits — all with natural human timing so it looks just like you.
-        </p>
-        <ul style="list-style:none;display:flex;flex-direction:column;gap:.75rem">
-          <li style="display:flex;gap:.65rem;align-items:center;font-size:.92rem;color:var(--text2)">
-            <span style="color:var(--teal);font-size:1rem">✓</span> Reads every job description before applying
-          </li>
-          <li style="display:flex;gap:.65rem;align-items:center;font-size:.92rem;color:var(--text2)">
-            <span style="color:var(--teal);font-size:1rem">✓</span> Fills custom fields in your own words
-          </li>
-          <li style="display:flex;gap:.65rem;align-items:center;font-size:.92rem;color:var(--text2)">
-            <span style="color:var(--teal);font-size:1rem">✓</span> Skips roles below your salary floor
-          </li>
-          <li style="display:flex;gap:.65rem;align-items:center;font-size:.92rem;color:var(--text2)">
-            <span style="color:var(--teal);font-size:1rem">✓</span> Logs every application to your dashboard
-          </li>
-        </ul>
-      </div>
-      <div class="reveal" style="position:relative">
-        <div class="li-card-mockup" id="liMockup">
-          <div class="cursor-dot" id="cursorDot"></div>
-          <div class="li-top-bar">
-            <div class="li-dot" style="background:#ef4444"></div>
-            <div class="li-dot" style="background:#f59e0b"></div>
-            <div class="li-dot" style="background:#22c55e"></div>
-            <span style="margin-left:.5rem;font-size:.68rem;color:#475569">linkedin.com/jobs</span>
-          </div>
-          <div class="li-company-row">
-            <div class="li-logo">S</div>
-            <div>
-              <div class="li-job-title">Senior Software Engineer</div>
-              <div class="li-company">Stripe · Remote · $160k–$200k</div>
-            </div>
-          </div>
-          <div class="li-meta">
-            <span class="li-tag">🟢 Actively hiring</span>
-            <span class="li-tag">Easy Apply</span>
-            <span class="li-tag">⏱ Posted 2h ago</span>
-          </div>
-          <div class="li-btn-row">
-            <button class="li-easy-btn" id="liEasyBtn">Easy Apply</button>
-            <button class="li-save-btn">Save</button>
-          </div>
-          <div class="li-counter">Co-Pilot has applied to <strong id="applyCount">0</strong> jobs today</div>
-          <div class="li-applied-overlay" id="liOverlay">
-            <div class="li-check-circle">✓</div>
-            <div class="li-applied-text">Applied!</div>
-            <div class="li-applied-sub">Moving to next match…</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════ SUCCESS MAP ════════════════════ -->
-<section class="map-section" id="successmap">
-  <div class="container">
-    <div class="text-center">
-      <div class="section-label">Client Wins</div>
-      <h2 class="section-title">Where clients are landing jobs</h2>
-      <p class="section-subtitle">Career Co-Pilots clients are getting hired across every major US market.</p>
-    </div>
-    <div class="map-wrapper">
-      <!-- Simplified US outline SVG with job pins -->
-      <svg class="map-svg" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <filter id="mapGlow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        </defs>
-        <!-- US map outline (simplified) -->
-        <path d="M120,180 L95,220 L80,280 L85,340 L100,390 L140,420 L200,440 L260,450 L310,460 L360,460 L400,450 L440,460 L480,455 L520,460 L560,450 L600,445 L640,450 L680,440 L720,430 L760,420 L800,410 L830,380 L850,340 L840,290 L820,240 L800,200 L760,175 L720,165 L680,160 L640,155 L600,150 L560,145 L520,140 L480,138 L440,140 L400,145 L360,148 L320,155 L280,162 L240,168 L200,172 L160,175 Z" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1.5"/>
-        <!-- State grid lines suggestion -->
-        <line x1="120" y1="180" x2="120" y2="440" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-        <line x1="280" y1="162" x2="280" y2="450" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-        <line x1="440" y1="140" x2="440" y2="460" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-        <line x1="600" y1="150" x2="600" y2="445" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-        <line x1="760" y1="175" x2="760" y2="420" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-        <!-- City pins: each group has pulse circle + solid dot + label -->
-        <!-- New York -->
-        <g class="map-pin" data-delay="200">
-          <circle class="pulse" cx="810" cy="210" r="6" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
-          <circle cx="810" cy="210" r="6" fill="#f59e0b" filter="url(#mapGlow)"/>
-          <text x="818" y="207" fill="#f59e0b" font-size="11" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">New York</text>
-        </g>
-        <!-- San Francisco -->
-        <g class="map-pin" data-delay="600">
-          <circle class="pulse" cx="130" cy="270" r="6" fill="none" stroke="#14b8a6" stroke-width="1.5"/>
-          <circle cx="130" cy="270" r="6" fill="#14b8a6" filter="url(#mapGlow)"/>
-          <text x="142" y="267" fill="#14b8a6" font-size="11" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">San Francisco</text>
-        </g>
-        <!-- Austin -->
-        <g class="map-pin" data-delay="1000">
-          <circle class="pulse" cx="480" cy="420" r="6" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
-          <circle cx="480" cy="420" r="6" fill="#f59e0b" filter="url(#mapGlow)"/>
-          <text x="490" y="417" fill="#f59e0b" font-size="11" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">Austin</text>
-        </g>
-        <!-- Chicago -->
-        <g class="map-pin" data-delay="1400">
-          <circle class="pulse" cx="620" cy="230" r="6" fill="none" stroke="#fbbf24" stroke-width="1.5"/>
-          <circle cx="620" cy="230" r="6" fill="#fbbf24" filter="url(#mapGlow)"/>
-          <text x="630" y="227" fill="#fbbf24" font-size="11" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">Chicago</text>
-        </g>
-        <!-- Seattle -->
-        <g class="map-pin" data-delay="1800">
-          <circle class="pulse" cx="155" cy="165" r="6" fill="none" stroke="#2dd4bf" stroke-width="1.5"/>
-          <circle cx="155" cy="165" r="6" fill="#2dd4bf" filter="url(#mapGlow)"/>
-          <text x="167" y="162" fill="#2dd4bf" font-size="11" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">Seattle</text>
-        </g>
-        <!-- Miami -->
-        <g class="map-pin" data-delay="2200">
-          <circle class="pulse" cx="750" cy="430" r="6" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
-          <circle cx="750" cy="430" r="6" fill="#f59e0b" filter="url(#mapGlow)"/>
-          <text x="760" y="427" fill="#f59e0b" font-size="11" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">Miami</text>
-        </g>
-        <!-- Denver -->
-        <g class="map-pin" data-delay="2600">
-          <circle class="pulse" cx="360" cy="280" r="6" fill="none" stroke="#14b8a6" stroke-width="1.5"/>
-          <circle cx="360" cy="280" r="6" fill="#14b8a6" filter="url(#mapGlow)"/>
-          <text x="372" y="277" fill="#14b8a6" font-size="11" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">Denver</text>
-        </g>
-        <!-- Boston -->
-        <g class="map-pin" data-delay="3000">
-          <circle class="pulse" cx="845" cy="190" r="6" fill="none" stroke="#fbbf24" stroke-width="1.5"/>
-          <circle cx="845" cy="190" r="6" fill="#fbbf24" filter="url(#mapGlow)"/>
-          <text x="855" y="187" fill="#fbbf24" font-size="11" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">Boston</text>
-        </g>
-      </svg>
-      <div class="map-legend">
-        <div class="map-leg-item"><div class="map-leg-dot" style="background:var(--amber)"></div> Tech roles</div>
-        <div class="map-leg-item"><div class="map-leg-dot" style="background:var(--teal)"></div> Remote-first</div>
-        <div class="map-leg-item"><div class="map-leg-dot" style="background:var(--amber-l)"></div> Finance &amp; ops</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════ TRUST ════════════════════ -->
-<section class="section" id="trust">
-  <div class="container text-center">
-    <div class="section-label">Built With Care</div>
-    <h2 class="section-title">Your data is safe with us</h2>
-    <p class="section-subtitle" style="max-width:460px">We take your privacy seriously. Career Co-Pilots never sells your data, never stores your password, and you can delete everything anytime.</p>
-    <div class="trust-badges">
-      <div class="trust-badge"><span>🔒</span> SSL Encrypted</div>
-      <div class="trust-badge"><span>🛡️</span> No Password Storage</div>
-      <div class="trust-badge"><span>🚫</span> We Never Sell Your Data</div>
-      <div class="trust-badge"><span>❌</span> Cancel &amp; Delete Anytime</div>
-      <div class="trust-badge"><span>⏱️</span> Natural Human Timing</div>
-    </div>
-  </div>
-</section>
 
 <!-- ════════════════════ PRICING ════════════════════ -->
 <section class="section section-alt" id="pricing">
@@ -1774,14 +1041,6 @@
         <div class="faq-a">Just a 20-minute onboarding call to configure your profile, criteria, and preferences. After that, your co-pilot runs on autopilot. Your only job is responding to interview requests and preparing for those calls — which is exactly where your energy should go.</div>
       </div>
 
-      <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
-          What if I'm not getting interviews?
-          <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="faq-a">We work with you to diagnose why. It usually comes down to profile optimization, keyword gaps, or overly narrow criteria. Our team proactively reviews low-response accounts in the first two weeks and reaches out with specific recommendations. Pro plan clients also get direct strategist support for exactly this situation.</div>
-      </div>
-
     </div>
   </div>
 </section>
@@ -1816,7 +1075,7 @@
         <div class="footer-col-title">Product</div>
         <ul class="footer-links">
           <li><a href="#how-it-works">How It Works</a></li>
-          <li><a href="#features">Features</a></li>
+          <li><a href="#testimonials">Results</a></li>
           <li><a href="#pricing">Pricing</a></li>
           <li><a href="#faq">FAQ</a></li>
           <li><a href="/dashboard.html">Dashboard</a></li>
@@ -1884,104 +1143,6 @@
   }, { threshold: 0.4 });
   document.querySelectorAll('.stat-ring-wrap').forEach(el => ringObs.observe(el));
 
-  // ── Pipeline bars
-  const pipeObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      e.target.querySelectorAll('.pipe-bar').forEach((bar, i) => {
-        setTimeout(() => { bar.style.width = bar.dataset.width + '%'; }, i * 220);
-      });
-      pipeObs.unobserve(e.target);
-    });
-  }, { threshold: 0.3 });
-  const pipeEl = document.getElementById('pipelineFunnel');
-  if (pipeEl) pipeObs.observe(pipeEl);
-
-  // ── Day-in-life timeline fire
-  const dlObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      const items = e.target.querySelectorAll('.dl-item');
-      items.forEach((item, i) => {
-        setTimeout(() => item.classList.add('fired'), i * 350);
-      });
-      dlObs.unobserve(e.target);
-    });
-  }, { threshold: 0.15 });
-  const dlEl = document.getElementById('daylifeTrack');
-  if (dlEl) dlObs.observe(dlEl);
-
-  // ── Easy Apply mockup cursor animation
-  let applyCount = 0;
-  let easyApplyRunning = false;
-  function runEasyApplyAnim() {
-    const mockup  = document.getElementById('liMockup');
-    const btn     = document.getElementById('liEasyBtn');
-    const overlay = document.getElementById('liOverlay');
-    const cursor  = document.getElementById('cursorDot');
-    const counter = document.getElementById('applyCount');
-    if (!mockup || easyApplyRunning) return;
-    easyApplyRunning = true;
-
-    function cycle() {
-      // show cursor at center-right
-      const btnRect = btn.getBoundingClientRect();
-      const wrapRect = mockup.getBoundingClientRect();
-      const cx = btnRect.left - wrapRect.left + btnRect.width / 2;
-      const cy = btnRect.top  - wrapRect.top  + btnRect.height / 2;
-
-      cursor.style.opacity = '1';
-      cursor.style.left = (cx + 60) + 'px';
-      cursor.style.top  = (cy + 40) + 'px';
-
-      // move toward button
-      setTimeout(() => {
-        cursor.style.left = cx + 'px';
-        cursor.style.top  = cy + 'px';
-      }, 600);
-
-      // click
-      setTimeout(() => {
-        btn.classList.add('clicking');
-        overlay.classList.add('show');
-        applyCount++;
-        counter.textContent = applyCount;
-        cursor.style.opacity = '0';
-      }, 1200);
-
-      // reset
-      setTimeout(() => {
-        btn.classList.remove('clicking');
-        overlay.classList.remove('show');
-      }, 2600);
-
-      // loop
-      setTimeout(cycle, 4200);
-    }
-    cycle();
-  }
-
-  const eaObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { runEasyApplyAnim(); eaObs.unobserve(e.target); }
-    });
-  }, { threshold: 0.4 });
-  const eaEl = document.getElementById('liMockup');
-  if (eaEl) eaObs.observe(eaEl);
-
-  // ── Success map pins
-  const mapObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      e.target.querySelectorAll('.map-pin').forEach(pin => {
-        const delay = parseInt(pin.dataset.delay) || 0;
-        setTimeout(() => pin.classList.add('visible'), delay);
-      });
-      mapObs.unobserve(e.target);
-    });
-  }, { threshold: 0.2 });
-  const mapEl = document.querySelector('.map-svg');
-  if (mapEl) mapObs.observe(mapEl);
 </script>
 </body>
 </html>
