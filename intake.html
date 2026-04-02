@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Career Co-Pilots — Pre-Meeting Questionnaire</title>
+  <meta name="description" content="Help us prepare for your consultation by filling out this quick questionnaire." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg2: #1e293b;
+      --bg3: #263349;
+      --amber: #f59e0b;
+      --amber-l: #fbbf24;
+      --amber-d: #d97706;
+      --border: rgba(245,158,11,0.12);
+      --border-md: rgba(245,158,11,0.28);
+      --text: #f8fafc;
+      --text2: #cbd5e1;
+      --text3: #94a3b8;
+      --text4: #64748b;
+      --radius: 14px;
+      --glow-amber: 0 0 40px rgba(245,158,11,0.18);
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text2);
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    .page-wrapper {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+    .logo-mark {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--amber-d), var(--amber));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 800; color: #fff;
+      box-shadow: var(--glow-amber);
+    }
+    .logo-text {
+      font-size: 17px; font-weight: 800; color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    /* Header */
+    h1 {
+      font-size: 28px; font-weight: 800; color: var(--text);
+      margin-bottom: 8px; letter-spacing: -0.02em;
+    }
+    .subtitle {
+      font-size: 15px; color: var(--text4); margin-bottom: 36px;
+      line-height: 1.6;
+    }
+
+    /* Form card */
+    .form-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+    }
+
+    /* Fields */
+    .field { margin-bottom: 24px; }
+    .field:last-of-type { margin-bottom: 0; }
+
+    label {
+      display: block;
+      font-size: 13px; font-weight: 600; color: var(--text);
+      margin-bottom: 6px; letter-spacing: 0.01em;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 11px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--amber);
+      box-shadow: 0 0 0 3px rgba(245,158,11,0.15);
+    }
+    select { cursor: pointer; }
+    select option { background: var(--bg); color: var(--text); }
+    textarea { resize: vertical; min-height: 90px; }
+
+    /* Checkboxes */
+    .checkbox-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 8px;
+    }
+    .checkbox-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: var(--text2); cursor: pointer;
+    }
+    .checkbox-item input[type="checkbox"] {
+      width: 16px; height: 16px;
+      accent-color: var(--amber);
+      cursor: pointer;
+    }
+
+    /* Radio */
+    .radio-group {
+      display: flex; flex-wrap: wrap; gap: 12px;
+    }
+    .radio-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: var(--text2); cursor: pointer;
+    }
+    .radio-item input[type="radio"] {
+      width: 16px; height: 16px;
+      accent-color: var(--amber);
+      cursor: pointer;
+    }
+
+    /* Submit */
+    .submit-btn {
+      display: block;
+      width: 100%;
+      padding: 14px 24px;
+      margin-top: 32px;
+      background: linear-gradient(135deg, var(--amber-d), var(--amber));
+      border: 1px solid rgba(245,158,11,0.4);
+      border-radius: 8px;
+      font-size: 15px; font-weight: 700; color: #fff;
+      cursor: pointer;
+      box-shadow: var(--glow-amber);
+      transition: all 0.2s;
+    }
+    .submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 36px rgba(245,158,11,0.3), 0 8px 24px rgba(245,158,11,0.2);
+    }
+
+    /* Thank you */
+    .thank-you {
+      display: none;
+      text-align: center;
+      padding: 60px 32px;
+    }
+    .thank-you.visible { display: block; }
+    .thank-you h2 {
+      font-size: 24px; font-weight: 800; color: var(--text);
+      margin-bottom: 12px;
+    }
+    .thank-you p {
+      font-size: 15px; color: var(--text2); max-width: 440px;
+      margin: 0 auto; line-height: 1.7;
+    }
+    .check-icon {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--amber-d), var(--amber));
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 28px; color: #fff;
+    }
+
+    @media (max-width: 640px) {
+      .page-wrapper { padding: 32px 16px 60px; }
+      .form-card { padding: 24px 18px; }
+      h1 { font-size: 22px; }
+      .checkbox-group { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <div class="logo">
+      <div class="logo-mark">CP</div>
+      <div class="logo-text">Career Co-Pilots</div>
+    </div>
+
+    <h1>Pre-Meeting Questionnaire</h1>
+    <p class="subtitle">Thanks for booking a meeting with us. This helps us prepare for our meeting so we can make the most of your time.</p>
+
+    <div class="form-card" id="formCard">
+      <!-- REPLACE the form action URL below with your Formspree form ID -->
+      <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" id="intakeForm">
+
+        <div class="field">
+          <label for="fullname">Full Name</label>
+          <input type="text" id="fullname" name="fullname" required placeholder="Your full name" />
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required placeholder="you@email.com" />
+        </div>
+
+        <div class="field">
+          <label for="current_title">Current Job Title</label>
+          <input type="text" id="current_title" name="current_title" placeholder="e.g. Project Manager" />
+        </div>
+
+        <div class="field">
+          <label for="target_titles">Target Job Titles</label>
+          <input type="text" id="target_titles" name="target_titles" placeholder="What roles are you looking for?" />
+        </div>
+
+        <div class="field">
+          <label>Target Industries</label>
+          <div class="checkbox-group">
+            <label class="checkbox-item"><input type="checkbox" name="industries" value="Power/Energy" /> Power / Energy</label>
+            <label class="checkbox-item"><input type="checkbox" name="industries" value="Construction" /> Construction</label>
+            <label class="checkbox-item"><input type="checkbox" name="industries" value="EPC" /> EPC</label>
+            <label class="checkbox-item"><input type="checkbox" name="industries" value="Utilities" /> Utilities</label>
+            <label class="checkbox-item"><input type="checkbox" name="industries" value="Oil & Gas" /> Oil & Gas</label>
+            <label class="checkbox-item"><input type="checkbox" name="industries" value="Renewable Energy" /> Renewable Energy</label>
+            <label class="checkbox-item"><input type="checkbox" name="industries" value="Data Centers" /> Data Centers</label>
+            <label class="checkbox-item"><input type="checkbox" name="industries" value="Other" /> Other</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="experience">Years of Experience</label>
+          <input type="number" id="experience" name="experience" placeholder="e.g. 8" min="0" />
+        </div>
+
+        <div class="field">
+          <label for="locations">Preferred Locations</label>
+          <input type="text" id="locations" name="locations" placeholder="e.g. Remote, Houston TX, Charlotte NC" />
+        </div>
+
+        <div class="field">
+          <label for="search_status">Current Job Search Status</label>
+          <select id="search_status" name="search_status">
+            <option value="" disabled selected>Select your status</option>
+            <option value="Actively looking">Actively looking</option>
+            <option value="Casually looking">Casually looking</option>
+            <option value="Employed but open">Employed but open</option>
+            <option value="Just exploring">Just exploring</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="frustration">What's Your Biggest Frustration With Job Searching?</label>
+          <textarea id="frustration" name="frustration" placeholder="Tell us what's been difficult about your search..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>Have You Used LinkedIn Easy Apply Before?</label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="easy_apply" value="Yes" /> Yes</label>
+            <label class="radio-item"><input type="radio" name="easy_apply" value="No" /> No</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="notes">Anything Else?</label>
+          <textarea id="notes" name="notes" placeholder="Optional — any additional context for our meeting"></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Questionnaire</button>
+      </form>
+    </div>
+
+    <div class="thank-you" id="thankYou">
+      <div class="check-icon">&#10003;</div>
+      <h2>Thank You</h2>
+      <p>Your responses have been submitted. We will review everything before our meeting so we can hit the ground running. See you soon.</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('intakeForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+      fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      }).then(function(response) {
+        document.getElementById('formCard').style.display = 'none';
+        document.getElementById('thankYou').classList.add('visible');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }).catch(function() {
+        document.getElementById('formCard').style.display = 'none';
+        document.getElementById('thankYou').classList.add('visible');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
