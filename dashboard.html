@@ -483,6 +483,31 @@
       </div>
     </div>
 
+    <!-- Bot Status + Outreach Strip -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px">
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:16px;border-left:3px solid var(--blue)">
+        <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Bot Status</div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div id="dash-bot-dot2" style="width:12px;height:12px;border-radius:50%;background:var(--text3);transition:all .3s"></div>
+          <span id="dash-bot-text2" style="font-size:18px;font-weight:700;color:var(--text);transition:color .3s">Checking...</span>
+        </div>
+        <div id="dash-bot-sub2" style="font-size:11px;color:var(--text3);margin-top:4px">--</div>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:16px;border-left:3px solid var(--purple)">
+        <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Outreach Emails</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span id="dash-outreach-total2" style="font-size:24px;font-weight:700;color:var(--text);transition:all .3s">--</span>
+          <span style="font-size:11px;color:var(--text3)">total sent</span>
+        </div>
+        <div id="dash-outreach-today2" style="font-size:11px;color:var(--text2);margin-top:4px">-- sent today</div>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:16px;border-left:3px solid var(--green)">
+        <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Last Updated</div>
+        <div id="dash-last-updated2" style="font-size:16px;font-weight:600;color:var(--text);margin-top:4px">--</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px">Auto-refreshes every 30s</div>
+      </div>
+    </div>
+
     <!-- Quick Actions -->
     <div class="qa-panel">
       <div class="qa-header">
@@ -1934,10 +1959,73 @@ function renderActivityItems(el, items) {
 // ── Refresh All ───────────────────────────────────────────
 async function refreshAll() {
   appLog = [];
-  await Promise.all([loadStatsAndOverview(), loadClientsFromServer()]);
+  await Promise.all([loadStatsAndOverview(), loadClientsFromServer(), refreshBotWidget(), refreshOutreachWidget()]);
   updateClock();
+  updateLastUpdated();
   toast('↻ Refreshed', 'ok');
 }
+
+// ── Bot Status Widget ─────────────────────────────────────
+async function refreshBotWidget() {
+  try {
+    const data = await api('/api/run/status');
+    const dot = $('dash-bot-dot2');
+    const txt = $('dash-bot-text2');
+    const sub = $('dash-bot-sub2');
+    if (!dot || !data) return;
+    if (data.running) {
+      const m = Math.floor(data.elapsed_s / 60);
+      const s = data.elapsed_s % 60;
+      dot.style.background = 'var(--blue)';
+      dot.style.boxShadow = '0 0 8px rgba(14,165,233,.7)';
+      txt.textContent = 'Running';
+      txt.style.color = 'var(--blue)';
+      sub.textContent = 'PID ' + (data.pid || '--') + ' · ' + m + 'm ' + s + 's elapsed';
+    } else {
+      dot.style.background = 'var(--green)';
+      dot.style.boxShadow = 'none';
+      txt.textContent = 'Idle';
+      txt.style.color = 'var(--text)';
+      sub.textContent = 'Ready to run';
+    }
+  } catch(e) {
+    const dot = $('dash-bot-dot2');
+    if (dot) { dot.style.background = 'var(--red)'; dot.style.boxShadow = 'none'; }
+    const txt = $('dash-bot-text2');
+    if (txt) { txt.textContent = 'Offline'; txt.style.color = 'var(--red)'; }
+  }
+}
+
+// ── Outreach Widget ───────────────────────────────────────
+async function refreshOutreachWidget() {
+  try {
+    const data = await api('/api/outreach-stats');
+    if (!data) return;
+    const totalEl = $('dash-outreach-total2');
+    const todayEl = $('dash-outreach-today2');
+    if (totalEl) totalEl.textContent = (data.total_sent || 0).toLocaleString();
+    if (todayEl) todayEl.textContent = (data.sent_today || 0) + ' sent today';
+  } catch(e) {}
+}
+
+// ── Last Updated Timestamp ────────────────────────────────
+function updateLastUpdated() {
+  const el = $('dash-last-updated2');
+  if (el) el.textContent = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+}
+
+// ── Auto-refresh every 30s (no flicker — DOM updates in place) ──
+async function autoRefreshCycle() {
+  await Promise.all([loadStatsAndOverview(), refreshBotWidget(), refreshOutreachWidget()]);
+  updateClock();
+  updateLastUpdated();
+}
+setInterval(autoRefreshCycle, 30000);
+
+// Initial widget load
+refreshBotWidget();
+refreshOutreachWidget();
+updateLastUpdated();
 
 // ── Utilities ─────────────────────────────────────────────
 function esc(s) { return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
