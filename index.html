@@ -548,6 +548,47 @@
     .stat-ring-fg.animated { stroke-dashoffset: var(--offset, 0); }
     .stat-ring-inner { position: relative; z-index: 1; text-align: center; }
 
+    /* ── DEMO PREVIEW ── */
+    .demo-frame{max-width:880px;margin:0 auto;background:rgba(15,23,42,.95);border:1px solid rgba(245,158,11,.18);border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 0 80px rgba(245,158,11,.12),0 0 140px rgba(234,88,12,.06),0 32px 80px rgba(0,0,0,.5)}
+    .demo-titlebar{display:flex;align-items:center;gap:10px;padding:13px 18px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--border-sub)}
+    .demo-dots{display:flex;gap:6px}
+    .demo-dot-r{width:10px;height:10px;border-radius:50%;background:#FF5F57}
+    .demo-dot-y{width:10px;height:10px;border-radius:50%;background:#FEBC2E}
+    .demo-dot-g{width:10px;height:10px;border-radius:50%;background:#28C840}
+    .demo-url{flex:1;margin:0 14px;background:rgba(255,255,255,.04);border:1px solid var(--border-sub);border-radius:6px;padding:5px 12px;font-size:.68rem;color:var(--text4);font-family:monospace}
+    .demo-live{display:flex;align-items:center;gap:6px;font-size:.65rem;font-weight:700;color:var(--teal);letter-spacing:.08em;text-transform:uppercase}
+    .demo-live-dot{width:6px;height:6px;background:var(--teal);border-radius:50%;animation:demoPulse 1.5s ease infinite}
+    @keyframes demoPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.6)}}
+    .demo-body{padding:24px}
+    .demo-stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+    .demo-stat{background:rgba(255,255,255,.03);border:1px solid var(--border-sub);border-radius:var(--radius);padding:18px 16px;text-align:center}
+    .demo-stat-val{font-size:1.6rem;font-weight:800;background:linear-gradient(135deg,var(--amber-l),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:4px}
+    .demo-stat-lbl{font-size:.67rem;font-weight:600;color:var(--text4);letter-spacing:.08em;text-transform:uppercase}
+    .demo-feed-label{font-size:.65rem;font-weight:700;color:var(--text4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+    .demo-feed-label::after{content:'';flex:1;height:1px;background:var(--border-sub)}
+    .demo-feed{display:flex;flex-direction:column;gap:6px;margin-bottom:20px}
+    .demo-feed-row{display:flex;align-items:center;gap:12px;padding:11px 14px;background:rgba(255,255,255,.02);border:1px solid var(--border-sub);border-radius:var(--radius);transition:all .3s}
+    .demo-feed-row:hover{background:rgba(245,158,11,.04);border-color:rgba(245,158,11,.15)}
+    .demo-feed-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .demo-dot-ok{background:var(--teal);box-shadow:0 0 6px var(--teal)}
+    .demo-dot-reply{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+    .demo-feed-action{font-size:.72rem;font-weight:700;color:var(--text2);min-width:70px}
+    .demo-feed-detail{font-size:.75rem;color:var(--text3);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .demo-feed-time{font-size:.65rem;color:var(--text4);flex-shrink:0}
+    .demo-progress-wrap{margin-top:4px}
+    .demo-progress-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+    .demo-progress-label{font-size:.72rem;font-weight:600;color:var(--text3)}
+    .demo-progress-pct{font-size:.72rem;font-weight:700;color:var(--amber)}
+    .demo-progress-bar{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
+    .demo-progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--amber),var(--orange))}
+    .demo-caption{text-align:center;font-size:.92rem;color:var(--text3);margin-top:2rem;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.7}
+    @media(max-width:768px){
+      .demo-stats-row{grid-template-columns:1fr}
+      .demo-feed-row{flex-wrap:wrap;gap:6px}
+      .demo-feed-detail{min-width:100%;order:3}
+      .demo-feed-time{order:2;margin-left:auto}
+    }
+
   </style>
 </head>
 <body>
@@ -859,6 +900,71 @@
       </div>
     </div>
 
+  </div>
+</section>
+
+<!-- ════════════════════ SEE IT IN ACTION ════════════════════ -->
+<section class="section" id="see-it">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:3rem;">
+      <div class="section-label">See It In Action</div>
+      <h2 class="section-title">Your AI co-pilot, working 24/7</h2>
+      <p class="section-subtitle">Everything happens automatically. You just check in when interviews start landing.</p>
+    </div>
+    <div class="demo-frame reveal">
+      <div class="demo-titlebar">
+        <div class="demo-dots"><span class="demo-dot-r"></span><span class="demo-dot-y"></span><span class="demo-dot-g"></span></div>
+        <div class="demo-url">careercopilots.com/dashboard</div>
+        <div class="demo-live"><span class="demo-live-dot"></span>LIVE</div>
+      </div>
+      <div class="demo-body">
+        <div class="demo-stats-row">
+          <div class="demo-stat">
+            <div class="demo-stat-val">679</div>
+            <div class="demo-stat-lbl">Applications Sent</div>
+          </div>
+          <div class="demo-stat">
+            <div class="demo-stat-val">31.5%</div>
+            <div class="demo-stat-lbl">Success Rate</div>
+          </div>
+          <div class="demo-stat">
+            <div class="demo-stat-val">2,155</div>
+            <div class="demo-stat-lbl">Jobs Scanned</div>
+          </div>
+        </div>
+        <div class="demo-feed-label">Recent Activity</div>
+        <div class="demo-feed">
+          <div class="demo-feed-row">
+            <span class="demo-feed-dot demo-dot-ok"></span>
+            <span class="demo-feed-action">Applied</span>
+            <span class="demo-feed-detail">Senior PM @ AECOM</span>
+            <span class="demo-feed-time">2m ago</span>
+          </div>
+          <div class="demo-feed-row">
+            <span class="demo-feed-dot demo-dot-ok"></span>
+            <span class="demo-feed-action">Applied</span>
+            <span class="demo-feed-detail">Program Manager @ Booz Allen</span>
+            <span class="demo-feed-time">8m ago</span>
+          </div>
+          <div class="demo-feed-row">
+            <span class="demo-feed-dot demo-dot-reply"></span>
+            <span class="demo-feed-action">Interview</span>
+            <span class="demo-feed-detail">Data Analyst @ Deloitte</span>
+            <span class="demo-feed-time">1h ago</span>
+          </div>
+        </div>
+        <div class="demo-progress-wrap">
+          <div class="demo-progress-top">
+            <span class="demo-progress-label">Today: 14 applications</span>
+            <span class="demo-progress-pct">70%</span>
+          </div>
+          <div class="demo-progress-bar">
+            <div class="demo-progress-fill" style="width:70%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="demo-caption reveal">Your personal job search command center. Every application tracked in real-time.</p>
   </div>
 </section>
 
