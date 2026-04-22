@@ -757,8 +757,23 @@
 
     // Pre-fill plan from URL param
     const urlPlan = new URLSearchParams(window.location.search).get('plan');
-    if (urlPlan === 'basic') document.getElementById('plan-basic').checked = true;
+    if (urlPlan === 'basic' || urlPlan === 'starter') document.getElementById('plan-basic').checked = true;
     if (urlPlan === 'pro') document.getElementById('plan-pro').checked = true;
+    // Lifetime is a pay-first flow — the form can't create a lifetime seat,
+    // so if someone lands here with ?plan=lifetime, route them back to checkout.
+    if (urlPlan === 'lifetime') {
+        const banner = document.createElement('div');
+        banner.style.cssText = 'background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(20,184,166,0.15));' +
+            'border:1px solid rgba(245,158,11,0.45);border-radius:12px;padding:1.25rem;margin:1.5rem 0;color:#e0e0e0;';
+        banner.innerHTML =
+            '<div style="font-weight:700;color:#f59e0b;margin-bottom:.5rem;">🚀 Launch Week — Lifetime seat</div>' +
+            '<div style="font-size:.9rem;line-height:1.55;margin-bottom:1rem;">' +
+            'Lifetime seats are claimed by paying first — you\'ll set up your profile right after checkout.</div>' +
+            '<a href="/subscribe/lifetime" style="display:inline-block;background:#14b8a6;color:#0a0e17;font-weight:700;' +
+            'padding:.75rem 1.5rem;border-radius:8px;text-decoration:none;">Claim Lifetime Seat — $99 →</a>';
+        const container = document.querySelector('.onboarding-wrap, main') || document.body;
+        container.insertBefore(banner, container.firstChild);
+    }
     </script>
 </body>
 </html>

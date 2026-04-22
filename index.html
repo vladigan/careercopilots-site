@@ -631,7 +631,8 @@
           While you sleep, Career Co-Pilots applies to hundreds of perfectly-matched jobs on LinkedIn. Wake up to interview requests — not a blank inbox.
         </p>
         <div class="hero-actions">
-          <a href="/onboarding.html?plan=starter" class="btn btn-primary btn-xl">Start Free Trial — from $49/mo</a>
+          <a href="/subscribe/lifetime" id="heroLifetimeCta" class="btn btn-teal btn-xl" style="display:none;">🚀 Launch Week — $99 Lifetime</a>
+          <a href="/onboarding.html?plan=pro" class="btn btn-primary btn-xl">Start Pro — 7-day free trial</a>
           <a href="#how-it-works" class="btn btn-outline btn-lg">See How It Works</a>
         </div>
         <div class="hero-proof">
@@ -642,7 +643,7 @@
             <div class="proof-avatar">AL</div>
             <div class="proof-avatar" style="font-size:.55rem">+</div>
           </div>
-          <span>2,000+ applications sent this month</span>
+          <span>2,100+ applications · 34% response rate</span>
         </div>
       </div>
 
@@ -1032,10 +1033,39 @@
     </div>
     <div class="pricing-grid" style="grid-template-columns: repeat(3, 1fr);">
 
+      <!-- Launch Week lifetime card (shown only while seats remain; toggled via JS below) -->
+      <div class="p-card reveal" id="lifetimeCard" style="display:none;grid-column:1 / -1;background:linear-gradient(135deg,rgba(245,158,11,0.12),rgba(20,184,166,0.12));border:1px solid rgba(245,158,11,0.45);">
+        <div class="p-popular" style="background:#f59e0b;color:#0a0e17;">🚀 LAUNCH WEEK</div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:2rem;flex-wrap:wrap;">
+          <div style="flex:1;min-width:260px;">
+            <div class="p-name">Lifetime — Founding Member</div>
+            <div class="p-price">
+              <span class="p-amount">$99</span><span class="p-period"> one-time</span>
+            </div>
+            <div class="p-tagline">Pay once, use forever. Limited to the first <strong id="lifetimeCap">20</strong> customers while we finish polishing the onboarding flow.</div>
+            <ul class="p-features" style="margin-bottom:1.25rem;">
+              <li class="p-feat"><span class="p-check">✓</span><span><strong>Everything in Pro</strong>, forever — no monthly charges</span></li>
+              <li class="p-feat"><span class="p-check">✓</span><span>Unlimited LinkedIn Easy Apply automation</span></li>
+              <li class="p-feat"><span class="p-check">✓</span><span>Resume variant routing + screening-answer memory</span></li>
+              <li class="p-feat"><span class="p-check">✓</span><span>Live response-rate dashboard &amp; weekly email digest</span></li>
+              <li class="p-feat"><span class="p-check">✓</span><span><strong>Grandfathered into every future feature</strong> we ship</span></li>
+            </ul>
+          </div>
+          <div style="min-width:240px;flex-basis:240px;text-align:center;">
+            <div style="font-size:2.8rem;font-weight:900;color:#f59e0b;line-height:1;" id="lifetimeRemaining">20</div>
+            <div style="font-size:.78rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:1rem;">seats remaining</div>
+            <a href="/subscribe/lifetime" class="btn btn-teal btn-lg" style="width:100%;justify-content:center;">
+              Claim a Lifetime Seat →
+            </a>
+            <div class="p-note" style="margin-top:.6rem;">One-time $99 · No recurring charges · 7-day refund</div>
+          </div>
+        </div>
+      </div>
+
       <div class="p-card standard reveal">
         <div class="p-name">Starter</div>
         <div class="p-price">
-          <span class="p-amount">$49</span><span class="p-period">/mo</span>
+          <span class="p-amount">$149</span><span class="p-period">/mo</span>
         </div>
         <div class="p-tagline">Get started with automated job applications and smart matching.</div>
         <ul class="p-features">
@@ -1046,36 +1076,36 @@
           <li class="p-feat"><span class="p-check">✓</span><span>Cancel anytime — no contracts</span></li>
         </ul>
         <a href="/onboarding.html?plan=starter" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">
-          Start Starter — $49/mo
+          Start Starter — $149/mo
         </a>
-        <div class="p-note">No setup fee · Cancel anytime</div>
+        <div class="p-note">7-day free trial · Cancel anytime</div>
       </div>
 
       <div class="p-card pro reveal">
         <div class="p-popular">Most Popular</div>
         <div class="p-name">Pro</div>
         <div class="p-price">
-          <span class="p-amount">$99</span><span class="p-period">/mo</span>
+          <span class="p-amount">$249</span><span class="p-period">/mo</span>
         </div>
         <div class="p-tagline">For serious job seekers who want maximum coverage and daily reports.</div>
         <ul class="p-features">
-          <li class="p-feat"><span class="p-check">✓</span><span><span class="p-hi">120 applications/day</span> — no cap</span></li>
+          <li class="p-feat"><span class="p-check">✓</span><span><span class="p-hi">Unlimited applications</span> — no cap</span></li>
           <li class="p-feat"><span class="p-check">✓</span><span>Everything in Starter</span></li>
           <li class="p-feat"><span class="p-check">✓</span><span><span class="p-hi">Daily reports</span> with full analytics</span></li>
           <li class="p-feat"><span class="p-check">✓</span><span>AI screening question answers</span></li>
-          <li class="p-feat"><span class="p-check">✓</span><span>Priority job matching</span></li>
+          <li class="p-feat"><span class="p-check">✓</span><span>Resume variant routing &amp; company-tier analytics</span></li>
           <li class="p-feat"><span class="p-check">✓</span><span>Resume &amp; LinkedIn profile review</span></li>
         </ul>
         <a href="/onboarding.html?plan=pro" class="btn btn-teal btn-lg" style="width:100%;justify-content:center;">
-          Start Pro — $99/mo
+          Start Pro — $249/mo
         </a>
-        <div class="p-note">No setup fee · Cancel anytime</div>
+        <div class="p-note">7-day free trial · Cancel anytime</div>
       </div>
 
       <div class="p-card standard reveal">
         <div class="p-name">Executive</div>
         <div class="p-price">
-          <span class="p-amount">$199</span><span class="p-period">/mo</span>
+          <span class="p-amount">$449</span><span class="p-period">/mo</span>
         </div>
         <div class="p-tagline">White-glove service with dedicated support and strategy sessions.</div>
         <ul class="p-features">
@@ -1087,9 +1117,9 @@
           <li class="p-feat"><span class="p-check">✓</span><span>Custom search configurations</span></li>
         </ul>
         <a href="/onboarding.html?plan=executive" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">
-          Start Executive — $199/mo
+          Start Executive — $449/mo
         </a>
-        <div class="p-note">No setup fee · Cancel anytime</div>
+        <div class="p-note">7-day free trial · Cancel anytime</div>
       </div>
 
     </div>
@@ -1157,11 +1187,12 @@
     <h2 class="cta-title">Stop applying.<br><em>Start interviewing.</em></h2>
     <p class="cta-sub">Your next job is out there. Let's go get it together.</p>
     <div class="cta-actions">
-      <a href="/onboarding.html?plan=starter" class="btn btn-primary btn-xl">Start Starter — $49/mo</a>
-      <a href="/onboarding.html?plan=pro"     class="btn btn-teal btn-xl">Start Pro — $99/mo</a>
-      <a href="/onboarding.html?plan=executive" class="btn btn-primary btn-xl">Start Executive — $199/mo</a>
+      <a href="/subscribe/lifetime" id="finalLifetimeCta" class="btn btn-teal btn-xl" style="display:none;">🚀 Launch Week — $99 Lifetime</a>
+      <a href="/onboarding.html?plan=starter" class="btn btn-primary btn-xl">Start Starter — $149/mo</a>
+      <a href="/onboarding.html?plan=pro"     class="btn btn-teal btn-xl">Start Pro — $249/mo</a>
+      <a href="/onboarding.html?plan=executive" class="btn btn-primary btn-xl">Start Executive — $449/mo</a>
     </div>
-    <div class="cta-note">No contracts &nbsp;·&nbsp; Cancel anytime &nbsp;·&nbsp; Most clients get interviews within 12 days</div>
+    <div class="cta-note">7-day free trial on monthly plans &nbsp;·&nbsp; Cancel anytime &nbsp;·&nbsp; Most clients get interviews within 12 days</div>
   </div>
 </section>
 
@@ -1247,6 +1278,46 @@
     });
   }, { threshold: 0.4 });
   document.querySelectorAll('.stat-ring-wrap').forEach(el => ringObs.observe(el));
+
+  // ── Launch Week seat counter
+  // Pings /api/launch-seats and reveals the Lifetime card + hero/final CTAs
+  // only while seats remain. Fails gracefully to hidden if endpoint is
+  // unreachable (e.g. static preview without backend).
+  (function launchSeats() {
+    const card = document.getElementById('lifetimeCard');
+    const capEl = document.getElementById('lifetimeCap');
+    const remEl = document.getElementById('lifetimeRemaining');
+    const heroCta = document.getElementById('heroLifetimeCta');
+    const finalCta = document.getElementById('finalLifetimeCta');
+    if (!card) return;
+
+    function reveal(capacity, remaining) {
+      if (capEl) capEl.textContent = capacity;
+      if (remEl) remEl.textContent = remaining;
+      card.style.display = 'block';
+      if (heroCta)  heroCta.style.display  = 'inline-flex';
+      if (finalCta) finalCta.style.display = 'inline-flex';
+    }
+    function hide() {
+      card.style.display = 'none';
+      if (heroCta)  heroCta.style.display  = 'none';
+      if (finalCta) finalCta.style.display = 'none';
+    }
+
+    fetch('/api/launch-seats', { cache: 'no-store' })
+      .then(r => r.ok ? r.json() : Promise.reject(r.status))
+      .then(d => {
+        if (d && d.active && d.remaining > 0) {
+          reveal(d.capacity || 20, d.remaining);
+        } else {
+          hide();
+        }
+      })
+      .catch(() => {
+        // API not reachable (static preview) → default to visible w/ 20 seats
+        reveal(20, 20);
+      });
+  })();
 
 </script>
 </body>
