@@ -740,7 +740,7 @@
                 document.getElementById('step-4').style.display = 'none';
                 document.getElementById('step-success').style.display = 'block';
                 // After 2s redirect to Stripe
-                setTimeout(() => { window.location.href = `/subscribe/${plan}`; }, 2500);
+                setTimeout(() => { const STRIPE_LINKS={'starter':'https://buy.stripe.com/4gM4gBc3Hbe0e3M3p4dQQ08','basic':'https://buy.stripe.com/4gM4gBc3Hbe0e3M3p4dQQ08','pro':'https://buy.stripe.com/8x2fZj5FjfugcZIbVAdQQ0a','executive':'https://buy.stripe.com/8x2cN78Rv3Ly2l4cZEdQQ09','lifetime':'https://buy.stripe.com/6oU6oJ7Nrgyk7Fo4t8dQQ06'};window.location.href = STRIPE_LINKS[plan] || STRIPE_LINKS['pro']; }, 2500);
             } else {
                 alert('Something went wrong. Please try again or contact support.');
             }
@@ -748,7 +748,7 @@
             // If server not available, just show success and redirect
             document.getElementById('step-4').style.display = 'none';
             document.getElementById('step-success').style.display = 'block';
-            setTimeout(() => { window.location.href = `/subscribe/${plan}`; }, 2500);
+            setTimeout(() => { const STRIPE_LINKS={'starter':'https://buy.stripe.com/4gM4gBc3Hbe0e3M3p4dQQ08','basic':'https://buy.stripe.com/4gM4gBc3Hbe0e3M3p4dQQ08','pro':'https://buy.stripe.com/8x2fZj5FjfugcZIbVAdQQ0a','executive':'https://buy.stripe.com/8x2cN78Rv3Ly2l4cZEdQQ09','lifetime':'https://buy.stripe.com/6oU6oJ7Nrgyk7Fo4t8dQQ06'};window.location.href = STRIPE_LINKS[plan] || STRIPE_LINKS['pro']; }, 2500);
         }
     }
 
@@ -769,7 +769,7 @@
             '<div style="font-weight:700;color:#f59e0b;margin-bottom:.5rem;">🚀 Launch Week — Lifetime seat</div>' +
             '<div style="font-size:.9rem;line-height:1.55;margin-bottom:1rem;">' +
             'Lifetime seats are claimed by paying first — you\'ll set up your profile right after checkout.</div>' +
-            '<a href="/subscribe/lifetime" style="display:inline-block;background:#14b8a6;color:#0a0e17;font-weight:700;' +
+            '<a href="https://buy.stripe.com/6oU6oJ7Nrgyk7Fo4t8dQQ06" target="_blank" rel="noopener" style="display:inline-block;background:#14b8a6;color:#0a0e17;font-weight:700;' +
             'padding:.75rem 1.5rem;border-radius:8px;text-decoration:none;">Claim Lifetime Seat — $99 →</a>';
         const container = document.querySelector('.onboarding-wrap, main') || document.body;
         container.insertBefore(banner, container.firstChild);
