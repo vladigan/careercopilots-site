@@ -4,29 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Dashboard — Career Co-Pilots</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* 2026-05-14 — restyled to the brand light theme. Variable NAMES kept
+           (--surface, --muted, --cyan etc.) so all 280 lines of class logic +
+           the Chart.js JS work untouched; only the VALUES are remapped. */
         :root {
-            --bg: #0a0e17;
-            --surface: #111827;
-            --surface2: #1f2937;
-            --border: rgba(255,255,255,0.06);
-            --cyan: #06b6d4;
-            --green: #22c55e;
-            --yellow: #f59e0b;
-            --red: #ef4444;
-            --purple: #a855f7;
-            --text: #e8eef5;
-            --muted: #8a9ab5;
-            --faint: #374151;
+            --bg: #f6f8fc;
+            --surface: #ffffff;
+            --surface2: #f6f8fc;
+            --border: #e6ebf3;
+            --cyan: #2563eb;
+            --green: #16a34a;
+            --yellow: #d97706;
+            --red: #dc2626;
+            --purple: #4f46e5;
+            --text: #0b1220;
+            --muted: #64748b;
+            --faint: #cdd6e4;
+            --grad: linear-gradient(120deg, #2563eb 0%, #4f46e5 45%, #06b6d4 100%);
+            --shadow-sm: 0 2px 8px rgba(11,18,32,0.06), 0 1px 2px rgba(11,18,32,0.04);
+            --shadow: 0 8px 24px rgba(11,18,32,0.08), 0 2px 6px rgba(11,18,32,0.05);
+            --shadow-lg: 0 24px 56px rgba(11,18,32,0.13), 0 6px 16px rgba(11,18,32,0.07);
         }
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* ── Sidebar ── */
@@ -65,8 +76,8 @@
             border-left: 3px solid transparent;
             transition: all 0.15s;
         }
-        .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.04); }
-        .nav-item.active { color: var(--cyan); border-left-color: var(--cyan); background: rgba(6,182,212,0.06); }
+        .nav-item:hover { color: var(--text); background: var(--surface2); }
+        .nav-item.active { color: var(--cyan); border-left-color: var(--cyan); background: #eef4ff; }
         .nav-icon { font-size: 1.1rem; width: 20px; text-align: center; }
         .sidebar-footer {
             padding: 1rem 1.25rem;
@@ -221,14 +232,14 @@
         .table-search:focus { border-color: var(--cyan); }
         table { width: 100%; border-collapse: collapse; }
         thead th {
-            padding: 0.75rem 1.5rem; font-size: 0.75rem; font-weight: 700;
+            padding: 0.75rem 1.5rem; font-size: 0.75rem; font-weight: 800;
             color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em;
-            text-align: left; background: rgba(0,0,0,0.2);
+            text-align: left; background: var(--surface2);
             border-bottom: 1px solid var(--border);
         }
         tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
         tbody tr:last-child { border-bottom: none; }
-        tbody tr:hover { background: rgba(255,255,255,0.02); }
+        tbody tr:hover { background: var(--surface2); }
         td { padding: 0.85rem 1.5rem; font-size: 0.85rem; }
         .company-col { font-weight: 600; }
         .title-col { color: var(--muted); }
@@ -304,8 +315,34 @@
             padding: 4rem 2rem; text-align: center;
         }
         .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
-        .empty-title { font-size: 1.1rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
+        .empty-title { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
         .empty-text { color: var(--muted); font-size: 0.9rem; }
+
+        /* ── 2026-05-14 brand-elevation polish (light theme) ── */
+        .sidebar, .topbar { box-shadow: var(--shadow-sm); }
+        .kpi, .funnel-section, .chart-card, .table-section, .goal-section {
+            box-shadow: var(--shadow-sm); border-radius: 16px;
+            transition: box-shadow .2s ease, transform .2s ease;
+        }
+        .kpi:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+        .kpi-value { letter-spacing: -0.03em; }
+        .sidebar-logo {
+            background: var(--surface);
+        }
+        .sidebar-logo::before {
+            content: '✈'; width: 30px; height: 30px; border-radius: 8px;
+            background: var(--grad); color: #fff;
+            display: grid; place-items: center; font-size: .9rem;
+            box-shadow: 0 5px 12px rgba(37,99,235,0.32);
+        }
+        .user-plan {
+            background: var(--grad); color: #fff;
+        }
+        .status-badge.running { background: var(--green-bg, #dcfce7); border-color: #86efac; }
+        .table-search { transition: border-color .15s, box-shadow .15s; }
+        .table-search:focus { box-shadow: 0 0 0 4px rgba(37,99,235,0.10); }
+        .load-more-btn { transition: all .18s; }
+        .load-more-btn:hover { background: #eef4ff; }
     </style>
 </head>
 <body>
@@ -573,7 +610,7 @@
                             <textarea id="pref-notes" style="width:100%;background:var(--surface2);border:1px solid var(--faint);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;padding:.65rem 1rem;outline:none;min-height:80px;resize:vertical;" placeholder="Any notes for your co-pilot…"></textarea>
                         </div>
 
-                        <button onclick="savePreferences()" style="background:var(--cyan);color:#0a0e17;border:none;border-radius:8px;font-family:'Inter',sans-serif;font-size:.9rem;font-weight:700;padding:.8rem 2rem;cursor:pointer;width:fit-content;">
+                        <button onclick="savePreferences()" style="background:var(--grad);color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;padding:.85rem 2rem;cursor:pointer;width:fit-content;box-shadow:0 8px 20px rgba(37,99,235,0.3);">
                             Save Preferences
                         </button>
                     </div>

@@ -4,91 +4,115 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>You're In — Career Co-Pilots</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #07090f;
-      --surface: #0d1117;
-      --border: rgba(6,182,212,.15);
-      --primary: #06b6d4;
-      --primary-dark: #0891b2;
-      --text1: #f0f4ff;
-      --text2: #b8c4d8;
-      --text3: #7a8da8;
-      --green: #22c55e;
+      --bg: #ffffff; --bg-alt: #f6f8fc; --bg-tint: #eef4ff;
+      --ink: #0b1220; --ink2: #334155; --ink3: #64748b; --ink4: #94a3b8;
+      --border: #e6ebf3; --border2: #cdd6e4;
+      --blue: #2563eb; --blue-d: #1d4ed8; --cyan: #06b6d4; --indigo: #4f46e5;
+      --green: #16a34a; --green-bg: #dcfce7;
+      --grad: linear-gradient(120deg, #2563eb 0%, #4f46e5 45%, #06b6d4 100%);
+      --shadow-lg: 0 24px 56px rgba(11,18,32,0.13), 0 6px 16px rgba(11,18,32,0.07);
+      --shadow-xl: 0 40px 90px rgba(11,18,32,0.20), 0 12px 28px rgba(11,18,32,0.10);
     }
     body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text1);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background: var(--bg); color: var(--ink);
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 2rem;
+      position: relative; overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* drifting gradient orbs */
+    .orb { position: absolute; border-radius: 50%; filter: blur(70px); pointer-events: none; z-index: 0; }
+    .orb-a { width: 460px; height: 460px; background: radial-gradient(circle, rgba(37,99,235,0.30), transparent 68%); top: -180px; left: -120px; animation: drift 24s ease-in-out infinite; }
+    .orb-b { width: 380px; height: 380px; background: radial-gradient(circle, rgba(6,182,212,0.26), transparent 68%); bottom: -160px; right: -100px; animation: drift 28s ease-in-out infinite reverse; }
+    @keyframes drift { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(40px,-30px) scale(1.12); } }
+    .grid-bg {
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background-image: radial-gradient(circle at 1px 1px, rgba(11,18,32,0.05) 1px, transparent 0);
+      background-size: 26px 26px;
+      -webkit-mask-image: radial-gradient(ellipse 60% 55% at 50% 45%, #000 30%, transparent 75%);
+      mask-image: radial-gradient(ellipse 60% 55% at 50% 45%, #000 30%, transparent 75%);
+    }
+    .logo {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; gap: .6rem;
+      font-weight: 800; font-size: 1.2rem; color: var(--ink);
+      text-decoration: none; letter-spacing: -0.02em; margin-bottom: 2rem;
+    }
+    .logo-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--grad); color: #fff;
+      display: grid; place-items: center; font-size: 1.05rem;
+      box-shadow: 0 6px 16px rgba(37,99,235,0.34);
     }
     .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 3rem 2.5rem;
-      max-width: 520px;
-      width: 100%;
-      text-align: center;
+      position: relative; z-index: 1;
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 26px; padding: 3.25rem 2.75rem;
+      max-width: 540px; width: 100%; text-align: center;
+      box-shadow: var(--shadow-xl);
     }
     .check-circle {
-      width: 80px; height: 80px;
-      background: rgba(34,197,94,.12);
-      border: 2px solid rgba(34,197,94,.4);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2.2rem;
-      margin: 0 auto 1.75rem;
+      width: 88px; height: 88px; margin: 0 auto 1.85rem;
+      background: var(--green-bg); border: 2px solid #86efac;
+      border-radius: 50%; display: grid; place-items: center;
+      font-size: 2.4rem; color: var(--green);
+      animation: pop .55s cubic-bezier(.34,1.56,.64,1) both;
+      box-shadow: 0 12px 30px rgba(22,163,74,0.22);
     }
-    h1 { font-size: 1.9rem; font-weight: 800; margin-bottom: .6rem; }
-    .subtitle { font-size: 1.05rem; color: var(--text2); margin-bottom: 2rem; line-height: 1.6; }
+    @keyframes pop { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: .65rem; }
+    .subtitle { font-size: 1.06rem; color: var(--ink3); margin-bottom: 2rem; line-height: 1.62; }
     .steps {
-      background: rgba(6,182,212,.05);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      text-align: left;
-      margin-bottom: 2rem;
+      background: var(--bg-tint); border: 1px solid #d4e2ff;
+      border-radius: 16px; padding: 1.6rem 1.5rem;
+      text-align: left; margin-bottom: 2rem;
     }
-    .steps-title { font-size: .8rem; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 1rem; }
-    .step { display: flex; gap: .75rem; margin-bottom: .9rem; }
+    .steps-title {
+      font-size: .74rem; font-weight: 800; color: var(--blue-d);
+      text-transform: uppercase; letter-spacing: .12em; margin-bottom: 1.1rem;
+    }
+    .step { display: flex; gap: .8rem; margin-bottom: 1rem; }
     .step:last-child { margin-bottom: 0; }
     .step-num {
-      width: 24px; height: 24px; flex-shrink: 0;
-      background: var(--primary); color: var(--bg);
-      border-radius: 50%; font-size: .75rem; font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-      margin-top: .1rem;
+      width: 26px; height: 26px; flex-shrink: 0;
+      background: var(--grad); color: #fff;
+      border-radius: 50%; font-size: .78rem; font-weight: 800;
+      display: grid; place-items: center; margin-top: .1rem;
+      box-shadow: 0 4px 10px rgba(37,99,235,0.3);
     }
-    .step-text { font-size: .9rem; color: var(--text2); line-height: 1.5; }
-    .step-text strong { color: var(--text1); }
+    .step-text { font-size: .93rem; color: var(--ink3); line-height: 1.55; }
+    .step-text strong { color: var(--ink); font-weight: 700; }
     .btn {
-      display: inline-block;
-      padding: .85rem 2rem;
-      border-radius: 10px;
-      font-family: 'Inter', sans-serif;
-      font-size: .95rem;
-      font-weight: 700;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-      transition: opacity .15s;
+      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+      padding: 1rem 2.2rem; border-radius: 14px;
+      font-family: inherit; font-size: 1rem; font-weight: 700;
+      text-decoration: none; cursor: pointer; border: none;
+      background: var(--grad); color: #fff;
+      box-shadow: 0 8px 22px rgba(37,99,235,0.32), inset 0 1px 0 rgba(255,255,255,0.18);
+      transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s ease;
     }
-    .btn:hover { opacity: .88; }
-    .btn-primary { background: var(--primary); color: var(--bg); }
-    .logo { font-size: 1.2rem; font-weight: 700; color: var(--primary); margin-bottom: 2.5rem; }
-    .guarantee { margin-top: 1.25rem; font-size: .8rem; color: var(--text3); }
+    .btn:hover { transform: translateY(-2px) scale(1.015); box-shadow: 0 14px 34px rgba(37,99,235,0.42); }
+    .guarantee { margin-top: 1.3rem; font-size: .82rem; color: var(--ink4); }
   </style>
 </head>
 <body>
-  <div class="logo">Career Co-Pilots</div>
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+  <div class="grid-bg"></div>
+
+  <a href="/" class="logo">
+    <div class="logo-icon">✈</div>
+    Career Co-Pilots
+  </a>
+
   <div class="card">
     <div class="check-circle">✓</div>
     <h1>You're all set!</h1>
@@ -113,7 +137,7 @@
       </div>
     </div>
 
-    <a href="/onboarding" class="btn btn-primary">Complete My Profile →</a>
+    <a href="/onboarding" class="btn">Complete My Profile →</a>
     <p class="guarantee">7-day money-back guarantee &middot; Cancel anytime &middot; No contracts</p>
   </div>
 </body>

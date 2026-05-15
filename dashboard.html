@@ -1579,8 +1579,37 @@ async function pollBotStatus() {
     data.lines.forEach(line => {
       appendLog(line, detectLevel(line));
       injectActivityItem(line);
-      // Toast on interview/response detection
       const l = line.toLowerCase();
+
+      // 2026-05-13: live counter parsing — the bot prints
+      //   "Title @ Company | applied (X)"        for each success
+      //   "Title @ Company | skipped (reason)"   for each skip
+      //   "[ERROR] ..." or "Traceback"           for each error
+      // and at run-end:
+      //   "Applied: N  Skipped: M  Errors: K"
+      // Update counters in real time so Brady can watch fills tick.
+      const $a = $('ctrl-applied'), $s = $('ctrl-skipped'), $e = $('ctrl-errors');
+      const bump = (el) => { if (el) el.textContent = String((parseInt(el.textContent)||0) + 1); };
+
+      if (/\|\s*applied\s*\(/i.test(line)) {
+        bump($a);
+        toast('✓ Applied: ' + line.split('@')[1]?.split('|')[0]?.trim().slice(0,60), 'ok');
+      } else if (/\|\s*skipped\s+/i.test(line) || l.startsWith('  -> skip')) {
+        bump($s);
+      } else if (l.startsWith('[error]') || l.includes('traceback')) {
+        bump($e);
+      }
+
+      // Run-end summary — authoritative reset
+      const finished = line.match(/Applied:\s*(\d+)\s+Skipped:\s*(\d+)\s+Errors:\s*(\d+)/);
+      if (finished) {
+        if ($a) $a.textContent = finished[1];
+        if ($s) $s.textContent = finished[2];
+        if ($e) $e.textContent = finished[3];
+        toast('▣ Run complete — ' + finished[1] + ' applied · ' + finished[2] + ' skipped', 'ok');
+      }
+
+      // Existing detections
       if (l.includes('interview') || l.includes('invited to')) {
         toast('🎉 Interview invite detected!', 'interview', '🎉');
       } else if (l.includes('responded') || l.includes('response received')) {
@@ -1591,6 +1620,14 @@ async function pollBotStatus() {
 }
 
 function updateBotUI(running, pid, elapsed) {
+  // 2026-05-13: reset Applied/Skipped/Errors counters when a NEW run starts
+  // (transition from idle→running). Survives polling glitches that briefly
+  // report running=false then running=true.
+  if (running && !botRunning) {
+    ['ctrl-applied','ctrl-skipped','ctrl-errors'].forEach(id => {
+      const el = $(id); if (el) el.textContent = '0';
+    });
+  }
   botRunning = running;
   botPid     = pid;
   botElapsed = elapsed;
